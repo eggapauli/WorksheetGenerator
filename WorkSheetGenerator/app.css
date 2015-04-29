@@ -1,0 +1,103 @@
+﻿body
+{
+	font-family: 'Segoe UI', sans-serif;
+}
+
+#output {
+	/*display: flex;*/
+	flex-flow: column;
+	width: 210mm;
+	height: 275mm; /*297mm*/
+	border: 1px solid #ccc;
+
+	display: -webkit-flex;
+	-webkit-flex-flow: column;
+}
+
+#output-header {
+	/*display: flex;*/
+	/*justify-content: space-between;*/
+
+	display: -webkit-flex;
+	-webkit-justify-content: space-between;
+
+	/*flex-grow: 0;*/
+	-webkit-flex-grow: 0;
+
+	margin: 20px 20px 0;
+}
+
+#output-header span {
+	width: 33%;
+
+	flex: 1 0 auto;
+	/*user-modify: read-write-plaintext-only;*/
+
+	-webkit-flex: 1 0 auto;
+	-webkit-user-modify: read-write-plaintext-only;
+}
+#output-header span:first-child { text-align: left; }
+#output-header span { text-align: center; }
+#output-header span:last-child { text-align: right; }
+
+#exercises {
+	/*display: flex;*/
+	flex-flow: row wrap;
+	/*align-items: flex-start;*/
+
+	display: -webkit-flex;
+	-webkit-flex-flow: row wrap;
+	-webkit-align-items: flex-start;
+
+	/*flex-grow: 1;*/
+	-webkit-flex-grow: 1;
+}
+#exercises .exercise {
+	flex: 0 0 auto;
+	margin: 20px;
+	/*width: 150px;*/
+
+	-webkit-flex: 0 0 auto;
+}
+#exercises .exercise .editable {
+	/*user-modify: read-write-plaintext-only;*/
+	-webkit-user-modify: read-write-plaintext-only;
+}
+
+/* Mathematics */
+#exercises .exercise .negative-operand:before {
+	content: '(';
+}
+#exercises .exercise .negative-operand:after {
+	content: ')';
+}
+
+#exercises .exercise .operator:before,
+#exercises .exercise .operator:after {
+	content: ' ';
+}
+
+#exercises .exercise .cell {
+	display: inline-block;
+	width: 20px;
+	text-align: center;
+	border: solid grey;
+	border-width: 0 1px 1px 0;
+}
+#exercises .exercise .cell:first-child {
+	border-left-width: 1px;
+}
+#exercises .exercise .row:first-child .cell {
+	border-top-width: 1px;
+}
+#exercises .exercise .row.separator .cell:not(:first-child) {
+	border-bottom-color: blue;
+	border-bottom-width: 2px;
+	margin-bottom: -2px;
+}
+
+#exercises .exercise .row .cell.separator {
+	border-bottom-color: blue;
+	border-bottom-width: 2px;
+	margin-bottom: -2px;
+}

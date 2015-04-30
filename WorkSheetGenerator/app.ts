@@ -3,5 +3,5 @@
 var viewModel = new WorkSheetViewModel();
 
 window.addEventListener("load", () => {
-	ko.applyBindings(viewModel);
+    ko.applyBindings(viewModel);
 });

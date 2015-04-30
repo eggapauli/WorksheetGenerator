@@ -1,27 +1,27 @@
 ﻿<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="utf-8" />
-	<title>Arbeitsblatt-Generator</title>
+    <meta charset="utf-8" />
+    <title>Arbeitsblatt-Generator</title>
     <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
     <link href="node_modules/bootstrap-slider/dist/css/bootstrap-slider.css" rel="stylesheet">
-	<link rel="stylesheet" href="app.css" type="text/css" />
-	<link rel="stylesheet" href="print.css" media="print" type="text/css" />
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <link rel="stylesheet" href="print.css" media="print" type="text/css" />
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="node_modules/bootstrap-slider/js/bootstrap-slider.js"></script>
     <script src="node_modules/knockout/build/output/knockout-latest.debug.js"></script>
-	<script src="node_modules/moment/moment.js"></script>
+    <script src="node_modules/moment/moment.js"></script>
     <script src="KnockoutBindingHandlers.js"></script>
-	<script src="Common.js"></script>
-	<script src="Worksheet.js"></script>
-	<script src="Subject/Mathematics/Common.js"></script>
-	<script src="Subject/Mathematics/ArithmeticBase.js"></script>
-	<script src="Subject/Mathematics/MathematicsViewModel.js"></script>
-	<script src="Subject/Mathematics/MentalArithmetic.js"></script>
-	<script src="Subject/Mathematics/WrittenArithmetic.js"></script>
+    <script src="Common.js"></script>
+    <script src="Worksheet.js"></script>
+    <script src="Subject/Mathematics/Common.js"></script>
+    <script src="Subject/Mathematics/ArithmeticBase.js"></script>
+    <script src="Subject/Mathematics/MathematicsViewModel.js"></script>
+    <script src="Subject/Mathematics/MentalArithmetic.js"></script>
+    <script src="Subject/Mathematics/WrittenArithmetic.js"></script>
     <script src="WorksheetViewModel.js"></script>
-	<script src="app.js"></script>
+    <script src="app.js"></script>
     <script type="text/html" id="two-operand-exercise-template">
         <div data-bind="visible: isSelected">
             <select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'value'"></select>
@@ -45,40 +45,40 @@
     </script>
 </head>
 <body>
-	<h1 class="no-print">Arbeitsblatt-Generator</h1>
+    <h1 class="no-print">Arbeitsblatt-Generator</h1>
 
-	<div id="settings" class="no-print">
-		<select data-bind="options: subjects, value: selectedSubject, optionsText: 'name'"></select>
+    <div id="settings" class="no-print">
+        <select data-bind="options: subjects, value: selectedSubject, optionsText: 'name'"></select>
 
-		<div data-bind="with: mathematicsVM, visible: mathematicsVM.isSelected()">
-			<select data-bind="options: exerciseGeneratorVMs, value: selectedExerciseGeneratorVM, optionsText: 'name'"></select>
-			
+        <div data-bind="with: mathematicsVM, visible: mathematicsVM.isSelected()">
+            <select data-bind="options: exerciseGeneratorVMs, value: selectedExerciseGeneratorVM, optionsText: 'name'"></select>
+            
             <div data-bind="template: { name: 'two-operand-exercise-template', data: mentalArithmeticExerciseVM }"></div>
             <div data-bind="template: { name: 'two-operand-exercise-template', data: writtenArithmeticExerciseVM }"></div>
-		</div>
+        </div>
 
-		<div>
-			Anzahl der Übungen:
-			<input type="number" data-bind="numericValue: numberOfExercises" />
-		</div>
+        <div>
+            Anzahl der Übungen:
+            <input type="number" data-bind="numericValue: numberOfExercises" />
+        </div>
 
-		<div>
-			<label>
-				Lösung inkludieren:
-				<input type="checkbox" data-bind="checked: includeResult" />
-			</label>
-		</div>
+        <div>
+            <label>
+                Lösung inkludieren:
+                <input type="checkbox" data-bind="checked: includeResult" />
+            </label>
+        </div>
 
-		<input type="button" data-bind="click: generate" value="Generieren" />
-	</div>
-	<div class="no-print" data-bind="text: error"></div>
-	<div id="output">
-		<div id="output-header">
-			<span data-bind="editableText: topLeftColumn"></span>
-			<span data-bind="editableText: topCenterColumn"></span>
-			<span data-bind="editableText: topRightColumn"></span>
-		</div>
-		<div id="exercises"></div>
-	</div>
+        <input type="button" data-bind="click: generate" value="Generieren" />
+    </div>
+    <div class="no-print" data-bind="text: error"></div>
+    <div id="output">
+        <div id="output-header">
+            <span data-bind="editableText: topLeftColumn"></span>
+            <span data-bind="editableText: topCenterColumn"></span>
+            <span data-bind="editableText: topRightColumn"></span>
+        </div>
+        <div id="exercises"></div>
+    </div>
 </body>
 </html>

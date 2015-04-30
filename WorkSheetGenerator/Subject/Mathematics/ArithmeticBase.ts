@@ -1,7 +1,3 @@
-///<reference path="../../Contract.ts"/>
-///<reference path="../../Common.ts"/>
-///<reference path="Common.ts"/>
-
 module Subject.Mathematics {
     export class ArithmeticExerciseGeneratorBase implements Contract.IExerciseGenerator {
         private static MAX_GENERATION_ATTEMPTS = 5000;

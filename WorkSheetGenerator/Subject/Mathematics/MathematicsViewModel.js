@@ -1,8 +1,3 @@
-///<reference path="..\..\Contract.ts"/>
-///<reference path="..\..\Common.ts"/>
-///<reference path="Common.ts"/>
-///<reference path="MentalArithmetic.ts"/>
-///<reference path="WrittenArithmetic.ts"/>
 var Subject;
 (function (Subject) {
     var Mathematics;

@@ -1,7 +1,3 @@
-///<reference path="../../Scripts/typings/knockout/knockout.d.ts"/>
-///<reference path="../../Contract.ts"/>
-///<reference path="Common.ts"/>
-///<reference path="ArithmeticBase.ts"/>
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -127,7 +123,7 @@ var Subject;
                     var rightOperandStr = ex.rightOperand.toString();
                     var resultStr = ex.calculateResult().toString();
                     //if (this.options.includeResult) {
-                    //	resultStr = ex.calculateResult().toString();
+                    //    resultStr = ex.calculateResult().toString();
                     //}
                     var columns = leftOperandStr.length + rightOperandStr.length + resultStr.length + 2;
                     var content = leftOperandStr.split("");

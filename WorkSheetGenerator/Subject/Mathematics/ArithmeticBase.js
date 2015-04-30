@@ -1,6 +1,3 @@
-///<reference path="../../Contract.ts"/>
-///<reference path="../../Common.ts"/>
-///<reference path="Common.ts"/>
 var Subject;
 (function (Subject) {
     var Mathematics;

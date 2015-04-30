@@ -1,9 +1,3 @@
-///<reference path="..\..\Contract.ts"/>
-///<reference path="..\..\Common.ts"/>
-///<reference path="Common.ts"/>
-///<reference path="MentalArithmetic.ts"/>
-///<reference path="WrittenArithmetic.ts"/>
-
 module Subject.Mathematics {
     export class MathematicsViewModel implements Contract.ISubjectViewModel {
         public mentalArithmeticExerciseVM = new MentalArithmetic.MentalArithmeticExerciseGeneratorViewModel();

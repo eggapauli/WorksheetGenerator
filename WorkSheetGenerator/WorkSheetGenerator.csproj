@@ -258,6 +258,7 @@
     <Content Include="Common.js">
       <DependentUpon>Common.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="KnockoutBindingHandlers.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\Slider.d.ts" />
@@ -296,6 +297,7 @@
     <Content Include="app.js">
       <DependentUpon>app.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="WorksheetViewModel.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />

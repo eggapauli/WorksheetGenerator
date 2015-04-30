@@ -1,6 +1,3 @@
-///<reference path="..\..\Scripts\typings\knockout\knockout.d.ts"/>
-///<reference path="..\..\Common.ts"/>
-
 module Subject.Mathematics {
     export enum BasicArithmeticalOperatorType {
         ADDITION,

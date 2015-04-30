@@ -1,5 +1,3 @@
-///<reference path="Scripts/typings/knockout/knockout.d.ts"/>
-
 module Contract {
     export interface IExercise {
     }

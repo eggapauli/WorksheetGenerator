@@ -1,8 +1,3 @@
-///<reference path="..\..\Contract.ts"/>
-///<reference path="..\..\Common.ts"/>
-///<reference path="Common.ts"/>
-///<reference path="MentalArithmetic.ts"/>
-///<reference path="WrittenArithmetic.ts"/>
 var Subject;
 (function (Subject) {
     var Mathematics;
@@ -32,15 +27,15 @@ var Subject;
         var ArithmeticExerciseGeneratorViewModelBase = (function () {
             function ArithmeticExerciseGeneratorViewModelBase() {
                 this.numberTypes = [
-                    { key: 0 /* NATURALNUMBERS */, value: "Natuerliche Zahlen" },
-                    { key: 1 /* INTEGERS */, value: "Ganze Zahlen" },
-                    { key: 2 /* REALNUMBERS */, value: "Reele Zahlen" }
+                    { key: Mathematics.NumberType.NATURALNUMBERS, value: "Natuerliche Zahlen" },
+                    { key: Mathematics.NumberType.INTEGERS, value: "Ganze Zahlen" },
+                    { key: Mathematics.NumberType.REALNUMBERS, value: "Reele Zahlen" }
                 ];
                 this.operators = [
-                    { key: "Addition", value: new Mathematics.ObservableBasicArithmeticalOperator(0 /* ADDITION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                    { key: "Subtraktion", value: new Mathematics.ObservableBasicArithmeticalOperator(1 /* SUBTRACTION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                    { key: "Multiplikation", value: new Mathematics.ObservableBasicArithmeticalOperator(2 /* MULTIPLICATION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                    { key: "Divison", value: new Mathematics.ObservableBasicArithmeticalOperator(3 /* DIVISION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) }
+                    { key: "Addition", value: new Mathematics.ObservableBasicArithmeticalOperator(Mathematics.BasicArithmeticalOperatorType.ADDITION, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                    { key: "Subtraktion", value: new Mathematics.ObservableBasicArithmeticalOperator(Mathematics.BasicArithmeticalOperatorType.SUBTRACTION, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                    { key: "Multiplikation", value: new Mathematics.ObservableBasicArithmeticalOperator(Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                    { key: "Divison", value: new Mathematics.ObservableBasicArithmeticalOperator(Mathematics.BasicArithmeticalOperatorType.DIVISION, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) }
                 ];
                 this.isSelected = ko.observable(false);
                 this.selectedNumberType = ko.observable();

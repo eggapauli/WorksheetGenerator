@@ -1,3 +1,7 @@
+///<reference path="../../Scripts/typings/knockout/knockout.d.ts"/>
+///<reference path="../../Contract.ts"/>
+///<reference path="Common.ts"/>
+///<reference path="ArithmeticBase.ts"/>
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -45,12 +49,12 @@ var Subject;
                         className: "exercise written-arithmetic-exercise"
                     });
                     switch (ex.operator) {
-                        case Mathematics.BasicArithmeticalOperatorType.ADDITION:
-                        case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION:
+                        case 0 /* ADDITION */:
+                        case 1 /* SUBTRACTION */:
                             return this.getHTMLFromAdditionAndSubtractionExercise(container, ex);
-                        case Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION:
+                        case 2 /* MULTIPLICATION */:
                             return this.getHTMLFromMultiplicationExercise(container, ex);
-                        case Mathematics.BasicArithmeticalOperatorType.DIVISION:
+                        case 3 /* DIVISION */:
                             return this.getHTMLFromDivisionExercise(container, ex);
                         default: throw new Error("Invalid operator: '" + ex.operator + "'");
                     }
@@ -100,7 +104,7 @@ var Subject;
                                 for (var j = 0; j < padding; j++) {
                                     tmpResult = " " + tmpResult;
                                 }
-                                tmpResult = this.getOperatorString(Mathematics.BasicArithmeticalOperatorType.ADDITION) + tmpResult;
+                                tmpResult = this.getOperatorString(0 /* ADDITION */) + tmpResult;
                             }
                             row = this.getHTMLGridRowFromText(tmpResult, columns);
                             if (i == rightOperandStr.length - 1) {
@@ -123,7 +127,7 @@ var Subject;
                     var rightOperandStr = ex.rightOperand.toString();
                     var resultStr = ex.calculateResult().toString();
                     //if (this.options.includeResult) {
-                    //    resultStr = ex.calculateResult().toString();
+                    //	resultStr = ex.calculateResult().toString();
                     //}
                     var columns = leftOperandStr.length + rightOperandStr.length + resultStr.length + 2;
                     var content = leftOperandStr.split("");

@@ -1,3 +1,5 @@
+///<reference path="Contract.ts"/>
+
 class WorkSheet {
     private exercises: Contract.IExercise[];
     constructor(

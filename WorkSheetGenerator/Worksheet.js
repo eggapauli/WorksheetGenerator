@@ -1,3 +1,4 @@
+///<reference path="Contract.ts"/>
 var WorkSheet = (function () {
     function WorkSheet(exerciseCount, exerciseGenerator, printer) {
         this.exerciseCount = exerciseCount;

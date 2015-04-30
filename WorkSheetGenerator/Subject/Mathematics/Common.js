@@ -1,3 +1,5 @@
+///<reference path="..\..\Scripts\typings\knockout\knockout.d.ts"/>
+///<reference path="..\..\Common.ts"/>
 var Subject;
 (function (Subject) {
     var Mathematics;

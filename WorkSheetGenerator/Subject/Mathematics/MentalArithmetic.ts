@@ -1,3 +1,8 @@
+///<reference path="Common.ts"/>
+///<reference path="..\..\Common.ts"/>
+///<reference path="..\..\Contract.ts"/>
+///<reference path="ArithmeticBase.ts"/>
+
 module Subject.Mathematics.MentalArithmetic {
     export class MentalArithmeticExerciseGenerator extends ArithmeticExerciseGeneratorBase {
         constructor(options: ArithmeticExerciseGeneratorOptions = undefined) {

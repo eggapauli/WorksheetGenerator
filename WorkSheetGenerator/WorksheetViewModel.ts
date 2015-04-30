@@ -12,8 +12,6 @@
     topRightColumn = ko.observable("Autor");
 
     constructor() {
-        var self: WorkSheetViewModel = this;
-
         this.subjects = ko.observableArray([
             this.mathematicsVM
         ]);
@@ -21,16 +19,16 @@
         this.error = ko.observable();
 
         this.selectedSubject.subscribe(subject => {
-            ko.utils.arrayForEach(self.subjects(), s => s.isSelected(subject == s));
+            ko.utils.arrayForEach(this.subjects(), s => s.isSelected(subject == s));
         });
 
         var sheet: WorkSheet;
-        this.generate = function () {
-            var subject = self.selectedSubject();
+        this.generate = () => {
+            var subject = this.selectedSubject();
 
             var generator = subject.getExerciseGenerator();
             sheet = new WorkSheet(
-                self.numberOfExercises(),
+                this.numberOfExercises(),
                 generator,
                 generator.getPrinter({ rootElement: this.getExerciseRootElement() })
             );
@@ -38,7 +36,7 @@
             sheet.generate();
             sheet.print();
             //} catch (e) {
-            //    self.error(e.message);
+            //    this.error(e.message);
             //}
         };
 

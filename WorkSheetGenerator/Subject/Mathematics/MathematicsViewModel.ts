@@ -10,15 +10,13 @@ module Subject.Mathematics {
         public selectedExerciseGeneratorVM = ko.observable<Contract.IExerciseGeneratorViewModel>();
 
         constructor() {
-            var self = this;
-            
             this.exerciseGeneratorVMs = [
                this.mentalArithmeticExerciseVM,
                this.writtenArithmeticExerciseVM
             ];
 
             this.selectedExerciseGeneratorVM.subscribe(item => {
-                self.exerciseGeneratorVMs.forEach(g => g.isSelected(g == item));
+                this.exerciseGeneratorVMs.forEach(g => g.isSelected(g == item));
             });
         }
 
@@ -46,18 +44,17 @@ module Subject.Mathematics {
         public operatorIsSelected: (operator: ObservableBasicArithmeticalOperator) => KnockoutComputed<boolean>;
 
         constructor() {
-            var self = this;
-            this.operatorIsSelected = function (operator: ObservableBasicArithmeticalOperator) {
+            this.operatorIsSelected = (operator: ObservableBasicArithmeticalOperator) => {
                 return ko.computed<boolean>({
-                    read: function () {
-                        return self.selectedOperators.indexOf(operator) !== -1;
+                    read: () => {
+                        return this.selectedOperators.indexOf(operator) !== -1;
                     },
-                    write: function (newValue: boolean) {
-                        var index = self.selectedOperators.indexOf(operator);
+                    write: newValue => {
+                        var index = this.selectedOperators.indexOf(operator);
                         if (newValue) {
-                            self.selectedOperators.push(operator);
+                            this.selectedOperators.push(operator);
                         } else {
-                            self.selectedOperators.remove(operator);
+                            this.selectedOperators.remove(operator);
                         }
                     }
                 });

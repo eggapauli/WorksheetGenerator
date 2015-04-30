@@ -4,18 +4,18 @@ var Subject;
     (function (Mathematics) {
         var MathematicsViewModel = (function () {
             function MathematicsViewModel() {
+                var _this = this;
                 this.mentalArithmeticExerciseVM = new Mathematics.MentalArithmetic.MentalArithmeticExerciseGeneratorViewModel();
                 this.writtenArithmeticExerciseVM = new Mathematics.WrittenArithmetic.WrittenArithmeticExerciseGeneratorViewModel();
                 this.name = "Mathematik";
                 this.isSelected = ko.observable(false);
                 this.selectedExerciseGeneratorVM = ko.observable();
-                var self = this;
                 this.exerciseGeneratorVMs = [
                     this.mentalArithmeticExerciseVM,
                     this.writtenArithmeticExerciseVM
                 ];
                 this.selectedExerciseGeneratorVM.subscribe(function (item) {
-                    self.exerciseGeneratorVMs.forEach(function (g) { return g.isSelected(g == item); });
+                    _this.exerciseGeneratorVMs.forEach(function (g) { return g.isSelected(g == item); });
                 });
             }
             MathematicsViewModel.prototype.getExerciseGenerator = function () {
@@ -26,6 +26,7 @@ var Subject;
         Mathematics.MathematicsViewModel = MathematicsViewModel;
         var ArithmeticExerciseGeneratorViewModelBase = (function () {
             function ArithmeticExerciseGeneratorViewModelBase() {
+                var _this = this;
                 this.numberTypes = [
                     { key: 0 /* NATURALNUMBERS */, value: "Natuerliche Zahlen" },
                     { key: 1 /* INTEGERS */, value: "Ganze Zahlen" },
@@ -40,19 +41,18 @@ var Subject;
                 this.isSelected = ko.observable(false);
                 this.selectedNumberType = ko.observable();
                 this.selectedOperators = ko.observableArray();
-                var self = this;
                 this.operatorIsSelected = function (operator) {
                     return ko.computed({
                         read: function () {
-                            return self.selectedOperators.indexOf(operator) !== -1;
+                            return _this.selectedOperators.indexOf(operator) !== -1;
                         },
                         write: function (newValue) {
-                            var index = self.selectedOperators.indexOf(operator);
+                            var index = _this.selectedOperators.indexOf(operator);
                             if (newValue) {
-                                self.selectedOperators.push(operator);
+                                _this.selectedOperators.push(operator);
                             }
                             else {
-                                self.selectedOperators.remove(operator);
+                                _this.selectedOperators.remove(operator);
                             }
                         }
                     });

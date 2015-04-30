@@ -173,13 +173,13 @@ var Subject;
                 return elem;
             };
             ArithmeticExercisePrinterBase.prototype.print = function (exercises) {
-                var self = this;
+                var _this = this;
                 while (this.options.rootElement.hasChildNodes()) {
                     this.options.rootElement.removeChild(this.options.rootElement.firstChild);
                 }
                 this.html = document.createDocumentFragment();
                 exercises.forEach(function (exercise) {
-                    self.html.appendChild(self.getHTML(exercise));
+                    _this.html.appendChild(_this.getHTML(exercise));
                 });
                 this.options.rootElement.appendChild(this.html);
             };

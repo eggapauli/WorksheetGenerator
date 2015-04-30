@@ -182,15 +182,13 @@ module Subject.Mathematics {
         }
 
         public print(exercises: Contract.IExercise[]) {
-            var self = this;
-
             while (this.options.rootElement.hasChildNodes()) {
                 this.options.rootElement.removeChild(this.options.rootElement.firstChild);
             }
 
             this.html = document.createDocumentFragment();
-            exercises.forEach(function (exercise) {
-                self.html.appendChild(self.getHTML(exercise));
+            exercises.forEach((exercise) => {
+                this.html.appendChild(this.getHTML(exercise));
             });
 
             this.options.rootElement.appendChild(this.html);

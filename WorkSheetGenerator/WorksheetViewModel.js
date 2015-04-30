@@ -9,24 +9,23 @@ var WorkSheetViewModel = (function () {
         this.topLeftColumn = ko.observable(moment().format("L"));
         this.topCenterColumn = ko.observable("Titel");
         this.topRightColumn = ko.observable("Autor");
-        var self = this;
         this.subjects = ko.observableArray([
             this.mathematicsVM
         ]);
         this.error = ko.observable();
         this.selectedSubject.subscribe(function (subject) {
-            ko.utils.arrayForEach(self.subjects(), function (s) { return s.isSelected(subject == s); });
+            ko.utils.arrayForEach(_this.subjects(), function (s) { return s.isSelected(subject == s); });
         });
         var sheet;
         this.generate = function () {
-            var subject = self.selectedSubject();
+            var subject = _this.selectedSubject();
             var generator = subject.getExerciseGenerator();
-            sheet = new WorkSheet(self.numberOfExercises(), generator, generator.getPrinter({ rootElement: this.getExerciseRootElement() }));
+            sheet = new WorkSheet(_this.numberOfExercises(), generator, generator.getPrinter({ rootElement: _this.getExerciseRootElement() }));
             //try {
             sheet.generate();
             sheet.print();
             //} catch (e) {
-            //    self.error(e.message);
+            //    this.error(e.message);
             //}
         };
         this.includeResult.subscribe(function (newValue) {

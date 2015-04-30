@@ -23,7 +23,8 @@ var WorkSheetViewModel = (function () {
             var generator = subject.getExerciseGenerator();
             sheet = new WorkSheet(self.numberOfExercises(), generator, generator.getPrinter({ rootElement: this.getExerciseRootElement() }));
             //try {
-            sheet.create();
+            sheet.generate();
+            sheet.print();
             //} catch (e) {
             //    self.error(e.message);
             //}

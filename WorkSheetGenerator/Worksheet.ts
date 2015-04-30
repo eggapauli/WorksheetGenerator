@@ -5,7 +5,7 @@ class WorkSheet {
         public exerciseGenerator: Contract.IExerciseGenerator,
         public printer: Contract.IPrinter) { }
 
-    generateExercises() {
+    generate() {
         this.exercises = new Array(this.exerciseCount);
         for (var i: number = 0; i < this.exerciseCount; i++) {
             var exercise = this.exerciseGenerator.generate();
@@ -13,12 +13,7 @@ class WorkSheet {
         }
     }
 
-    printExercises() {
+    print() {
         this.printer.print(this.exercises);
-    }
-
-    create() {
-        this.generateExercises();
-        this.printExercises();
     }
 }

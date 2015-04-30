@@ -21,7 +21,7 @@
         this.error = ko.observable();
 
         this.selectedSubject.subscribe(subject => {
-            ko.utils.arrayForEach(self.subjects(), s => (<Contract.ISubjectViewModel>s).isSelected(subject == s));
+            ko.utils.arrayForEach(self.subjects(), s => s.isSelected(subject == s));
         });
 
         var sheet: WorkSheet;

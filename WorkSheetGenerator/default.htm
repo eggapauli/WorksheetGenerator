@@ -20,6 +20,27 @@
 	<script src="Subject/Mathematics/MentalArithmetic.js"></script>
 	<script src="Subject/Mathematics/WrittenArithmetic.js"></script>
 	<script src="app.js"></script>
+    <script type="text/html" id="two-operand-exercise-template">
+        <div data-bind="visible: isSelected">
+            <select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'value'"></select>
+            <br />
+            <span data-bind="foreach: operators">
+                <label>
+                    <input type="checkbox" data-bind="checked: $parent.operatorIsSelected(value)" />
+                    <span data-bind="text: key"></span>
+                </label>
+                <span data-bind="with: value.operandBounds.leftOperand">
+                    Wertebereich linker Operand:
+                    <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
+                </span>
+                <span data-bind="with: value.operandBounds.rightOperand">
+                    Wertebereich rechter Operand:
+                    <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
+                </span>
+                <br />
+            </span>
+        </div>
+    </script>
 </head>
 <body>
 	<h1 class="no-print">Arbeitsblatt-Generator</h1>
@@ -30,45 +51,8 @@
 		<div data-bind="with: mathematicsVM, visible: mathematicsVM.isSelected()">
 			<select data-bind="options: exerciseGeneratorVMs, value: selectedExerciseGeneratorVM, optionsText: 'name'"></select>
 			
-			<div data-bind="with: mentalArithmeticExerciseVM, visible: mentalArithmeticExerciseVM.isSelected()">
-				<select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'value'"></select>
-                <br />
-				<span data-bind="foreach: operators">
-					<label>
-						<input type="checkbox" data-bind="checked: $parent.operatorIsSelected(value)" />
-						<span data-bind="text: key"></span>
-					</label>
-                    <span data-bind="with: value.operandBounds.leftOperand">
-                        Wertebereich linker Operand:
-                        <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
-                    </span>
-                    <span data-bind="with: value.operandBounds.rightOperand">
-                        Wertebereich rechter Operand:
-                        <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
-                    </span>
-                    <br />
-				</span>
-			</div>
-
-			<div data-bind="with: writtenArithmeticExerciseVM, visible: writtenArithmeticExerciseVM.isSelected()">
-				<select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'value'"></select>
-                <br />
-				<span data-bind="foreach: operators">
-					<label>
-						<input type="checkbox" data-bind="checked: $parent.operatorIsSelected(value)" />
-						<span data-bind="text: key"></span>
-					</label>
-                    <span data-bind="with: value.operandBounds.leftOperand">
-                        Wertebereich linker Operand:
-                        <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
-                    </span>
-                    <span data-bind="with: value.operandBounds.rightOperand">
-                        Wertebereich rechter Operand:
-                        <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
-                    </span>
-                    <br />
-				</span>
-			</div>
+            <div data-bind="template: { name: 'two-operand-exercise-template', data: mentalArithmeticExerciseVM }"></div>
+            <div data-bind="template: { name: 'two-operand-exercise-template', data: writtenArithmeticExerciseVM }"></div>
 		</div>
 
 		<div>

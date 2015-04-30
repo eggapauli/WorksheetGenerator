@@ -43,10 +43,7 @@ module Subject.Mathematics.WrittenArithmetic {
         private getHTMLFromAdditionAndSubtractionExercise(container: HTMLElement, ex: ArithmeticExercise) {
             var leftOperandStr = ex.leftOperand.toString();
             var rightOperandStr = ex.rightOperand.toString();
-            var resultStr = "";
-            if (this.options.includeResult) {
-                resultStr = ex.calculateResult().toString();
-            }
+            var resultStr = ex.calculateResult().toString();
 
             var columns = Math.max(leftOperandStr.length + 1, rightOperandStr.length + 1, resultStr.length);
             
@@ -83,10 +80,7 @@ module Subject.Mathematics.WrittenArithmetic {
             var tmpResults = ex.getTempResultsForMultiplication();
             if (tmpResults.length > 1) {
                 for (var i = 0; i < tmpResults.length; i++) {
-                    var tmpResult = "";
-                    if (this.options.includeResult) {
-                        tmpResult = tmpResults[i].toString();
-                    }
+                    var tmpResult = tmpResults[i].toString();
                     for (var j = 0; j < rightOperandStr.length - (i + 1); j++) { tmpResult += " "; }
                     if (i > 0) {
                         var padding = columns - tmpResult.length - 1;
@@ -102,11 +96,7 @@ module Subject.Mathematics.WrittenArithmetic {
                 }
             }
 
-            if (this.options.includeResult) {
-                row = this.getHTMLGridRowFromText(ex.calculateResult().toString(), columns);
-            } else {
-                row = this.getHTMLGridRow([], columns);
-            }
+            row = this.getHTMLGridRowFromText(ex.calculateResult().toString(), columns);
             container.appendChild(row);
 
             return container;
@@ -116,9 +106,6 @@ module Subject.Mathematics.WrittenArithmetic {
             var leftOperandStr = ex.leftOperand.toString();
             var rightOperandStr = ex.rightOperand.toString();
             var resultStr = ex.calculateResult().toString();
-            //if (this.options.includeResult) {
-            //    resultStr = ex.calculateResult().toString();
-            //}
 
             var columns = leftOperandStr.length + rightOperandStr.length + resultStr.length + 2;
 
@@ -126,9 +113,7 @@ module Subject.Mathematics.WrittenArithmetic {
             content.push(this.getOperatorString(ex.operator));
             content.push.apply(content, rightOperandStr.split(""));
             content.push("=");
-            if (this.options.includeResult) {
-                content.push.apply(content, resultStr.split(""));
-            }
+            content.push.apply(content, resultStr.split(""));
             var row = this.getHTMLGridRow(content, columns, true);
             container.appendChild(row);
 
@@ -145,9 +130,7 @@ module Subject.Mathematics.WrittenArithmetic {
                 var padding = Math.max(columns - dist, columns - leftOperandStr.length);
                 for (var j = 0; j < padding; j++) { tmpResult += " "; }
 
-                var row = this.options.includeResult
-                    ? this.getHTMLGridRowFromText(tmpResult, columns)
-                    : this.getHTMLGridRow([], columns);
+                var row = this.getHTMLGridRowFromText(tmpResult, columns);
                 if (i % 2 == 0) {
                     for (var j = 1; j <= tmpResultLength; j++) {
                         (<HTMLElement>row.childNodes[columns - padding - j]).classList.add("separator");

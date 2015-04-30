@@ -101,3 +101,10 @@
     border-bottom-width: 2px;
     margin-bottom: -2px;
 }
+
+#exercises .exercise .result {
+    visibility: hidden;
+}
+#exercises.show-results .exercise .result {
+    visibility: visible;
+}

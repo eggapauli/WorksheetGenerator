@@ -65,18 +65,16 @@ var Subject;
                     });
                     container.appendChild(equalsNode);
                     var innerText = "";
-                    if (this.options.includeResult) {
-                        var result = ex.calculateResult();
-                        var rationalResult = ex.calculateRationalResult();
-                        if (Math.round(result) != result) {
-                            innerText = result.toFixed(2);
-                            if (result.toString() != rationalResult) {
-                                innerText += " (" + rationalResult + ")";
-                            }
+                    var result = ex.calculateResult();
+                    var rationalResult = ex.calculateRationalResult();
+                    if (Math.round(result) != result) {
+                        innerText = result.toFixed(2);
+                        if (result.toString() != rationalResult) {
+                            innerText += " (" + rationalResult + ")";
                         }
-                        else {
-                            innerText = result.toString();
-                        }
+                    }
+                    else {
+                        innerText = result.toString();
                     }
                     var resultNode = this.createElement("span", {
                         className: "result",

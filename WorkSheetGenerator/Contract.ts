@@ -33,6 +33,5 @@ module Contract {
 
     export interface PrinterOptions {
         rootElement: HTMLElement;
-        includeResult: boolean;
     }
 }

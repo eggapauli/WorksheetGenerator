@@ -32,11 +32,8 @@
             sheet = new WorkSheet(
                 self.numberOfExercises(),
                 generator,
-                generator.getPrinter({
-                    rootElement: document.getElementById("exercises"),
-                    includeResult: self.includeResult()
-                })
-                );
+                generator.getPrinter({ rootElement: this.getExerciseRootElement() })
+            );
             //try {
             sheet.create();
             //} catch (e) {
@@ -44,15 +41,18 @@
             //}
         };
 
-        this.includeResult.subscribe(function (newValue) {
-            if (sheet !== undefined) {
-                try {
-                    sheet.printer.options.includeResult = newValue;
-                    sheet.printExercises();
-                } catch (e) {
-                    self.error(e.message);
-                }
+        this.includeResult.subscribe(newValue => {
+            var className = "show-results";
+            var classList = this.getExerciseRootElement().classList;
+            if (newValue) {
+                classList.add(className);
+            } else {
+                classList.remove(className);
             }
         });
+    }
+
+    private getExerciseRootElement() {
+        return document.getElementById("exercises");
     }
 } 

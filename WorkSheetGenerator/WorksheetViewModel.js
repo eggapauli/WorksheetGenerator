@@ -1,5 +1,6 @@
 var WorkSheetViewModel = (function () {
     function WorkSheetViewModel() {
+        var _this = this;
         this.mathematicsVM = new Subject.Mathematics.MathematicsViewModel();
         this.selectedSubject = ko.observable();
         this.numberOfExercises = ko.observable(36);
@@ -20,10 +21,7 @@ var WorkSheetViewModel = (function () {
         this.generate = function () {
             var subject = self.selectedSubject();
             var generator = subject.getExerciseGenerator();
-            sheet = new WorkSheet(self.numberOfExercises(), generator, generator.getPrinter({
-                rootElement: document.getElementById("exercises"),
-                includeResult: self.includeResult()
-            }));
+            sheet = new WorkSheet(self.numberOfExercises(), generator, generator.getPrinter({ rootElement: this.getExerciseRootElement() }));
             //try {
             sheet.create();
             //} catch (e) {
@@ -31,17 +29,19 @@ var WorkSheetViewModel = (function () {
             //}
         };
         this.includeResult.subscribe(function (newValue) {
-            if (sheet !== undefined) {
-                try {
-                    sheet.printer.options.includeResult = newValue;
-                    sheet.printExercises();
-                }
-                catch (e) {
-                    self.error(e.message);
-                }
+            var className = "show-results";
+            var classList = _this.getExerciseRootElement().classList;
+            if (newValue) {
+                classList.add(className);
+            }
+            else {
+                classList.remove(className);
             }
         });
     }
+    WorkSheetViewModel.prototype.getExerciseRootElement = function () {
+        return document.getElementById("exercises");
+    };
     return WorkSheetViewModel;
 })();
 //# sourceMappingURL=WorksheetViewModel.js.map

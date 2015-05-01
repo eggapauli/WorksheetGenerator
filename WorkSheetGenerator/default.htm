@@ -14,7 +14,6 @@
     <script src="node_modules/moment/moment.js"></script>
     <script src="KnockoutBindingHandlers.js"></script>
     <script src="Common.js"></script>
-    <script src="Worksheet.js"></script>
     <script src="Subject/Mathematics/Common.js"></script>
     <script src="Subject/Mathematics/ArithmeticBase.js"></script>
     <script src="Subject/Mathematics/MathematicsViewModel.js"></script>
@@ -22,25 +21,50 @@
     <script src="Subject/Mathematics/WrittenArithmetic.js"></script>
     <script src="WorksheetViewModel.js"></script>
     <script src="app.js"></script>
+
+    <script type="text/html" id="mathematics-template">
+        <select data-bind="options: exerciseGenerators, value: selectedExerciseGenerator, optionsText: 'name'"></select>
+        <div data-bind="template: { name: selectedExerciseGenerator().template, data: selectedExerciseGenerator }"></div>
+    </script>
+
     <script type="text/html" id="two-operand-exercise-template">
-        <div data-bind="visible: isSelected">
-            <select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'value'"></select>
-            <br />
-            <span data-bind="foreach: operators">
-                <label>
-                    <input type="checkbox" data-bind="checked: $parent.operatorIsSelected(value)" />
-                    <span data-bind="text: key"></span>
-                </label>
-                <span data-bind="with: value.operandBounds.leftOperand">
-                    Wertebereich linker Operand:
-                    <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
-                </span>
-                <span data-bind="with: value.operandBounds.rightOperand">
-                    Wertebereich rechter Operand:
-                    <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
-                </span>
-                <br />
+        <select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'value'"></select>
+        <br />
+        <span data-bind="foreach: operators">
+            <label>
+                <input type="checkbox" data-bind="checked: $parent.operatorIsSelected(value)" />
+                <span data-bind="text: key"></span>
+            </label>
+            <span data-bind="with: value.operandBounds.leftOperand">
+                Wertebereich linker Operand:
+                <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
             </span>
+            <span data-bind="with: value.operandBounds.rightOperand">
+                Wertebereich rechter Operand:
+                <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 10, scale: 'logarithmic' }" />
+            </span>
+            <br />
+        </span>
+    </script>
+
+    <script type="text/html" id="mental-arithmetic-exercise-template">
+        <div class="exercise mental-arithmetic-exercise">
+            <span class="operand left-operand" data-bind="text: leftOperand, css: { 'negative-operand': leftOperand < 0}"></span>
+            <span class="operator" data-bind="html: operator"></span>
+            <span class="operand right-operand" data-bind="text: rightOperand, css: { 'negative-operand': rightOperand < 0}"></span>
+            <span class="equals">=</span>
+            <span class="result" data-bind="text: result"></span>
+        </div>
+    </script>
+
+    <script type="text/html" id="written-arithmetic-exercise-template">
+        <div class="exercise written-arithmetic-exercise" data-bind="foreach: rows">
+            <div class="exercise-row" data-bind="foreach: cells, css: { separator: addSeparator }"><!--
+                --><span class="exercise-cell" data-bind="css: { separator: addSeparator }">
+                    <span data-bind="html: content, css: { result: isResult }"></span>
+                </span><!--
+            --></div>
+            <span class="clear"></span>
         </div>
     </script>
 </head>
@@ -50,12 +74,7 @@
     <div id="settings" class="no-print">
         <select data-bind="options: subjects, value: selectedSubject, optionsText: 'name'"></select>
 
-        <div data-bind="with: mathematicsVM, visible: mathematicsVM.isSelected()">
-            <select data-bind="options: exerciseGeneratorVMs, value: selectedExerciseGeneratorVM, optionsText: 'name'"></select>
-            
-            <div data-bind="template: { name: 'two-operand-exercise-template', data: mentalArithmeticExerciseVM }"></div>
-            <div data-bind="template: { name: 'two-operand-exercise-template', data: writtenArithmeticExerciseVM }"></div>
-        </div>
+        <div data-bind="template: { name: selectedSubject().template, data: selectedSubject }"></div>
 
         <div>
             Anzahl der Übungen:
@@ -65,7 +84,7 @@
         <div>
             <label>
                 Lösung inkludieren:
-                <input type="checkbox" data-bind="checked: includeResult" />
+                <input type="checkbox" data-bind="checked: showResults" />
             </label>
         </div>
 
@@ -78,7 +97,9 @@
             <span data-bind="editableText: topCenterColumn"></span>
             <span data-bind="editableText: topRightColumn"></span>
         </div>
-        <div id="exercises"></div>
+        <div id="exercises" data-bind="foreach: exercises, css: { 'show-results': showResults }">
+            <div data-bind="template: { name: template, data: $data }"></div>
+        </div>
     </div>
 </body>
 </html>

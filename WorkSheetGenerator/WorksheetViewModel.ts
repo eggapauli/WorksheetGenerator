@@ -1,57 +1,37 @@
 ﻿class WorkSheetViewModel {
-    mathematicsVM = new Subject.Mathematics.MathematicsViewModel();
-
-    subjects: KnockoutObservableArray<Contract.ISubjectViewModel>;
-    selectedSubject = ko.observable<Contract.ISubjectViewModel>();
+    subjects: KnockoutObservableArray<Contract.ISubject>;
+    selectedSubject = ko.observable<Contract.ISubject>();
     numberOfExercises = ko.observable(36);
-    includeResult = ko.observable<boolean>();
+    showResults = ko.observable<boolean>();
     generate: () => void;
     error = ko.observable();
     topLeftColumn = ko.observable(moment().format("L"));
     topCenterColumn = ko.observable("Titel");
     topRightColumn = ko.observable("Autor");
+    exercises: KnockoutObservable<Contract.IExercise[]> = ko.observable([]);
 
     constructor() {
         this.subjects = ko.observableArray([
-            this.mathematicsVM
+            new Subject.Mathematics.MathematicsViewModel()
         ]);
 
         this.error = ko.observable();
 
         this.selectedSubject.subscribe(subject => {
-            ko.utils.arrayForEach(this.subjects(), s => s.isSelected(subject == s));
+            this.subjects().forEach(s => s.isSelected(subject == s));
         });
 
-        var sheet: WorkSheet;
         this.generate = () => {
             var subject = this.selectedSubject();
 
-            var generator = subject.getExerciseGenerator();
-            sheet = new WorkSheet(
-                this.numberOfExercises(),
-                generator,
-                generator.getPrinter({ rootElement: this.getExerciseRootElement() })
-            );
+            var generator = subject.selectedExerciseGenerator();
             //try {
-            sheet.generate();
-            sheet.print();
+            var exercises = Array.apply(null, new Array(this.numberOfExercises()))
+                .map(() => generator.generate());
+            this.exercises(exercises);
             //} catch (e) {
             //    this.error(e.message);
             //}
         };
-
-        this.includeResult.subscribe(newValue => {
-            var className = "show-results";
-            var classList = this.getExerciseRootElement().classList;
-            if (newValue) {
-                classList.add(className);
-            } else {
-                classList.remove(className);
-            }
-        });
-    }
-
-    private getExerciseRootElement() {
-        return document.getElementById("exercises");
     }
 } 

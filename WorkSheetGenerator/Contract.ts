@@ -2,36 +2,20 @@
 
 module Contract {
     export interface IExercise {
+        template: string;
     }
-
-    //export interface IStringifyableExercise {
-    //    toString: () => string;
-    //}
     
     export interface IExerciseGenerator {
         name: string;
+        template: string;
+        isSelected: KnockoutObservable<boolean>;
         generate: () => IExercise;
-        getPrinter: (options: PrinterOptions) => IPrinter;
     }
 
-    export interface IPrinter {
-        options: PrinterOptions;
-        print: (exercises: IExercise[]) => void;
-    }
-
-    export interface ISubjectViewModel {
+    export interface ISubject {
         name: string;
+        template: string;
         isSelected: KnockoutObservable<boolean>;
-        getExerciseGenerator: () => IExerciseGenerator;
-    }
-
-    export interface IExerciseGeneratorViewModel {
-        name: string;
-        isSelected: KnockoutObservable<boolean>;
-        getExerciseGenerator: () => IExerciseGenerator;
-    }
-
-    export interface PrinterOptions {
-        rootElement: HTMLElement;
+        selectedExerciseGenerator: KnockoutObservable<IExerciseGenerator>;
     }
 }

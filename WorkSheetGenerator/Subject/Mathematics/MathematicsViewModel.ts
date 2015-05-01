@@ -1,31 +1,28 @@
 module Subject.Mathematics {
-    export class MathematicsViewModel implements Contract.ISubjectViewModel {
-        public mentalArithmeticExerciseVM = new MentalArithmetic.MentalArithmeticExerciseGeneratorViewModel();
-        public writtenArithmeticExerciseVM = new WrittenArithmetic.WrittenArithmeticExerciseGeneratorViewModel();
-
-        public name: string = "Mathematik";
-        public exerciseGeneratorVMs: Contract.IExerciseGeneratorViewModel[];
+    export class MathematicsViewModel implements Contract.ISubject {
+        get name() { return "Mathematik"; }
+        get template() { return "mathematics-template"; }
+        private _exerciseGenerators: Contract.IExerciseGenerator[];
+        get exerciseGenerators() { return this._exerciseGenerators; }
 
         public isSelected = ko.observable(false);
-        public selectedExerciseGeneratorVM = ko.observable<Contract.IExerciseGeneratorViewModel>();
+        public selectedExerciseGenerator = ko.observable<Contract.IExerciseGenerator>();
 
         constructor() {
-            this.exerciseGeneratorVMs = [
-               this.mentalArithmeticExerciseVM,
-               this.writtenArithmeticExerciseVM
+            this._exerciseGenerators = [
+                new MentalArithmetic.MentalArithmeticExerciseGenerator(),
+                new WrittenArithmetic.WrittenArithmeticExerciseGenerator()
             ];
 
-            this.selectedExerciseGeneratorVM.subscribe(item => {
-                this.exerciseGeneratorVMs.forEach(g => g.isSelected(g == item));
+            this.selectedExerciseGenerator.subscribe(item => {
+                this.exerciseGenerators.forEach(g => g.isSelected(g == item));
             });
-        }
-
-        getExerciseGenerator() {
-            return this.selectedExerciseGeneratorVM().getExerciseGenerator();
         }
     }
 
-    export class ArithmeticExerciseGeneratorViewModelBase {
+    export class ArithmeticExerciseGenerator {
+        private static MAX_GENERATION_ATTEMPTS = 5000;
+
         public numberTypes: KeyValuePair<NumberType, string>[] = [
             { key: NumberType.NATURALNUMBERS, value: "Natuerliche Zahlen" },
             { key: NumberType.INTEGERS, value: "Ganze Zahlen" },
@@ -61,6 +58,47 @@ module Subject.Mathematics {
             };
         }
 
+        public generateExercise() {
+            var options = this.getGeneratorParams();
+
+            var operatorIdx = Math.round(Math.random() * (options.allowedOperators.length - 1));
+            var operator = options.allowedOperators[operatorIdx];
+
+            //console.log(bounds);
+            var validate: (exercise: ArithmeticExercise) => boolean;
+            if ((options.numberType == NumberType.NATURALNUMBERS
+                || options.numberType == NumberType.INTEGERS)
+                && operator.type == BasicArithmeticalOperatorType.DIVISION) {
+                validate = function (exercise: ArithmeticExercise) {
+                    var result = exercise.calculateResult();
+                    return exercise.leftOperand % exercise.rightOperand == 0 && result > 2;
+                };
+            } else if (options.numberType != NumberType.NATURALNUMBERS) {
+                validate = function (exercise: ArithmeticExercise) {
+                    var result = exercise.calculateResult();
+                    return result < -2 || result > 2;
+                };
+            } else {
+                validate = function (exercise: ArithmeticExercise) {
+                    var result = exercise.calculateResult();
+                    return result > 2;
+                };
+            }
+
+            var exercise = new ArithmeticExercise(0, 0, operator.type);
+            var attempts = 0;
+            //console.log("Bounds: [" + bounds.lower + ", " + bounds.upper + "], Operator: " + exercise.getOperatorString());
+            do {
+                if (++attempts > ArithmeticExerciseGenerator.MAX_GENERATION_ATTEMPTS) {
+                    throw new Error("Too many attempts to generate an exercise.");
+                }
+                exercise.leftOperand = this.generateRandomNumber(operator.operandBounds.leftOperand, options.numberType);
+                exercise.rightOperand = this.generateRandomNumber(operator.operandBounds.rightOperand, options.numberType);
+            } while (!validate(exercise));
+            //console.log("Attempts: " + attempts);
+            return exercise;
+        }
+
         public getGeneratorParams() {
             var allowedObservableOperators: ObservableBasicArithmeticalOperator[];
             if (this.selectedOperators().length > 0) {
@@ -74,14 +112,47 @@ module Subject.Mathematics {
                     new OperandBounds(
                         new NumberBounds(item.operandBounds.leftOperand.lower(), item.operandBounds.leftOperand.upper()),
                         new NumberBounds(item.operandBounds.rightOperand.lower(), item.operandBounds.rightOperand.upper())
-                    )
-                );
+                        )
+                    );
             });
 
             return {
                 numberType: this.selectedNumberType().key,
                 allowedOperators: allowedOperators
             }
+        }
+
+        public getOperatorString(op: BasicArithmeticalOperatorType) {
+            switch (op) {
+                case BasicArithmeticalOperatorType.ADDITION: return "+";
+                case BasicArithmeticalOperatorType.SUBTRACTION: return "-";
+                case BasicArithmeticalOperatorType.MULTIPLICATION: return "&bullet;";
+                case BasicArithmeticalOperatorType.DIVISION: return ":";
+                default: throw new Error("Invalid operator: '" + op + "'");
+            }
+        }
+
+        private generateRandomNumber(bounds: NumberBounds, numberType: NumberType) {
+            bounds.normalize();
+
+            var attempts = 0;
+            var num = 0;
+            while (num < 1.5 && attempts++ <= 1) {
+                num = Math.random() * (bounds.upper - bounds.lower) + bounds.lower;
+            }
+
+            // randomly switch sign
+            if (numberType != NumberType.NATURALNUMBERS && Math.random() < 0.5) {
+                num *= -1;
+            }
+
+            switch (numberType) {
+                case NumberType.NATURALNUMBERS:
+                case NumberType.INTEGERS: num = Math.round(num); break;
+                case NumberType.REALNUMBERS: num = Math.round(num * 100) / 100; break;
+                default: throw new Error("Invalid number type: '" + numberType + "'");
+            }
+            return num;
         }
     }
 }

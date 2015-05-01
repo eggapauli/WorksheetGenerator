@@ -12,158 +12,158 @@ var Subject;
         (function (WrittenArithmetic) {
             var WrittenArithmeticExerciseGenerator = (function (_super) {
                 __extends(WrittenArithmeticExerciseGenerator, _super);
-                function WrittenArithmeticExerciseGenerator(options) {
-                    if (options === void 0) { options = undefined; }
-                    _super.call(this, options);
-                }
-                WrittenArithmeticExerciseGenerator.prototype.getPrinter = function (options) {
-                    return new WrittenArithmeticExercisePrinter(options);
-                };
-                return WrittenArithmeticExerciseGenerator;
-            })(Mathematics.ArithmeticExerciseGeneratorBase);
-            WrittenArithmetic.WrittenArithmeticExerciseGenerator = WrittenArithmeticExerciseGenerator;
-            var WrittenArithmeticExerciseGeneratorViewModel = (function (_super) {
-                __extends(WrittenArithmeticExerciseGeneratorViewModel, _super);
-                function WrittenArithmeticExerciseGeneratorViewModel() {
+                function WrittenArithmeticExerciseGenerator() {
                     _super.apply(this, arguments);
-                    this.name = "Schriftlich rechnen";
                 }
-                WrittenArithmeticExerciseGeneratorViewModel.prototype.getExerciseGenerator = function () {
-                    return new WrittenArithmeticExerciseGenerator(this.getGeneratorParams());
-                };
-                return WrittenArithmeticExerciseGeneratorViewModel;
-            })(Mathematics.ArithmeticExerciseGeneratorViewModelBase);
-            WrittenArithmetic.WrittenArithmeticExerciseGeneratorViewModel = WrittenArithmeticExerciseGeneratorViewModel;
-            var WrittenArithmeticExercisePrinter = (function (_super) {
-                __extends(WrittenArithmeticExercisePrinter, _super);
-                function WrittenArithmeticExercisePrinter(options) {
-                    _super.call(this, options);
-                }
-                WrittenArithmeticExercisePrinter.prototype.getHTML = function (exercise) {
-                    var ex = exercise;
-                    var container = this.createElement("div", {
-                        className: "exercise written-arithmetic-exercise"
-                    });
-                    switch (ex.operator) {
-                        case 0 /* ADDITION */:
-                        case 1 /* SUBTRACTION */:
-                            return this.getHTMLFromAdditionAndSubtractionExercise(container, ex);
-                        case 2 /* MULTIPLICATION */:
-                            return this.getHTMLFromMultiplicationExercise(container, ex);
-                        case 3 /* DIVISION */:
-                            return this.getHTMLFromDivisionExercise(container, ex);
-                        default: throw new Error("Invalid operator: '" + ex.operator + "'");
+                Object.defineProperty(WrittenArithmeticExerciseGenerator.prototype, "name", {
+                    get: function () {
+                        return "Schriftlich rechnen";
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(WrittenArithmeticExerciseGenerator.prototype, "template", {
+                    get: function () {
+                        return "two-operand-exercise-template";
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                WrittenArithmeticExerciseGenerator.prototype.generate = function () {
+                    var exercise = this.generateExercise();
+                    var rows;
+                    switch (exercise.operator) {
+                        case Mathematics.BasicArithmeticalOperatorType.ADDITION:
+                        case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION:
+                            rows = this.convertAdditionAndSubtractionExercise(exercise);
+                            break;
+                        case Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION:
+                            rows = this.convertMultiplicationExercise(exercise);
+                            break;
+                        case Mathematics.BasicArithmeticalOperatorType.DIVISION:
+                            rows = this.convertDivisionExercise(exercise);
+                            break;
+                        default: throw new Error("Invalid operator: '" + exercise.operator + "'");
                     }
+                    return {
+                        template: "written-arithmetic-exercise-template",
+                        rows: rows
+                    };
                 };
-                WrittenArithmeticExercisePrinter.prototype.getHTMLFromAdditionAndSubtractionExercise = function (container, ex) {
-                    var leftOperandStr = ex.leftOperand.toString();
-                    var rightOperandStr = ex.rightOperand.toString();
-                    var resultStr = ex.calculateResult().toString();
-                    var columns = Math.max(leftOperandStr.length + 1, rightOperandStr.length + 1, resultStr.length);
-                    var row = this.getHTMLGridRowFromText(leftOperandStr, columns);
-                    container.appendChild(row);
-                    row = this.getHTMLGridRowFromText(rightOperandStr, columns);
-                    row.firstChild.innerHTML = this.getOperatorString(ex.operator);
-                    row.classList.add("separator");
-                    container.appendChild(row);
-                    //row = this.getHTMLGridRow("", columns);
-                    //container.appendChild(row);
-                    row = this.getHTMLGridRowFromText(resultStr, columns);
-                    container.appendChild(row);
-                    return container;
+                WrittenArithmeticExerciseGenerator.prototype.convertAdditionAndSubtractionExercise = function (exercise) {
+                    var leftOperandStr = exercise.leftOperand.toString();
+                    var rightOperandStr = exercise.rightOperand.toString();
+                    var resultStr = exercise.calculateResult().toString();
+                    var operatorLength = 1;
+                    var columns = Math.max(Math.max(leftOperandStr.length, rightOperandStr.length) + operatorLength, resultStr.length);
+                    var leftOperandRow = this.getRightAlignedRowFromText(leftOperandStr.split(""), columns).map(function (c) {
+                        return { content: c, addSeparator: false, isResult: false };
+                    });
+                    var rightOperandRow = this.getRightAlignedRowFromText(rightOperandStr.split(""), columns).map(function (c) {
+                        return { content: c, addSeparator: false, isResult: false };
+                    });
+                    rightOperandRow[0].content = this.getOperatorString(exercise.operator);
+                    var resultRow = this.getRightAlignedRowFromText(resultStr.split(""), columns).map(function (c) {
+                        return { content: c, addSeparator: false, isResult: true };
+                    });
+                    return [
+                        { cells: leftOperandRow, addSeparator: false },
+                        { cells: rightOperandRow, addSeparator: true },
+                        { cells: resultRow, addSeparator: false },
+                    ];
                 };
-                WrittenArithmeticExercisePrinter.prototype.getHTMLFromMultiplicationExercise = function (container, ex) {
-                    var leftOperandStr = ex.leftOperand.toString();
-                    var rightOperandStr = ex.rightOperand.toString();
-                    var columns = leftOperandStr.length + rightOperandStr.length + 2;
-                    var content = leftOperandStr.split("");
-                    content.push(this.getOperatorString(ex.operator));
-                    content.push.apply(content, rightOperandStr.split(""));
-                    var row = this.getHTMLGridRow(content, columns);
-                    row.classList.add("separator");
-                    container.appendChild(row);
-                    var tmpResults = ex.getTempResultsForMultiplication();
+                WrittenArithmeticExerciseGenerator.prototype.convertMultiplicationExercise = function (exercise) {
+                    var leftOperandStr = exercise.leftOperand.toString();
+                    var rightOperandStr = exercise.rightOperand.toString();
+                    var additionalLength = 2; // '*' in first row, '+' at the left of the intermediate results
+                    var columns = leftOperandStr.length + rightOperandStr.length + additionalLength;
+                    var topText = leftOperandStr.split("");
+                    topText.push(this.getOperatorString(exercise.operator));
+                    topText.push.apply(topText, rightOperandStr.split(""));
+                    var topRow = this.getRightAlignedRowFromText(topText, columns).map(function (c) {
+                        return { content: c, addSeparator: false, isResult: false };
+                    });
+                    var rows = [{ cells: topRow, addSeparator: true }];
+                    var tmpResults = exercise.getTempResultsForMultiplication();
                     if (tmpResults.length > 1) {
                         for (var i = 0; i < tmpResults.length; i++) {
-                            var tmpResult = tmpResults[i].toString();
+                            var tmpResult = tmpResults[i].toString().split("");
                             for (var j = 0; j < rightOperandStr.length - (i + 1); j++) {
-                                tmpResult += " ";
+                                tmpResult.push("&nbsp;");
                             }
                             if (i > 0) {
                                 var padding = columns - tmpResult.length - 1;
                                 for (var j = 0; j < padding; j++) {
-                                    tmpResult = " " + tmpResult;
+                                    tmpResult.unshift("&nbsp;");
                                 }
-                                tmpResult = this.getOperatorString(0 /* ADDITION */) + tmpResult;
+                                tmpResult.unshift(this.getOperatorString(Mathematics.BasicArithmeticalOperatorType.ADDITION));
                             }
-                            row = this.getHTMLGridRowFromText(tmpResult, columns);
-                            if (i == rightOperandStr.length - 1) {
-                                row.classList.add("separator");
-                            }
-                            container.appendChild(row);
+                            var row = this.getRightAlignedRowFromText(tmpResult, columns).map(function (c) {
+                                return { content: c, addSeparator: false, isResult: true };
+                            });
+                            rows.push({ cells: row, addSeparator: i == rightOperandStr.length - 1 });
                         }
                     }
-                    row = this.getHTMLGridRowFromText(ex.calculateResult().toString(), columns);
-                    container.appendChild(row);
-                    return container;
+                    var resultRow = this.getRightAlignedRowFromText(exercise.calculateResult().toString().split(""), columns).map(function (c) {
+                        return { content: c, addSeparator: false, isResult: true };
+                    });
+                    rows.push({ cells: resultRow, addSeparator: false });
+                    return rows;
                 };
-                WrittenArithmeticExercisePrinter.prototype.getHTMLFromDivisionExercise = function (container, ex) {
-                    var leftOperandStr = ex.leftOperand.toString();
-                    var rightOperandStr = ex.rightOperand.toString();
-                    var resultStr = ex.calculateResult().toString();
-                    var columns = leftOperandStr.length + rightOperandStr.length + resultStr.length + 2;
-                    var content = leftOperandStr.split("");
-                    content.push(this.getOperatorString(ex.operator));
-                    content.push.apply(content, rightOperandStr.split(""));
-                    content.push("=");
-                    content.push.apply(content, resultStr.split(""));
-                    var row = this.getHTMLGridRow(content, columns, true);
-                    container.appendChild(row);
-                    var tmpResults = ex.getTempResultsForDivision();
+                WrittenArithmeticExerciseGenerator.prototype.convertDivisionExercise = function (exercise) {
+                    var leftOperandStr = exercise.leftOperand.toString();
+                    var rightOperandStr = exercise.rightOperand.toString();
+                    var resultStr = exercise.calculateResult().toString();
+                    var additionalLength = 2; // ':' and '=' both in first row
+                    var columns = leftOperandStr.length + rightOperandStr.length + resultStr.length + additionalLength;
+                    var content = leftOperandStr.split("").concat([this.getOperatorString(exercise.operator)], rightOperandStr.split(""), ["="], resultStr.split(""));
+                    var equalsSignIndex = content.indexOf("=");
+                    var topRow = this.getLeftAlignedRowFromText(content, columns).map(function (c, idx) {
+                        return { content: c, addSeparator: false, isResult: idx > equalsSignIndex };
+                    });
+                    var rows = [{ cells: topRow, addSeparator: false }];
+                    var tmpResults = exercise.getTempResultsForDivision();
                     var dist = tmpResults[0].toString().length; // distance from left side
                     var separatorWidth = 0;
                     for (var i = 0; i < tmpResults.length; i++) {
-                        var tmpResult = tmpResults[i].toString();
+                        var tmpResult = tmpResults[i].toString().split("");
                         var tmpResultLength = tmpResult.length;
                         separatorWidth = Math.max(separatorWidth, tmpResultLength);
                         // add padding
                         var padding = Math.max(columns - dist, columns - leftOperandStr.length);
                         for (var j = 0; j < padding; j++) {
-                            tmpResult += " ";
+                            tmpResult.push("&nbsp;");
                         }
-                        var row = this.getHTMLGridRowFromText(tmpResult, columns);
+                        var row = this.getRightAlignedRowFromText(tmpResult, columns).map(function (c) {
+                            return { content: c, addSeparator: false, isResult: true };
+                        });
                         if (i % 2 == 0) {
                             for (var j = 1; j <= tmpResultLength; j++) {
-                                row.childNodes[columns - padding - j].classList.add("separator");
+                                row[columns - padding - j].addSeparator = true;
                             }
                             dist++;
                         }
-                        container.appendChild(row);
+                        rows.push({ cells: row, addSeparator: false });
                     }
-                    return container;
+                    return rows;
                 };
-                WrittenArithmeticExercisePrinter.prototype.getHTMLGridRowFromText = function (text, columns, alignLeft) {
-                    if (alignLeft === void 0) { alignLeft = false; }
-                    return this.getHTMLGridRow(text.split(""), columns, alignLeft);
+                WrittenArithmeticExerciseGenerator.prototype.getRightAlignedRowFromText = function (text, columnCount) {
+                    return this.padText(text, text.length - columnCount, columnCount);
                 };
-                WrittenArithmeticExercisePrinter.prototype.getHTMLGridRow = function (text, columns, alignLeft) {
-                    if (alignLeft === void 0) { alignLeft = false; }
-                    var from = alignLeft ? 0 : text.length - columns;
-                    var to = alignLeft ? columns : text.length;
-                    var html = this.createElement("div", { className: "row" });
-                    for (var i = from; i < to; i++) {
-                        var char = text[i] == " " ? "&nbsp;" : text[i];
-                        var elem = this.createElement("span", {
-                            className: "cell",
-                            innerHTML: i < 0 || i >= text.length ? "&nbsp;" : char
-                        });
-                        html.appendChild(elem);
+                WrittenArithmeticExerciseGenerator.prototype.getLeftAlignedRowFromText = function (text, columnCount) {
+                    return this.padText(text, 0, columnCount);
+                };
+                WrittenArithmeticExerciseGenerator.prototype.padText = function (text, start, columnCount) {
+                    var row = [];
+                    for (var i = start; i < start + columnCount; i++) {
+                        var char = i >= 0 && i < text.length ? text[i] : "&nbsp;";
+                        row.push(char);
                     }
-                    return html;
+                    return row;
                 };
-                return WrittenArithmeticExercisePrinter;
-            })(Mathematics.ArithmeticExercisePrinterBase);
-            WrittenArithmetic.WrittenArithmeticExercisePrinter = WrittenArithmeticExercisePrinter;
+                return WrittenArithmeticExerciseGenerator;
+            })(Mathematics.ArithmeticExerciseGenerator);
+            WrittenArithmetic.WrittenArithmeticExerciseGenerator = WrittenArithmeticExerciseGenerator;
         })(WrittenArithmetic = Mathematics.WrittenArithmetic || (Mathematics.WrittenArithmetic = {}));
     })(Mathematics = Subject.Mathematics || (Subject.Mathematics = {}));
 })(Subject || (Subject = {}));

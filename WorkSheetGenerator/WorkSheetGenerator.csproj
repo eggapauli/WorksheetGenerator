@@ -283,12 +283,8 @@
     <Content Include="Subject\Mathematics\WrittenArithmeticExercise.js">
       <DependentUpon>WrittenArithmetic.ts</DependentUpon>
     </Content>
-    <Content Include="Worksheet.js">
-      <DependentUpon>Worksheet.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Subject\Mathematics\MentalArithmetic.ts" />
     <TypeScriptCompile Include="Subject\Mathematics\WrittenArithmetic.ts" />
-    <TypeScriptCompile Include="Worksheet.ts" />
     <TypeScriptCompile Include="Contract.ts" />
     <Content Include="Contract.js">
       <DependentUpon>Contract.ts</DependentUpon>

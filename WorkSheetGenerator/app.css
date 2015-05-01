@@ -77,34 +77,33 @@
     content: ' ';
 }
 
-#exercises .exercise .cell {
+#exercises .exercise .result {
+    visibility: hidden;
+}
+#exercises.show-results .exercise .result {
+    visibility: visible;
+}
+
+#exercises .exercise.written-arithmetic-exercise .exercise-row .exercise-cell {
     display: inline-block;
     width: 20px;
     text-align: center;
     border: solid grey;
     border-width: 0 1px 1px 0;
 }
-#exercises .exercise .cell:first-child {
+#exercises .exercise.written-arithmetic-exercise .exercise-row .exercise-cell:first-child {
     border-left-width: 1px;
 }
-#exercises .exercise .row:first-child .cell {
+#exercises .exercise.written-arithmetic-exercise .exercise-row:first-child .exercise-cell {
     border-top-width: 1px;
 }
-#exercises .exercise .row.separator .cell:not(:first-child) {
+#exercises .exercise.written-arithmetic-exercise .exercise-row.separator .exercise-cell:not(:first-child) {
     border-bottom-color: blue;
     border-bottom-width: 2px;
     margin-bottom: -2px;
 }
-
-#exercises .exercise .row .cell.separator {
+#exercises .exercise.written-arithmetic-exercise .exercise-row .exercise-cell.separator {
     border-bottom-color: blue;
     border-bottom-width: 2px;
     margin-bottom: -2px;
-}
-
-#exercises .exercise .result {
-    visibility: hidden;
-}
-#exercises.show-results .exercise .result {
-    visibility: visible;
 }

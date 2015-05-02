@@ -89,49 +89,4 @@ module Subject.Mathematics {
             return results;
         }
     }
-
-    //export class ArithmeticExercisePrinterBase implements Contract.IPrinter {
-    //    private html: DocumentFragment;
-
-    //    constructor(public options: Contract.PrinterOptions) { }
-
-    //    public createElement(tagName: string, attributes: Object = undefined) {
-    //        var elem = document.createElement(tagName);
-    //        if (attributes) {
-    //            for (var key in attributes) {
-    //                if (attributes.hasOwnProperty(key)) {
-    //                    elem[key] = attributes[key];
-    //                }
-    //            }
-    //        }
-    //        return elem;
-    //    }
-
-    //    public print(exercises: Contract.IExercise[]) {
-    //        while (this.options.rootElement.hasChildNodes()) {
-    //            this.options.rootElement.removeChild(this.options.rootElement.firstChild);
-    //        }
-
-    //        this.html = document.createDocumentFragment();
-    //        exercises.forEach((exercise) => {
-    //            this.html.appendChild(this.getHTML(exercise));
-    //        });
-
-    //        this.options.rootElement.appendChild(this.html);
-    //    }
-
-    //    public getHTML(exercise: Contract.IExercise) : HTMLElement {
-    //        throw new Error("Not implemented.");
-    //    }
-
-    //    public getOperatorString(op: BasicArithmeticalOperatorType) {
-    //        switch (op) {
-    //            case BasicArithmeticalOperatorType.ADDITION: return "+";
-    //            case BasicArithmeticalOperatorType.SUBTRACTION: return "-";
-    //            case BasicArithmeticalOperatorType.MULTIPLICATION: return "&bullet;";
-    //            case BasicArithmeticalOperatorType.DIVISION: return ":";
-    //            default: throw new Error("Invalid operator: '" + op + "'");
-    //        }
-    //    }
-    //}
 }

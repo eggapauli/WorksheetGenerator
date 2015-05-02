@@ -87,15 +87,16 @@ module Subject.Mathematics {
                 };
             }
 
-            var exercise = new ArithmeticExercise(0, 0, operator.type);
+            var exercise: ArithmeticExercise;
             var attempts = 0;
             //console.log("Bounds: [" + bounds.lower + ", " + bounds.upper + "], Operator: " + exercise.getOperatorString());
             do {
                 if (++attempts > ArithmeticExerciseGenerator.MAX_GENERATION_ATTEMPTS) {
                     throw new Error("Too many attempts to generate an exercise.");
                 }
-                exercise.leftOperand = this.generateRandomNumber(operator.operandBounds.leftOperand, options.numberType);
-                exercise.rightOperand = this.generateRandomNumber(operator.operandBounds.rightOperand, options.numberType);
+                var leftOperand = this.generateRandomNumber(operator.operandBounds.leftOperand, options.numberType);
+                var rightOperand = this.generateRandomNumber(operator.operandBounds.rightOperand, options.numberType);
+                exercise = new ArithmeticExercise(leftOperand, rightOperand, operator.type);
             } while (!validate(exercise));
             //console.log("Attempts: " + attempts);
             return exercise;

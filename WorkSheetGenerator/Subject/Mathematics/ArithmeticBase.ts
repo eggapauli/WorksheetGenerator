@@ -1,9 +1,13 @@
 module Subject.Mathematics {
     export class ArithmeticExercise {
+        get leftOperand() { return this._leftOperand; }
+        get rightOperand() { return this._rightOperand; }
+        get operator() { return this._operator; }
+
         constructor(
-            public leftOperand: number,
-            public rightOperand: number,
-            public operator: BasicArithmeticalOperatorType) { }
+            private _leftOperand: number,
+            private _rightOperand: number,
+            private _operator: BasicArithmeticalOperatorType) { }
 
         public calculateResult() {
             var result: number;

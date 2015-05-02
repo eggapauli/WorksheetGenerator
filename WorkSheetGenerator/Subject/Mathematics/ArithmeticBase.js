@@ -3,35 +3,55 @@ var Subject;
     var Mathematics;
     (function (Mathematics) {
         var ArithmeticExercise = (function () {
-            function ArithmeticExercise(leftOperand, rightOperand, operator) {
-                this.leftOperand = leftOperand;
-                this.rightOperand = rightOperand;
-                this.operator = operator;
+            function ArithmeticExercise(_leftOperand, _rightOperand, _operator) {
+                this._leftOperand = _leftOperand;
+                this._rightOperand = _rightOperand;
+                this._operator = _operator;
             }
+            Object.defineProperty(ArithmeticExercise.prototype, "leftOperand", {
+                get: function () {
+                    return this._leftOperand;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(ArithmeticExercise.prototype, "rightOperand", {
+                get: function () {
+                    return this._rightOperand;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(ArithmeticExercise.prototype, "operator", {
+                get: function () {
+                    return this._operator;
+                },
+                enumerable: true,
+                configurable: true
+            });
             ArithmeticExercise.prototype.calculateResult = function () {
                 var result;
                 switch (this.operator) {
-                    case Mathematics.BasicArithmeticalOperatorType.ADDITION:
+                    case 0 /* ADDITION */:
                         result = this.leftOperand + this.rightOperand;
                         break;
-                    case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION:
+                    case 1 /* SUBTRACTION */:
                         result = this.leftOperand - this.rightOperand;
                         break;
-                    case Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION:
+                    case 2 /* MULTIPLICATION */:
                         result = this.leftOperand * this.rightOperand;
                         break;
-                    case Mathematics.BasicArithmeticalOperatorType.DIVISION:
+                    case 3 /* DIVISION */:
                         result = this.leftOperand / this.rightOperand;
                         break;
                     default:
                         throw new Error("Invalid operator: '" + this.operator + "'");
                 }
                 return Math.round(result * 100) / 100;
-                ;
             };
             ArithmeticExercise.prototype.calculateRationalResult = function () {
                 var result;
-                if (this.operator == Mathematics.BasicArithmeticalOperatorType.DIVISION) {
+                if (this.operator == 3 /* DIVISION */) {
                     var gcd = this.calculateGCD(this.leftOperand, this.rightOperand);
                     if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
                         result = "" + this.leftOperand / gcd + "/" + this.rightOperand / gcd;
@@ -49,40 +69,6 @@ var Subject;
                     y = z;
                 }
                 return x;
-            };
-            ArithmeticExercise.prototype.getTempResultsForDivision = function () {
-                var results = [];
-                if (this.operator == Mathematics.BasicArithmeticalOperatorType.DIVISION) {
-                    var dividendStr = this.leftOperand.toString();
-                    var dividend = 0;
-                    var divIdx = 0;
-                    do {
-                        while (dividend / this.rightOperand < 1 && divIdx < dividendStr.length) {
-                            dividend = dividend * 10 + parseInt(dividendStr.charAt(divIdx));
-                            divIdx++;
-                        }
-                        if (results.length > 0) {
-                            results.push(dividend);
-                        }
-                        var quotient = dividend / this.rightOperand;
-                        if (dividend > 0) {
-                            results.push(Math.floor(quotient) * this.rightOperand);
-                        }
-                        dividend = dividend % this.rightOperand;
-                    } while (quotient > 0 || divIdx < dividendStr.length);
-                }
-                return results;
-            };
-            ArithmeticExercise.prototype.getTempResultsForMultiplication = function () {
-                var results = [];
-                if (this.operator == Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION) {
-                    var factor2Str = this.rightOperand.toString();
-                    for (var i = 0; i < factor2Str.length; i++) {
-                        var digit = parseInt(factor2Str.charAt(i));
-                        results.push(digit * this.leftOperand);
-                    }
-                }
-                return results;
             };
             return ArithmeticExercise;
         })();

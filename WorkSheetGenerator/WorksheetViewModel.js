@@ -9,7 +9,7 @@ var WorksheetViewModel = (function () {
         this.numberOfExercises = ko.observable(36);
         this.showResults = ko.observable();
         this.exercises = ko.observable([]);
-        this.subjects = subjects;
+        this._subjects = subjects;
         this.error = ko.observable();
         this.selectedSubject.subscribe(function (subject) {
             _this.subjects.forEach(function (s) { return s.isSelected(subject == s); });

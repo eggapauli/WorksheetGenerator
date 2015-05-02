@@ -15,7 +15,7 @@
     generate: () => void;
 
     constructor(subjects: Contract.ISubject[]) {
-        this.subjects = subjects;
+        this._subjects = subjects;
 
         this.error = ko.observable();
 

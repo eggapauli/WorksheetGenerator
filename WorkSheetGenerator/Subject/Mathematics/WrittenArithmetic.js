@@ -33,14 +33,14 @@ var Subject;
                     var exercise = this.generateExercise();
                     var rows;
                     switch (exercise.operator) {
-                        case Mathematics.BasicArithmeticalOperatorType.ADDITION:
-                        case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION:
+                        case 0 /* ADDITION */:
+                        case 1 /* SUBTRACTION */:
                             rows = this.convertAdditionAndSubtractionExercise(exercise);
                             break;
-                        case Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION:
+                        case 2 /* MULTIPLICATION */:
                             rows = this.convertMultiplicationExercise(exercise);
                             break;
-                        case Mathematics.BasicArithmeticalOperatorType.DIVISION:
+                        case 3 /* DIVISION */:
                             rows = this.convertDivisionExercise(exercise);
                             break;
                         default: throw new Error("Invalid operator: '" + exercise.operator + "'");
@@ -84,7 +84,7 @@ var Subject;
                         return { content: c, addSeparator: false, isResult: false };
                     });
                     var rows = [{ cells: topRow, addSeparator: true }];
-                    var tmpResults = exercise.getTempResultsForMultiplication();
+                    var tmpResults = this.getTempResultsForMultiplication(exercise);
                     if (tmpResults.length > 1) {
                         for (var i = 0; i < tmpResults.length; i++) {
                             var tmpResult = tmpResults[i].toString().split("");
@@ -96,7 +96,7 @@ var Subject;
                                 for (var j = 0; j < padding; j++) {
                                     tmpResult.unshift("&nbsp;");
                                 }
-                                tmpResult.unshift(this.getOperatorString(Mathematics.BasicArithmeticalOperatorType.ADDITION));
+                                tmpResult.unshift(this.getOperatorString(0 /* ADDITION */));
                             }
                             var row = this.getRightAlignedRowFromText(tmpResult, columns).map(function (c) {
                                 return { content: c, addSeparator: false, isResult: true };
@@ -110,6 +110,15 @@ var Subject;
                     rows.push({ cells: resultRow, addSeparator: false });
                     return rows;
                 };
+                WrittenArithmeticExerciseGenerator.prototype.getTempResultsForMultiplication = function (exercise) {
+                    var results = [];
+                    var factor2Str = exercise.rightOperand.toString();
+                    for (var i = 0; i < factor2Str.length; i++) {
+                        var digit = parseInt(factor2Str.charAt(i));
+                        results.push(digit * exercise.leftOperand);
+                    }
+                    return results;
+                };
                 WrittenArithmeticExerciseGenerator.prototype.convertDivisionExercise = function (exercise) {
                     var leftOperandStr = exercise.leftOperand.toString();
                     var rightOperandStr = exercise.rightOperand.toString();
@@ -122,7 +131,7 @@ var Subject;
                         return { content: c, addSeparator: false, isResult: idx > equalsSignIndex };
                     });
                     var rows = [{ cells: topRow, addSeparator: false }];
-                    var tmpResults = exercise.getTempResultsForDivision();
+                    var tmpResults = this.getTempResultsForDivision(exercise);
                     var dist = tmpResults[0].toString().length; // distance from left side
                     var separatorWidth = 0;
                     for (var i = 0; i < tmpResults.length; i++) {
@@ -146,6 +155,27 @@ var Subject;
                         rows.push({ cells: row, addSeparator: false });
                     }
                     return rows;
+                };
+                WrittenArithmeticExerciseGenerator.prototype.getTempResultsForDivision = function (exercise) {
+                    var results = [];
+                    var dividendStr = exercise.leftOperand.toString();
+                    var dividend = 0;
+                    var divIdx = 0;
+                    do {
+                        while (dividend / exercise.rightOperand < 1 && divIdx < dividendStr.length) {
+                            dividend = dividend * 10 + parseInt(dividendStr.charAt(divIdx));
+                            divIdx++;
+                        }
+                        if (results.length > 0) {
+                            results.push(dividend);
+                        }
+                        var quotient = dividend / exercise.rightOperand;
+                        if (dividend > 0) {
+                            results.push(Math.floor(quotient) * exercise.rightOperand);
+                        }
+                        dividend = dividend % exercise.rightOperand;
+                    } while (quotient > 0 || divIdx < dividendStr.length);
+                    return results;
                 };
                 WrittenArithmeticExerciseGenerator.prototype.getRightAlignedRowFromText = function (text, columnCount) {
                     return this.padText(text, text.length - columnCount, columnCount);

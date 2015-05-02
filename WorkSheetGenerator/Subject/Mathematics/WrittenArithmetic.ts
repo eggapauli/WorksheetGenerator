@@ -67,7 +67,7 @@ module Subject.Mathematics.WrittenArithmetic {
 
             var rows = [{ cells: topRow, addSeparator: true }];
 
-            var tmpResults = exercise.getTempResultsForMultiplication();
+            var tmpResults = this.getTempResultsForMultiplication(exercise);
             if (tmpResults.length > 1) {
                 for (var i = 0; i < tmpResults.length; i++) {
                     var tmpResult = tmpResults[i].toString().split("");
@@ -89,6 +89,17 @@ module Subject.Mathematics.WrittenArithmetic {
             return rows;
         }
 
+        private getTempResultsForMultiplication(exercise: ArithmeticExercise) {
+            var results: number[] = [];
+            var factor2Str = exercise.rightOperand.toString();
+
+            for (var i = 0; i < factor2Str.length; i++) {
+                var digit = parseInt(factor2Str.charAt(i));
+                results.push(digit * exercise.leftOperand);
+            }
+            return results;
+        }
+
         private convertDivisionExercise(exercise: ArithmeticExercise) {
             var leftOperandStr = exercise.leftOperand.toString();
             var rightOperandStr = exercise.rightOperand.toString();
@@ -105,7 +116,7 @@ module Subject.Mathematics.WrittenArithmetic {
                 .map((c, idx) => { return { content: c, addSeparator: false, isResult: idx > equalsSignIndex }; });
             var rows = [{ cells: topRow, addSeparator: false }];
 
-            var tmpResults = exercise.getTempResultsForDivision();
+            var tmpResults = this.getTempResultsForDivision(exercise);
             var dist = tmpResults[0].toString().length; // distance from left side
             var separatorWidth = 0;
             for (var i = 0; i < tmpResults.length; i++) {
@@ -130,6 +141,31 @@ module Subject.Mathematics.WrittenArithmetic {
             }
 
             return rows;
+        }
+
+        private getTempResultsForDivision(exercise: ArithmeticExercise) {
+            var results: number[] = [];
+            var dividendStr = exercise.leftOperand.toString();
+
+            var dividend = 0;
+            var divIdx = 0;
+
+            do {
+                while (dividend / exercise.rightOperand < 1 && divIdx < dividendStr.length) {
+                    dividend = dividend * 10 + parseInt(dividendStr.charAt(divIdx));
+                    divIdx++;
+                }
+                if (results.length > 0) {
+                    results.push(dividend);
+                }
+                var quotient = dividend / exercise.rightOperand
+                if (dividend > 0) {
+                    results.push(Math.floor(quotient) * exercise.rightOperand);
+                }
+
+                dividend = dividend % exercise.rightOperand;
+            } while (quotient > 0 || divIdx < dividendStr.length);
+            return results;
         }
 
         private getRightAlignedRowFromText(text: string[], columnCount: number) {

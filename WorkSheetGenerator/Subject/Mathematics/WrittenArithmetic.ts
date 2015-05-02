@@ -55,8 +55,8 @@ module Subject.Mathematics.WrittenArithmetic {
             var columns = leftOperandStr.length + rightOperandStr.length + additionalLength;
 
             var topText = leftOperandStr.split("")
-            topText.push(this.getOperatorString(exercise.operator))
-            topText.push.apply(topText, rightOperandStr.split(""));
+                .concat([this.getOperatorString(exercise.operator)])
+                .concat(rightOperandStr.split(""));
 
             var topRow = this.getRightAlignedRowFromText(topText, columns)
                 .map((c, idx) => { return { content: c, addSeparator: idx > 0, isResult: false }; });
@@ -67,13 +67,12 @@ module Subject.Mathematics.WrittenArithmetic {
             if (tmpResults.length > 1) {
                 for (var i = 0; i < tmpResults.length; i++) {
                     var tmpResult = tmpResults[i].toString().split("");
-                    for (var j = 0; j < rightOperandStr.length - (i + 1); j++) { tmpResult.push("&nbsp;"); }
+                    var rowNumber = i + 1;
+                    var row = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + rightOperandStr.length - rowNumber);
+                    row = this.getRightAlignedRowFromText(row, columns);
                     if (i > 0) {
-                        var padding = columns - tmpResult.length - 1;
-                        for (var j = 0; j < padding; j++) { tmpResult.unshift("&nbsp;"); }
-                        tmpResult.unshift(this.getOperatorString(BasicArithmeticalOperatorType.ADDITION));
+                        row[0] = this.getOperatorString(BasicArithmeticalOperatorType.ADDITION);
                     }
-                    var row = this.getRightAlignedRowFromText(tmpResult, columns)
                     var addSeparator = i == rightOperandStr.length - 1;
                     rows.push(row.map((c, idx) => { return { content: c, addSeparator: idx > 0 && addSeparator, isResult: true }; }));
                 }
@@ -105,7 +104,10 @@ module Subject.Mathematics.WrittenArithmetic {
             var columns = leftOperandStr.length + rightOperandStr.length + resultStr.length + additionalLength;
 
             var content = leftOperandStr.split("")
-                .concat([this.getOperatorString(exercise.operator)], rightOperandStr.split(""), ["="], resultStr.split(""));
+                .concat([this.getOperatorString(exercise.operator)])
+                .concat(rightOperandStr.split(""))
+                .concat(["="])
+                .concat(resultStr.split(""));
             var equalsSignIndex = content.indexOf("=");
 
             var topRow = this.getLeftAlignedRowFromText(content, columns)
@@ -114,16 +116,13 @@ module Subject.Mathematics.WrittenArithmetic {
 
             var tmpResults = this.getTempResultsForDivision(exercise);
             var dist = tmpResults[0].toString().length; // distance from left side
-            var separatorWidth = 0;
             for (var i = 0; i < tmpResults.length; i++) {
                 var tmpResult = tmpResults[i].toString().split("");
                 var tmpResultLength = tmpResult.length;
 
-                separatorWidth = Math.max(separatorWidth, tmpResultLength);
-
-                // add padding
                 var padding = Math.max(columns - dist, columns - leftOperandStr.length);
-                for (var j = 0; j < padding; j++) { tmpResult.push("&nbsp;"); }
+                var rightPaddedRow = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + padding);
+
                 var addSeparator = (idx: number) => {
                     return (i % 2 == 0) && idx >= columns - padding - tmpResultLength && idx < columns - padding;
                 }
@@ -131,9 +130,6 @@ module Subject.Mathematics.WrittenArithmetic {
                 var row = this.getRightAlignedRowFromText(rightPaddedRow, columns)
                     .map((c, idx) => { return { content: c, addSeparator: addSeparator(idx), isResult: true }; });
                 if (i % 2 == 0) {
-                    for (var j = 1; j <= tmpResultLength; j++) {
-                        row[columns - padding - j].addSeparator = true;
-                    }
                     dist++;
                 }
                 rows.push(row);

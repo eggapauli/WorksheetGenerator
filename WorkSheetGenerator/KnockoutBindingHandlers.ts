@@ -1,32 +1,32 @@
 ﻿ko.bindingHandlers["numericValue"] = {
-    init: function (element: HTMLElement, valueAccessor: () => any, allBindingsAccessor: KnockoutAllBindingsAccessor) {
+    init: (element: HTMLElement, valueAccessor, allBindingsAccessor: KnockoutAllBindingsAccessor) => {
         var underlyingObservable = valueAccessor();
         var interceptor = ko.computed({
             read: underlyingObservable,
-            write: function (value: string) {
+            write: (value: string) => {
                 underlyingObservable(parseFloat(value) || 0);
             }
         });
-        ko.bindingHandlers.value.init(element, function () { return interceptor; }, allBindingsAccessor);
+        ko.bindingHandlers.value.init(element, () => { return interceptor; }, allBindingsAccessor);
     },
     update: ko.bindingHandlers.value.update
 };
 
 ko.bindingHandlers["editableText"] = {
-    init: function (element: HTMLElement, valueAccessor: () => any) {
-        element.addEventListener("blur", function () {
+    init: (element: HTMLElement, valueAccessor) => {
+        element.addEventListener("blur", () => {
             var observable = valueAccessor();
             observable(this.innerHTML);
         });
     },
-    update: function (element, valueAccessor) {
+    update: (element, valueAccessor) => {
         var value = ko.utils.unwrapObservable(valueAccessor());
         element.innerHTML = value;
     }
 };
 
 ko.bindingHandlers["slider"] = {
-    init: function (element: HTMLElement, valueAccessor: () => any) {
+    init: (element: HTMLElement, valueAccessor) => {
         var value = valueAccessor();
         var slider = $(element).slider({
             min: value.min,
@@ -37,12 +37,12 @@ ko.bindingHandlers["slider"] = {
             value: [value.lower(), value.upper()]
         })
 
-        $(element).on("slide", function (evt: any) {
-            value.lower(evt.value[0])
-            value.upper(evt.value[1])
+        $(element).on("slide", (evt: any) => {
+            value.lower(evt.value[0]);
+            value.upper(evt.value[1]);
         });
     },
-    update: function (element, valueAccessor) {
+    update: (element, valueAccessor) => {
         var value = ko.utils.unwrapObservable(valueAccessor());
         element.innerHTML = value;
     }

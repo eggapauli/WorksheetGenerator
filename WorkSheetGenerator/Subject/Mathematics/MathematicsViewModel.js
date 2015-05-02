@@ -147,7 +147,6 @@ var Subject;
                 }
             };
             ArithmeticExerciseGenerator.prototype.generateRandomNumber = function (bounds, numberType) {
-                bounds.normalize();
                 var attempts = 0;
                 var num = 0;
                 while (num < 1.5 && attempts++ <= 1) {

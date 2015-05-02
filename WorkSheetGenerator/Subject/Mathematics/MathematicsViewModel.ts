@@ -71,17 +71,17 @@ module Subject.Mathematics {
             if ((options.numberType == NumberType.NATURALNUMBERS
                 || options.numberType == NumberType.INTEGERS)
                 && operator.type == BasicArithmeticalOperatorType.DIVISION) {
-                validate = function (exercise: ArithmeticExercise) {
+                validate = (exercise: ArithmeticExercise) => {
                     var result = exercise.calculateResult();
                     return exercise.leftOperand % exercise.rightOperand == 0 && result > 2;
                 };
             } else if (options.numberType != NumberType.NATURALNUMBERS) {
-                validate = function (exercise: ArithmeticExercise) {
+                validate = (exercise: ArithmeticExercise) => {
                     var result = exercise.calculateResult();
                     return result < -2 || result > 2;
                 };
             } else {
-                validate = function (exercise: ArithmeticExercise) {
+                validate = (exercise: ArithmeticExercise) => {
                     var result = exercise.calculateResult();
                     return result > 2;
                 };
@@ -107,10 +107,10 @@ module Subject.Mathematics {
             if (this.selectedOperators().length > 0) {
                 allowedObservableOperators = this.selectedOperators();
             } else {
-                allowedObservableOperators = this.operators.map(function (item) { return item.value; });
+                allowedObservableOperators = this.operators.map(item => { return item.value; });
             }
 
-            var allowedOperators = allowedObservableOperators.map(function (item) {
+            var allowedOperators = allowedObservableOperators.map(item => {
                 return new BasicArithmeticalOperator(item.type,
                     new OperandBounds(
                         new NumberBounds(item.operandBounds.leftOperand.lower(), item.operandBounds.leftOperand.upper()),

@@ -1,3 +1,4 @@
+var _this = this;
 ko.bindingHandlers["numericValue"] = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var underlyingObservable = valueAccessor();
@@ -17,7 +18,7 @@ ko.bindingHandlers["editableText"] = {
     init: function (element, valueAccessor) {
         element.addEventListener("blur", function () {
             var observable = valueAccessor();
-            observable(this.innerHTML);
+            observable(_this.innerHTML);
         });
     },
     update: function (element, valueAccessor) {

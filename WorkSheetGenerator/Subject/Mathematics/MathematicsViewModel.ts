@@ -125,7 +125,7 @@ module Subject.Mathematics {
                 case BasicArithmeticalOperatorType.SUBTRACTION: return "-";
                 case BasicArithmeticalOperatorType.MULTIPLICATION: return "&bullet;";
                 case BasicArithmeticalOperatorType.DIVISION: return ":";
-                default: throw new Error("Invalid operator: '" + op + "'");
+                default: throw new Error(`Invalid operator: '${op}'`);
             }
         }
 
@@ -147,7 +147,7 @@ module Subject.Mathematics {
                 case NumberType.NATURALNUMBERS:
                 case NumberType.INTEGERS: num = Math.round(num); break;
                 case NumberType.REALNUMBERS: num = Math.round(num * 100) / 100; break;
-                default: throw new Error("Invalid number type: '" + numberType + "'");
+                default: throw new Error(`Invalid number type: '${numberType}'`);
             }
             return num;
         }

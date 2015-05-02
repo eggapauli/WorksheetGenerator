@@ -1,4 +1,4 @@
-﻿class WorkSheetViewModel {
+﻿class WorksheetViewModel {
     subjects: KnockoutObservableArray<Contract.ISubject>;
     selectedSubject = ko.observable<Contract.ISubject>();
     numberOfExercises = ko.observable(36);

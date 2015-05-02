@@ -1,5 +1,5 @@
-var WorkSheetViewModel = (function () {
-    function WorkSheetViewModel() {
+var WorksheetViewModel = (function () {
+    function WorksheetViewModel() {
         var _this = this;
         this.selectedSubject = ko.observable();
         this.numberOfExercises = ko.observable(36);
@@ -27,6 +27,6 @@ var WorkSheetViewModel = (function () {
             //}
         };
     }
-    return WorkSheetViewModel;
+    return WorksheetViewModel;
 })();
 //# sourceMappingURL=WorksheetViewModel.js.map

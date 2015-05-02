@@ -1,5 +1,5 @@
 //moment.lang("de");
-var viewModel = new WorkSheetViewModel();
+var viewModel = new WorksheetViewModel();
 window.addEventListener("load", function () {
     ko.applyBindings(viewModel);
 });

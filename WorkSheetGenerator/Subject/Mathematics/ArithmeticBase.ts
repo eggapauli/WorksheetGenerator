@@ -27,7 +27,7 @@ module Subject.Mathematics {
                 default:
                     throw new Error(`Invalid operator: '${this.operator}'`);
             }
-            return Math.round(result * 100) / 100;;
+            return Math.round(result * 100) / 100;
         }
 
         public calculateRationalResult() {

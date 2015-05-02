@@ -77,8 +77,10 @@
         <div data-bind="template: { name: selectedSubject().template, data: selectedSubject }"></div>
 
         <div>
-            Anzahl der Übungen:
-            <input type="number" data-bind="numericValue: numberOfExercises" />
+            <label>
+                Anzahl der Übungen:
+                <input type="number" data-bind="numericValue: numberOfExercises" style="width: 50px" />
+            </label>
         </div>
 
         <div>

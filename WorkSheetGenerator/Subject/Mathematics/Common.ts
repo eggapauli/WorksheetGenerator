@@ -7,24 +7,33 @@ module Subject.Mathematics {
     }
 
     export class BasicArithmeticalOperator {
+        get type() { return this._type; }
+        get operandBounds() { return this._operandBounds; }
+
         constructor(
-            public type: BasicArithmeticalOperatorType,
-            public operandBounds: OperandBounds) { }
+            private _type: BasicArithmeticalOperatorType,
+            private _operandBounds: OperandBounds) { }
     }
 
     export class ObservableBasicArithmeticalOperator {
+        get type() { return this._type; }
+        get operandBounds() { return this._operandBounds; }
+
         constructor(
-            public type: BasicArithmeticalOperatorType,
-            public operandBounds: ObservableOperandBounds) {
-        }
+            private _type: BasicArithmeticalOperatorType,
+            private _operandBounds: ObservableOperandBounds) { }
     }
 
     export class OperandBounds {
-        constructor(public leftOperand: NumberBounds, public rightOperand: NumberBounds) { }
+        get leftOperand() { return this._leftOperand; }
+        get rightOperand() { return this._rightOperand; }
+        constructor(private _leftOperand: NumberBounds, private _rightOperand: NumberBounds) { }
     }
 
     export class ObservableOperandBounds {
-        constructor(public leftOperand: ObservableNumberBounds, public rightOperand: ObservableNumberBounds) { }
+        get leftOperand() { return this._leftOperand; }
+        get rightOperand() { return this._rightOperand; }
+        constructor(private _leftOperand: ObservableNumberBounds, private _rightOperand: ObservableNumberBounds) { }
     }
 
     export class NumberBounds {

@@ -18,7 +18,7 @@ module Subject.Mathematics.WrittenArithmetic {
                 case BasicArithmeticalOperatorType.DIVISION:
                     rows = this.convertDivisionExercise(exercise);
                     break;
-                default: throw new Error("Invalid operator: '" + exercise.operator + "'");
+                default: throw new Error(`Invalid operator: '${exercise.operator}'`);
             }
             return {
                 template: "written-arithmetic-exercise-template",

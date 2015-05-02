@@ -21,7 +21,7 @@ module Subject.Mathematics {
                     result = this.leftOperand / this.rightOperand;
                     break;
                 default:
-                    throw new Error("Invalid operator: '" + this.operator + "'");
+                    throw new Error(`Invalid operator: '${this.operator}'`);
             }
             return Math.round(result * 100) / 100;;
         }
@@ -31,7 +31,7 @@ module Subject.Mathematics {
             if (this.operator == BasicArithmeticalOperatorType.DIVISION) {
                 var gcd = this.calculateGCD(this.leftOperand, this.rightOperand);
                 if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
-                    result = (this.leftOperand / gcd) + "/" + (this.rightOperand / gcd);
+                    result = `${this.leftOperand / gcd}/${this.rightOperand / gcd}`;
                 }
             }
             if (result === undefined) {

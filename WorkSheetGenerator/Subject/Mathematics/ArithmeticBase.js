@@ -11,16 +11,16 @@ var Subject;
             ArithmeticExercise.prototype.calculateResult = function () {
                 var result;
                 switch (this.operator) {
-                    case 0 /* ADDITION */:
+                    case Mathematics.BasicArithmeticalOperatorType.ADDITION:
                         result = this.leftOperand + this.rightOperand;
                         break;
-                    case 1 /* SUBTRACTION */:
+                    case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION:
                         result = this.leftOperand - this.rightOperand;
                         break;
-                    case 2 /* MULTIPLICATION */:
+                    case Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION:
                         result = this.leftOperand * this.rightOperand;
                         break;
-                    case 3 /* DIVISION */:
+                    case Mathematics.BasicArithmeticalOperatorType.DIVISION:
                         result = this.leftOperand / this.rightOperand;
                         break;
                     default:
@@ -31,10 +31,10 @@ var Subject;
             };
             ArithmeticExercise.prototype.calculateRationalResult = function () {
                 var result;
-                if (this.operator == 3 /* DIVISION */) {
+                if (this.operator == Mathematics.BasicArithmeticalOperatorType.DIVISION) {
                     var gcd = this.calculateGCD(this.leftOperand, this.rightOperand);
                     if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
-                        result = (this.leftOperand / gcd) + "/" + (this.rightOperand / gcd);
+                        result = "" + this.leftOperand / gcd + "/" + this.rightOperand / gcd;
                     }
                 }
                 if (result === undefined) {
@@ -52,7 +52,7 @@ var Subject;
             };
             ArithmeticExercise.prototype.getTempResultsForDivision = function () {
                 var results = [];
-                if (this.operator == 3 /* DIVISION */) {
+                if (this.operator == Mathematics.BasicArithmeticalOperatorType.DIVISION) {
                     var dividendStr = this.leftOperand.toString();
                     var dividend = 0;
                     var divIdx = 0;
@@ -75,7 +75,7 @@ var Subject;
             };
             ArithmeticExercise.prototype.getTempResultsForMultiplication = function () {
                 var results = [];
-                if (this.operator == 2 /* MULTIPLICATION */) {
+                if (this.operator == Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION) {
                     var factor2Str = this.rightOperand.toString();
                     for (var i = 0; i < factor2Str.length; i++) {
                         var digit = parseInt(factor2Str.charAt(i));

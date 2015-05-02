@@ -10,7 +10,7 @@ module Subject.Mathematics.MentalArithmetic {
             var rationalResult = exercise.calculateRationalResult();
             var resultString = result.toString();
             if (result.toString() != rationalResult) {
-                resultString += " (" + rationalResult + ")";
+                resultString += ` (${rationalResult})`;
             }
 
             return {

@@ -37,36 +37,24 @@ module Subject.Mathematics {
     }
 
     export class NumberBounds {
-        private _lower: number;
-        private _upper: number;
-
         get lower(): number { return this._lower; }
-        set lower(value: number) { this._lower = value; this.normalize(); }
         get upper(): number { return this._upper; }
-        set upper(value: number) { this._upper = value; this.normalize(); }
 
-        constructor(lower: number, upper: number) {
-            this._lower = lower;
-            this._upper = upper;
-            this.normalize();
-        }
-
-        public normalize() {
-            if (this._lower > this._upper) {
-                var tmp = this._lower;
-                this._lower = this._upper;
-                this._upper = tmp;
-            }
+        constructor(private _lower: number, private _upper: number) {
+            this._lower = Math.min(this._lower, this._upper);
+            this._upper = Math.max(this._lower, this._upper);
         }
     }
 
     export class ObservableNumberBounds {
-        public lower: KnockoutObservable<number>;
-        public upper: KnockoutObservable<number>;
+        private _lower: KnockoutObservable<number>;
+        get lower() { return this._lower; }
+        private _upper: KnockoutObservable<number>;
+        get upper() { return this._upper; }
 
         constructor(lower: number, upper: number) {
-            this.lower = ko.observable(lower);
-            this.upper = ko.observable(upper);
+            this._lower = ko.observable(Math.min(lower, upper));
+            this._upper = ko.observable(Math.max(lower, upper));
         }
     }
 

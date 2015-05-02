@@ -136,8 +136,6 @@ module Subject.Mathematics {
         }
 
         private generateRandomNumber(bounds: NumberBounds, numberType: NumberType) {
-            bounds.normalize();
-
             var attempts = 0;
             var num = 0;
             while (num < 1.5 && attempts++ <= 1) {

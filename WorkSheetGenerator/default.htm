@@ -59,8 +59,8 @@
 
     <script type="text/html" id="written-arithmetic-exercise-template">
         <div class="exercise written-arithmetic-exercise" data-bind="foreach: rows">
-            <div class="exercise-row" data-bind="css: { separator: addSeparator }">
-                <!-- ko foreach: cells --><span class="exercise-cell" data-bind="css: { separator: addSeparator }">
+            <div class="exercise-row">
+                <!-- ko foreach: $data --><span class="exercise-cell" data-bind="css: { separator: addSeparator }">
                     <span data-bind="html: content, css: { result: isResult }"></span>
                 </span><!-- /ko -->
             </div>

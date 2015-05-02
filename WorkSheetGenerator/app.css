@@ -97,11 +97,6 @@
 #exercises .exercise.written-arithmetic-exercise .exercise-row:first-child .exercise-cell {
     border-top-width: 1px;
 }
-#exercises .exercise.written-arithmetic-exercise .exercise-row.separator .exercise-cell:not(:first-child) {
-    border-bottom-color: blue;
-    border-bottom-width: 2px;
-    margin-bottom: -2px;
-}
 #exercises .exercise.written-arithmetic-exercise .exercise-row .exercise-cell.separator {
     border-bottom-color: blue;
     border-bottom-width: 2px;

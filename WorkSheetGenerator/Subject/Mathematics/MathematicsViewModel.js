@@ -3,14 +3,11 @@ var Subject;
     var Mathematics;
     (function (Mathematics) {
         var MathematicsViewModel = (function () {
-            function MathematicsViewModel() {
+            function MathematicsViewModel(exerciseGenerators) {
                 var _this = this;
                 this.isSelected = ko.observable(false);
                 this.selectedExerciseGenerator = ko.observable();
-                this._exerciseGenerators = [
-                    new Mathematics.MentalArithmetic.MentalArithmeticExerciseGenerator(),
-                    new Mathematics.WrittenArithmetic.WrittenArithmeticExerciseGenerator()
-                ];
+                this._exerciseGenerators = exerciseGenerators;
                 this.selectedExerciseGenerator.subscribe(function (item) {
                     _this.exerciseGenerators.forEach(function (g) { return g.isSelected(g == item); });
                 });

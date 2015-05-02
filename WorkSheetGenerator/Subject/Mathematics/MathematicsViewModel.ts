@@ -8,11 +8,8 @@ module Subject.Mathematics {
         public isSelected = ko.observable(false);
         public selectedExerciseGenerator = ko.observable<Contract.IExerciseGenerator>();
 
-        constructor() {
-            this._exerciseGenerators = [
-                new MentalArithmetic.MentalArithmeticExerciseGenerator(),
-                new WrittenArithmetic.WrittenArithmeticExerciseGenerator()
-            ];
+        constructor(exerciseGenerators: Contract.IExerciseGenerator[]) {
+            this._exerciseGenerators = exerciseGenerators;
 
             this.selectedExerciseGenerator.subscribe(item => {
                 this.exerciseGenerators.forEach(g => g.isSelected(g == item));

@@ -1,30 +1,30 @@
 ﻿class WorksheetViewModel {
-    subjects: KnockoutObservableArray<Contract.ISubject>;
+    private _subjects: Contract.ISubject[];
+    get subjects() { return this._subjects; }
     selectedSubject = ko.observable<Contract.ISubject>();
-    numberOfExercises = ko.observable(36);
-    showResults = ko.observable<boolean>();
-    generate: () => void;
+
     error = ko.observable();
+
     topLeftColumn = ko.observable(moment().format("L"));
     topCenterColumn = ko.observable("Titel");
     topRightColumn = ko.observable("Autor");
-    exercises: KnockoutObservable<Contract.IExercise[]> = ko.observable([]);
 
-    constructor() {
-        this.subjects = ko.observableArray([
-            new Subject.Mathematics.MathematicsViewModel()
-        ]);
+    numberOfExercises = ko.observable(36);
+    showResults = ko.observable<boolean>();
+    exercises: KnockoutObservable<Contract.IExercise[]> = ko.observable([]);
+    generate: () => void;
+
+    constructor(subjects: Contract.ISubject[]) {
+        this.subjects = subjects;
 
         this.error = ko.observable();
 
         this.selectedSubject.subscribe(subject => {
-            this.subjects().forEach(s => s.isSelected(subject == s));
+            this.subjects.forEach(s => s.isSelected(subject == s));
         });
 
         this.generate = () => {
-            var subject = this.selectedSubject();
-
-            var generator = subject.selectedExerciseGenerator();
+            var generator = this.selectedSubject().selectedExerciseGenerator();
             //try {
             var exercises = Array.apply(null, new Array(this.numberOfExercises()))
                 .map(() => generator.generate());

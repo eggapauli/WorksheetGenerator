@@ -20,17 +20,22 @@ module Subject.Mathematics {
     export class ArithmeticExerciseGenerator {
         private static MAX_GENERATION_ATTEMPTS = 5000;
 
-        public numberTypes: KeyValuePair<NumberType, string>[] = [
-            { key: NumberType.NATURALNUMBERS, value: "Natuerliche Zahlen" },
-            { key: NumberType.INTEGERS, value: "Ganze Zahlen" },
-            { key: NumberType.REALNUMBERS, value: "Reele Zahlen" }
-        ];
-        public operators: KeyValuePair<string, ObservableBasicArithmeticalOperator>[] = [
-            { key: "Addition", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.ADDITION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Subtraktion", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.SUBTRACTION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Multiplikation", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.MULTIPLICATION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Divison", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.DIVISION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) }
-        ];
+        get numberTypes(): KeyValuePair<NumberType, string>[] {
+            return [
+                { key: NumberType.NATURALNUMBERS, value: "Natuerliche Zahlen" },
+                { key: NumberType.INTEGERS, value: "Ganze Zahlen" },
+                { key: NumberType.REALNUMBERS, value: "Reele Zahlen" }
+            ];
+        }
+
+        get operators(): KeyValuePair<string, ObservableBasicArithmeticalOperator>[] {
+            return [
+                { key: "Addition", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.ADDITION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
+                { key: "Subtraktion", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.SUBTRACTION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
+                { key: "Multiplikation", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.MULTIPLICATION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
+                { key: "Divison", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.DIVISION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) }
+            ];
+        }
 
         public isSelected = ko.observable(false);
         public selectedNumberType = ko.observable<KeyValuePair<NumberType, string>>();

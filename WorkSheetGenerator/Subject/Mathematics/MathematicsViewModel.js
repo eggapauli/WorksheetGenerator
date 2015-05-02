@@ -39,17 +39,6 @@ var Subject;
         var ArithmeticExerciseGenerator = (function () {
             function ArithmeticExerciseGenerator() {
                 var _this = this;
-                this.numberTypes = [
-                    { key: 0 /* NATURALNUMBERS */, value: "Natuerliche Zahlen" },
-                    { key: 1 /* INTEGERS */, value: "Ganze Zahlen" },
-                    { key: 2 /* REALNUMBERS */, value: "Reele Zahlen" }
-                ];
-                this.operators = [
-                    { key: "Addition", value: new Mathematics.ObservableBasicArithmeticalOperator(0 /* ADDITION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                    { key: "Subtraktion", value: new Mathematics.ObservableBasicArithmeticalOperator(1 /* SUBTRACTION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                    { key: "Multiplikation", value: new Mathematics.ObservableBasicArithmeticalOperator(2 /* MULTIPLICATION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                    { key: "Divison", value: new Mathematics.ObservableBasicArithmeticalOperator(3 /* DIVISION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) }
-                ];
                 this.isSelected = ko.observable(false);
                 this.selectedNumberType = ko.observable();
                 this.selectedOperators = ko.observableArray();
@@ -70,6 +59,29 @@ var Subject;
                     });
                 };
             }
+            Object.defineProperty(ArithmeticExerciseGenerator.prototype, "numberTypes", {
+                get: function () {
+                    return [
+                        { key: 0 /* NATURALNUMBERS */, value: "Natuerliche Zahlen" },
+                        { key: 1 /* INTEGERS */, value: "Ganze Zahlen" },
+                        { key: 2 /* REALNUMBERS */, value: "Reele Zahlen" }
+                    ];
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(ArithmeticExerciseGenerator.prototype, "operators", {
+                get: function () {
+                    return [
+                        { key: "Addition", value: new Mathematics.ObservableBasicArithmeticalOperator(0 /* ADDITION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                        { key: "Subtraktion", value: new Mathematics.ObservableBasicArithmeticalOperator(1 /* SUBTRACTION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                        { key: "Multiplikation", value: new Mathematics.ObservableBasicArithmeticalOperator(2 /* MULTIPLICATION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                        { key: "Divison", value: new Mathematics.ObservableBasicArithmeticalOperator(3 /* DIVISION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) }
+                    ];
+                },
+                enumerable: true,
+                configurable: true
+            });
             ArithmeticExerciseGenerator.prototype.generateExercise = function () {
                 var options = this.getGeneratorParams();
                 var operatorIdx = Math.round(Math.random() * (options.allowedOperators.length - 1));

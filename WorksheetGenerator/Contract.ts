@@ -8,14 +8,12 @@ module Contract {
     export interface IExerciseGenerator {
         name: string;
         template: string;
-        isSelected: KnockoutObservable<boolean>;
         generate: () => IExercise;
     }
 
     export interface ISubject {
         name: string;
         template: string;
-        isSelected: KnockoutObservable<boolean>;
         selectedExerciseGenerator: KnockoutObservable<IExerciseGenerator>;
     }
 }

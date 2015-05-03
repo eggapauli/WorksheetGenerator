@@ -2,18 +2,14 @@ module Subject.Mathematics {
     export class MathematicsViewModel implements Contract.ISubject {
         get name() { return "Mathematik"; }
         get template() { return "mathematics-template"; }
+
         private _exerciseGenerators: Contract.IExerciseGenerator[];
         get exerciseGenerators() { return this._exerciseGenerators; }
 
-        public isSelected = ko.observable(false);
         public selectedExerciseGenerator = ko.observable<Contract.IExerciseGenerator>();
 
         constructor(exerciseGenerators: Contract.IExerciseGenerator[]) {
             this._exerciseGenerators = exerciseGenerators;
-
-            this.selectedExerciseGenerator.subscribe(item => {
-                this.exerciseGenerators.forEach(g => g.isSelected(g == item));
-            });
         }
     }
 

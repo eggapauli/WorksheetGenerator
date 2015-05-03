@@ -4,13 +4,8 @@ var Subject;
     (function (Mathematics) {
         var MathematicsViewModel = (function () {
             function MathematicsViewModel(exerciseGenerators) {
-                var _this = this;
-                this.isSelected = ko.observable(false);
                 this.selectedExerciseGenerator = ko.observable();
                 this._exerciseGenerators = exerciseGenerators;
-                this.selectedExerciseGenerator.subscribe(function (item) {
-                    _this.exerciseGenerators.forEach(function (g) { return g.isSelected(g == item); });
-                });
             }
             Object.defineProperty(MathematicsViewModel.prototype, "name", {
                 get: function () {
@@ -62,9 +57,9 @@ var Subject;
             Object.defineProperty(ArithmeticExerciseGenerator.prototype, "numberTypes", {
                 get: function () {
                     return [
-                        { key: Mathematics.NumberType.NATURALNUMBERS, value: "Natuerliche Zahlen" },
-                        { key: Mathematics.NumberType.INTEGERS, value: "Ganze Zahlen" },
-                        { key: Mathematics.NumberType.REALNUMBERS, value: "Reele Zahlen" }
+                        { key: 0 /* NATURALNUMBERS */, value: "Natuerliche Zahlen" },
+                        { key: 1 /* INTEGERS */, value: "Ganze Zahlen" },
+                        { key: 2 /* REALNUMBERS */, value: "Reele Zahlen" }
                     ];
                 },
                 enumerable: true,
@@ -73,10 +68,10 @@ var Subject;
             Object.defineProperty(ArithmeticExerciseGenerator.prototype, "operators", {
                 get: function () {
                     return [
-                        { key: "Addition", value: new Mathematics.ObservableBasicArithmeticalOperator(Mathematics.BasicArithmeticalOperatorType.ADDITION, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                        { key: "Subtraktion", value: new Mathematics.ObservableBasicArithmeticalOperator(Mathematics.BasicArithmeticalOperatorType.SUBTRACTION, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                        { key: "Multiplikation", value: new Mathematics.ObservableBasicArithmeticalOperator(Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                        { key: "Divison", value: new Mathematics.ObservableBasicArithmeticalOperator(Mathematics.BasicArithmeticalOperatorType.DIVISION, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) }
+                        { key: "Addition", value: new Mathematics.ObservableBasicArithmeticalOperator(0 /* ADDITION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                        { key: "Subtraktion", value: new Mathematics.ObservableBasicArithmeticalOperator(1 /* SUBTRACTION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                        { key: "Multiplikation", value: new Mathematics.ObservableBasicArithmeticalOperator(2 /* MULTIPLICATION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
+                        { key: "Divison", value: new Mathematics.ObservableBasicArithmeticalOperator(3 /* DIVISION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) }
                     ];
                 },
                 enumerable: true,
@@ -88,13 +83,13 @@ var Subject;
                 var operator = options.allowedOperators[operatorIdx];
                 //console.log(bounds);
                 var validate;
-                if ((options.numberType == Mathematics.NumberType.NATURALNUMBERS || options.numberType == Mathematics.NumberType.INTEGERS) && operator.type == Mathematics.BasicArithmeticalOperatorType.DIVISION) {
+                if ((options.numberType == 0 /* NATURALNUMBERS */ || options.numberType == 1 /* INTEGERS */) && operator.type == 3 /* DIVISION */) {
                     validate = function (exercise) {
                         var result = exercise.calculateResult();
                         return exercise.leftOperand % exercise.rightOperand == 0 && result > 2;
                     };
                 }
-                else if (options.numberType != Mathematics.NumberType.NATURALNUMBERS) {
+                else if (options.numberType != 0 /* NATURALNUMBERS */) {
                     validate = function (exercise) {
                         var result = exercise.calculateResult();
                         return result < -2 || result > 2;
@@ -139,10 +134,10 @@ var Subject;
             };
             ArithmeticExerciseGenerator.prototype.getOperatorString = function (op) {
                 switch (op) {
-                    case Mathematics.BasicArithmeticalOperatorType.ADDITION: return "+";
-                    case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION: return "-";
-                    case Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION: return "&bullet;";
-                    case Mathematics.BasicArithmeticalOperatorType.DIVISION: return ":";
+                    case 0 /* ADDITION */: return "+";
+                    case 1 /* SUBTRACTION */: return "-";
+                    case 2 /* MULTIPLICATION */: return "&bullet;";
+                    case 3 /* DIVISION */: return ":";
                     default: throw new Error("Invalid operator: '" + op + "'");
                 }
             };
@@ -153,15 +148,15 @@ var Subject;
                     num = Math.random() * (bounds.upper - bounds.lower) + bounds.lower;
                 }
                 // randomly switch sign
-                if (numberType != Mathematics.NumberType.NATURALNUMBERS && Math.random() < 0.5) {
+                if (numberType != 0 /* NATURALNUMBERS */ && Math.random() < 0.5) {
                     num *= -1;
                 }
                 switch (numberType) {
-                    case Mathematics.NumberType.NATURALNUMBERS:
-                    case Mathematics.NumberType.INTEGERS:
+                    case 0 /* NATURALNUMBERS */:
+                    case 1 /* INTEGERS */:
                         num = Math.round(num);
                         break;
-                    case Mathematics.NumberType.REALNUMBERS:
+                    case 2 /* REALNUMBERS */:
                         num = Math.round(num * 100) / 100;
                         break;
                     default: throw new Error("Invalid number type: '" + numberType + "'");

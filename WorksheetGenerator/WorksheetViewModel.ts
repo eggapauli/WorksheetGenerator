@@ -19,10 +19,6 @@
 
         this.error = ko.observable();
 
-        this.selectedSubject.subscribe(subject => {
-            this.subjects.forEach(s => s.isSelected(subject == s));
-        });
-
         this.generate = () => {
             var generator = this.selectedSubject().selectedExerciseGenerator();
             //try {

@@ -17,8 +17,6 @@
     constructor(subjects: Contract.ISubject[]) {
         this._subjects = subjects;
 
-        this.error = ko.observable();
-
         this.generate = () => {
             var generator = this.selectedSubject().selectedExerciseGenerator();
             //try {

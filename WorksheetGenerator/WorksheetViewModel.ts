@@ -3,7 +3,7 @@
     get subjects() { return this._subjects; }
     selectedSubject = ko.observable<Contract.ISubject>();
 
-    error = ko.observable();
+    error = ko.observable("");
 
     topLeftColumn = ko.observable(moment().format("L"));
     topCenterColumn = ko.observable("Titel");

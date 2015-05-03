@@ -2,7 +2,7 @@ var WorksheetViewModel = (function () {
     function WorksheetViewModel(subjects) {
         var _this = this;
         this.selectedSubject = ko.observable();
-        this.error = ko.observable();
+        this.error = ko.observable("");
         this.topLeftColumn = ko.observable(moment().format("L"));
         this.topCenterColumn = ko.observable("Titel");
         this.topRightColumn = ko.observable("Autor");
@@ -10,10 +10,6 @@ var WorksheetViewModel = (function () {
         this.showResults = ko.observable();
         this.exercises = ko.observable([]);
         this._subjects = subjects;
-        this.error = ko.observable();
-        this.selectedSubject.subscribe(function (subject) {
-            _this.subjects.forEach(function (s) { return s.isSelected(subject == s); });
-        });
         this.generate = function () {
             var generator = _this.selectedSubject().selectedExerciseGenerator();
             //try {

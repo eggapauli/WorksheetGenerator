@@ -54,9 +54,9 @@ define(["require", "exports", "Subject/Mathematics/Common", "Subject/Mathematics
         Object.defineProperty(ArithmeticExerciseGenerator.prototype, "numberTypes", {
             get: function () {
                 return [
-                        { key: 0 /* NATURALNUMBERS */, value: "Natuerliche Zahlen" },
-                        { key: 1 /* INTEGERS */, value: "Ganze Zahlen" },
-                        { key: 2 /* REALNUMBERS */, value: "Reele Zahlen" }
+                    { key: 0 /* NATURALNUMBERS */, value: "Natuerliche Zahlen" },
+                    { key: 1 /* INTEGERS */, value: "Ganze Zahlen" },
+                    { key: 2 /* REALNUMBERS */, value: "Reele Zahlen" }
                 ];
             },
             enumerable: true,
@@ -65,10 +65,10 @@ define(["require", "exports", "Subject/Mathematics/Common", "Subject/Mathematics
         Object.defineProperty(ArithmeticExerciseGenerator.prototype, "operators", {
             get: function () {
                 return [
-                        { key: "Addition", value: new Mathematics.ObservableBasicArithmeticalOperator(0 /* ADDITION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                        { key: "Subtraktion", value: new Mathematics.ObservableBasicArithmeticalOperator(1 /* SUBTRACTION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                        { key: "Multiplikation", value: new Mathematics.ObservableBasicArithmeticalOperator(2 /* MULTIPLICATION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) },
-                        { key: "Divison", value: new Mathematics.ObservableBasicArithmeticalOperator(3 /* DIVISION */, new Mathematics.ObservableOperandBounds(new Mathematics.ObservableNumberBounds(10, 99), new Mathematics.ObservableNumberBounds(2, 9))) }
+                    { key: "Addition", value: new Common.ObservableBasicArithmeticalOperator(0 /* ADDITION */, new Common.ObservableOperandBounds(new Common.ObservableNumberBounds(10, 99), new Common.ObservableNumberBounds(2, 9))) },
+                    { key: "Subtraktion", value: new Common.ObservableBasicArithmeticalOperator(1 /* SUBTRACTION */, new Common.ObservableOperandBounds(new Common.ObservableNumberBounds(10, 99), new Common.ObservableNumberBounds(2, 9))) },
+                    { key: "Multiplikation", value: new Common.ObservableBasicArithmeticalOperator(2 /* MULTIPLICATION */, new Common.ObservableOperandBounds(new Common.ObservableNumberBounds(10, 99), new Common.ObservableNumberBounds(2, 9))) },
+                    { key: "Divison", value: new Common.ObservableBasicArithmeticalOperator(3 /* DIVISION */, new Common.ObservableOperandBounds(new Common.ObservableNumberBounds(10, 99), new Common.ObservableNumberBounds(2, 9))) }
                 ];
             },
             enumerable: true,
@@ -80,13 +80,13 @@ define(["require", "exports", "Subject/Mathematics/Common", "Subject/Mathematics
             var operator = options.allowedOperators[operatorIdx];
             //console.log(bounds);
             var validate;
-                if ((options.numberType == 0 /* NATURALNUMBERS */ || options.numberType == 1 /* INTEGERS */) && operator.type == 3 /* DIVISION */) {
+            if ((options.numberType == 0 /* NATURALNUMBERS */ || options.numberType == 1 /* INTEGERS */) && operator.type == 3 /* DIVISION */) {
                 validate = function (exercise) {
                     var result = exercise.calculateResult();
                     return exercise.leftOperand % exercise.rightOperand == 0 && result > 2;
                 };
             }
-                else if (options.numberType != 0 /* NATURALNUMBERS */) {
+            else if (options.numberType != 0 /* NATURALNUMBERS */) {
                 validate = function (exercise) {
                     var result = exercise.calculateResult();
                     return result < -2 || result > 2;
@@ -131,10 +131,10 @@ define(["require", "exports", "Subject/Mathematics/Common", "Subject/Mathematics
         };
         ArithmeticExerciseGenerator.prototype.getOperatorString = function (op) {
             switch (op) {
-                    case 0 /* ADDITION */: return "+";
-                    case 1 /* SUBTRACTION */: return "-";
-                    case 2 /* MULTIPLICATION */: return "&bullet;";
-                    case 3 /* DIVISION */: return ":";
+                case 0 /* ADDITION */: return "+";
+                case 1 /* SUBTRACTION */: return "-";
+                case 2 /* MULTIPLICATION */: return "&bullet;";
+                case 3 /* DIVISION */: return ":";
                 default: throw new Error("Invalid operator: '" + op + "'");
             }
         };
@@ -145,15 +145,15 @@ define(["require", "exports", "Subject/Mathematics/Common", "Subject/Mathematics
                 num = Math.random() * (bounds.upper - bounds.lower) + bounds.lower;
             }
             // randomly switch sign
-                if (numberType != 0 /* NATURALNUMBERS */ && Math.random() < 0.5) {
+            if (numberType != 0 /* NATURALNUMBERS */ && Math.random() < 0.5) {
                 num *= -1;
             }
             switch (numberType) {
-                    case 0 /* NATURALNUMBERS */:
-                    case 1 /* INTEGERS */:
+                case 0 /* NATURALNUMBERS */:
+                case 1 /* INTEGERS */:
                     num = Math.round(num);
                     break;
-                    case 2 /* REALNUMBERS */:
+                case 2 /* REALNUMBERS */:
                     num = Math.round(num * 100) / 100;
                     break;
                 default: throw new Error("Invalid number type: '" + numberType + "'");

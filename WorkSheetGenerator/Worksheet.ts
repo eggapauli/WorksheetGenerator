@@ -5,7 +5,7 @@ export class ViewModel {
     get subjects() { return this._subjects; }
     selectedSubject = ko.observable<Contract.ISubject>();
 
-    error = ko.observable();
+    error = ko.observable("");
 
     topLeftColumn = ko.observable(moment().format("L"));
     topCenterColumn = ko.observable("Titel");
@@ -18,12 +18,6 @@ export class ViewModel {
 
     constructor(subjects: Contract.ISubject[]) {
         this._subjects = subjects;
-
-        this.error = ko.observable();
-
-        this.selectedSubject.subscribe(subject => {
-            this.subjects.forEach(s => s.isSelected(subject == s));
-        });
 
         this.generate = () => {
             var generator = this.selectedSubject().selectedExerciseGenerator();

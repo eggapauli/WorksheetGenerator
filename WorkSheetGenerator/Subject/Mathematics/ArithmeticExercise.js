@@ -48,14 +48,15 @@ define(["require", "exports", "Common"], function (require, exports, Common) {
         };
         ArithmeticExercise.prototype.calculateRationalResult = function () {
             var result;
-            if (this.operator == 3 /* DIVISION */) {
-                var gcd = ArithmeticExercise.calculateGCD(this.leftOperand, this.rightOperand);
-                if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
-                    result = "" + this.leftOperand / gcd + "/" + this.rightOperand / gcd;
-                }
+            var gcd = ArithmeticExercise.calculateGCD(this.leftOperand, this.rightOperand);
+            if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
+                result = {
+                    dividend: this.leftOperand / gcd,
+                    divisor: this.rightOperand / gcd
+                };
             }
             if (result === undefined) {
-                result = this.calculateResult().toString();
+                result = { dividend: this.calculateResult(), divisor: 1 };
             }
             return result;
         };

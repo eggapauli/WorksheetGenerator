@@ -28,10 +28,9 @@ define(["require", "exports", "Subject/Mathematics/MathematicsViewModel"], funct
             var exercise = this.generateExercise();
             var result = exercise.calculateResult();
             var rationalResult = exercise.calculateRationalResult();
-                    var rationalResultString = "" + rationalResult.dividend + "/" + rationalResult.divisor;
             var resultString = result.toString();
-                    if (rationalResult.divisor > 1) {
-                        resultString += " (" + rationalResult.dividend + "/" + rationalResult.divisor + ")";
+            if (rationalResult.divisor > 1) {
+                resultString += " (" + rationalResult.dividend + "/" + rationalResult.divisor + ")";
             }
             return {
                 template: "mental-arithmetic-exercise-template",

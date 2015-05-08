@@ -263,10 +263,10 @@
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\Slider.d.ts" />
     <TypeScriptCompile Include="Subject\Mathematics\Common.ts" />
-    <TypeScriptCompile Include="Subject\Mathematics\ArithmeticBase.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\ArithmeticExercise.ts" />
     <Content Include="package.json" />
     <Content Include="Subject\Mathematics\ArithmeticBase.js">
-      <DependentUpon>ArithmeticBase.ts</DependentUpon>
+      <DependentUpon>ArithmeticExercise.ts</DependentUpon>
     </Content>
     <Content Include="Subject\Mathematics\Common.js">
       <DependentUpon>Common.ts</DependentUpon>

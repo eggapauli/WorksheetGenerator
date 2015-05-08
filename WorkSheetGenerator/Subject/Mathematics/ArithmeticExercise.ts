@@ -1,9 +1,4 @@
 module Subject.Mathematics {
-    interface GreatestCommonDivisor {
-        dividend: number;
-        divisor: number;
-    }
-
     export class ArithmeticExercise {
         get leftOperand() { return this._leftOperand; }
         get rightOperand() { return this._rightOperand; }
@@ -36,16 +31,15 @@ module Subject.Mathematics {
         }
 
         public calculateRationalResult() {
-            var result: GreatestCommonDivisor;
-            var gcd = this.calculateGCD(this.leftOperand, this.rightOperand);
-            if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
-                result = {
-                    dividend: this.leftOperand / gcd,
-                    divisor: this.rightOperand / gcd
-                };
+            var result: string;
+            if (this.operator == BasicArithmeticalOperatorType.DIVISION) {
+                var gcd = this.calculateGCD(this.leftOperand, this.rightOperand);
+                if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
+                    result = `${this.leftOperand / gcd}/${this.rightOperand / gcd}`;
+                }
             }
             if (result === undefined) {
-                result = { dividend: this.calculateResult(), divisor: 1 };
+                result = this.calculateResult().toString();
             }
             return result;
         }

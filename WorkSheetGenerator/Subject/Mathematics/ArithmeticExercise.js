@@ -52,19 +52,17 @@ var Subject;
             ArithmeticExercise.prototype.calculateRationalResult = function () {
                 var result;
                 if (this.operator == Mathematics.BasicArithmeticalOperatorType.DIVISION) {
-                var gcd = ArithmeticExercise.calculateGCD(this.leftOperand, this.rightOperand);
-                if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
-                    result = {
-                        dividend: this.leftOperand / gcd,
-                        divisor: this.rightOperand / gcd
-                    };
+                    var gcd = this.calculateGCD(this.leftOperand, this.rightOperand);
+                    if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
+                        result = "" + this.leftOperand / gcd + "/" + this.rightOperand / gcd;
+                    }
                 }
                 if (result === undefined) {
-                    result = { dividend: this.calculateResult(), divisor: 1 };
+                    result = this.calculateResult().toString();
                 }
                 return result;
             };
-            ArithmeticExercise.calculateGCD = function (x, y) {
+            ArithmeticExercise.prototype.calculateGCD = function (x, y) {
                 while (y != 0) {
                     var z = x % y;
                     x = y;
@@ -77,4 +75,4 @@ var Subject;
         Mathematics.ArithmeticExercise = ArithmeticExercise;
     })(Mathematics = Subject.Mathematics || (Subject.Mathematics = {}));
 })(Subject || (Subject = {}));
-//# sourceMappingURL=ArithmeticBase.js.map
+//# sourceMappingURL=ArithmeticExercise.js.map

@@ -1,26 +1,27 @@
-module Subject.Mathematics.MentalArithmetic {
-    export class MentalArithmeticExerciseGenerator extends ArithmeticExerciseGenerator implements Contract.IExerciseGenerator {
-        get name() { return "Kopfrechnen"; }
-        get template() { return "two-operand-exercise-template"; }
+import Contract = require("Contract")
+import Mathematics = require("Subject/Mathematics/MathematicsViewModel")
 
-        generate() {
-            var exercise = this.generateExercise();
+export class MentalArithmeticExerciseGenerator extends Mathematics.ArithmeticExerciseGenerator implements Contract.IExerciseGenerator {
+    get name() { return "Kopfrechnen"; }
+    get template() { return "two-operand-exercise-template"; }
 
-            var result = exercise.calculateResult();
-            var rationalResult = exercise.calculateRationalResult();
-            var rationalResultString = `${rationalResult.dividend}/${rationalResult.divisor}`;
-            var resultString = result.toString();
-            if (rationalResult.divisor > 1) {
-                resultString += ` (${rationalResult.dividend}/${rationalResult.divisor})`;
-            }
+    generate() {
+        var exercise = this.generateExercise();
 
-            return {
-                template: "mental-arithmetic-exercise-template",
-                leftOperand: exercise.leftOperand,
-                operator: this.getOperatorString(exercise.operator),
-                rightOperand: exercise.rightOperand,
-                result: resultString
-            }
+        var result = exercise.calculateResult();
+        var rationalResult = exercise.calculateRationalResult();
+        var resultString = result.toString();
+        if (rationalResult.divisor > 1) {
+            resultString += ` (${rationalResult.dividend}/${rationalResult.divisor})`;
+        }
+
+        return {
+            template: "mental-arithmetic-exercise-template",
+            leftOperand: exercise.leftOperand,
+            operator: this.getOperatorString(exercise.operator),
+            rightOperand: exercise.rightOperand,
+            result: resultString
         }
     }
 }
+

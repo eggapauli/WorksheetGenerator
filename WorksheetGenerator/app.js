@@ -1,11 +1,13 @@
 //moment.lang("de");
-window.addEventListener("load", function () {
-    var subjects = [
-        new Subject.Mathematics.MathematicsViewModel([
-            new Subject.Mathematics.MentalArithmetic.MentalArithmeticExerciseGenerator(),
-            new Subject.Mathematics.WrittenArithmetic.WrittenArithmeticExerciseGenerator()
-        ])
-    ];
-    ko.applyBindings(new WorksheetViewModel(subjects));
+define(["require", "exports", "Worksheet", "Subject/Mathematics/MathematicsViewModel", "Subject/Mathematics/MentalArithmetic", "Subject/Mathematics/WrittenArithmetic"], function (require, exports, Worksheet, Mathematics, MentalArithmetic, WrittenArithmetic) {
+    window.addEventListener("load", function () {
+        var subjects = [
+            new Mathematics.ViewModel([
+                new MentalArithmetic.MentalArithmeticExerciseGenerator(),
+                new WrittenArithmetic.WrittenArithmeticExerciseGenerator()
+            ])
+        ];
+        ko.applyBindings(new Worksheet.ViewModel(subjects));
+    });
 });
 //# sourceMappingURL=app.js.map

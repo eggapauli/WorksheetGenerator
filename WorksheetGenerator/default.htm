@@ -13,14 +13,7 @@
     <script src="node_modules/knockout/build/output/knockout-latest.debug.js"></script>
     <script src="node_modules/moment/moment.js"></script>
     <script src="KnockoutBindingHandlers.js"></script>
-    <script src="Common.js"></script>
-    <script src="Subject/Mathematics/Common.js"></script>
-    <script src="Subject/Mathematics/ArithmeticBase.js"></script>
-    <script src="Subject/Mathematics/MathematicsViewModel.js"></script>
-    <script src="Subject/Mathematics/MentalArithmetic.js"></script>
-    <script src="Subject/Mathematics/WrittenArithmetic.js"></script>
-    <script src="WorksheetViewModel.js"></script>
-    <script src="app.js"></script>
+    <script data-main="app" src="node_modules/requirejs/require.js"></script>
 
     <script type="text/html" id="mathematics-template">
         <select data-bind="options: exerciseGenerators, value: selectedExerciseGenerator, optionsText: 'name'"></select>

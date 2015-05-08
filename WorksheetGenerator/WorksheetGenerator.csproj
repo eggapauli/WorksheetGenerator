@@ -261,9 +261,12 @@
     <TypeScriptCompile Include="KnockoutBindingHandlers.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\requirejs\require.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\Slider.d.ts" />
     <TypeScriptCompile Include="Subject\Mathematics\Common.ts" />
     <TypeScriptCompile Include="Subject\Mathematics\ArithmeticExercise.ts" />
+    <Content Include="node_modules\requirejs\bin\r.js" />
+    <Content Include="node_modules\requirejs\require.js" />
     <Content Include="package.json" />
     <Content Include="Subject\Mathematics\ArithmeticBase.js">
       <DependentUpon>ArithmeticExercise.ts</DependentUpon>
@@ -293,7 +296,7 @@
     <Content Include="app.js">
       <DependentUpon>app.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="WorksheetViewModel.ts" />
+    <TypeScriptCompile Include="Worksheet.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
@@ -417,6 +420,8 @@
     <Content Include="node_modules\moment\LICENSE" />
     <Content Include="node_modules\moment\package.json" />
     <Content Include="node_modules\moment\README.md" />
+    <Content Include="node_modules\requirejs\package.json" />
+    <Content Include="node_modules\requirejs\README.md" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -458,6 +463,7 @@
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <DefineConstants>
     </DefineConstants>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

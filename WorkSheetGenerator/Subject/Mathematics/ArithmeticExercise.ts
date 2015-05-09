@@ -51,7 +51,7 @@ export class ArithmeticExercise {
         return result;
     }
 
-    public static calculateGCD(x, y) {
+    public static calculateGCD(x: number, y: number) {
         while (y != 0) {
             var z = x % y;
             x = y;

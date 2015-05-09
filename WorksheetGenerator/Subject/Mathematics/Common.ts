@@ -1,3 +1,5 @@
+///<reference path="../../Scripts/typings/knockout/knockout.d.ts"/>
+
 export enum BasicArithmeticalOperatorType {
     ADDITION,
     SUBTRACTION,

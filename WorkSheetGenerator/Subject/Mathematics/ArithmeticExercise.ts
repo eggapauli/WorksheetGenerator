@@ -1,4 +1,4 @@
-import Common = require ("Common")
+import Common = require ("./Common")
 
 interface GreatestCommonDivisor {
     dividend: number;

@@ -1,4 +1,0 @@
-Simplify
-    WrittenArithmeticExerciseGenerator.convertMultiplicationExercise and
-    WrittenArithmeticExerciseGenerator.convertDivisionExercise
-    

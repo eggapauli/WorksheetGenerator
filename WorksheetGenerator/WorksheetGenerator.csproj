@@ -463,7 +463,7 @@
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <DefineConstants>
     </DefineConstants>
-    <TypeScriptModuleKind>commonjs</TypeScriptModuleKind>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

@@ -1,5 +1,5 @@
 import Contract = require("Contract")
-import Mathematics = require("Subject/Mathematics/MathematicsViewModel")
+import Mathematics = require("Subject/Mathematics/Common")
 
 export class MentalArithmeticExerciseGenerator extends Mathematics.ArithmeticExerciseGenerator implements Contract.IExerciseGenerator {
     get name() { return "Kopfrechnen"; }

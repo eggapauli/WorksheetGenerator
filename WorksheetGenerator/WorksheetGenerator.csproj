@@ -264,22 +264,22 @@
     <TypeScriptCompile Include="Scripts\typings\requirejs\require.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\Slider.d.ts" />
     <TypeScriptCompile Include="Subject\Mathematics\Common.ts" />
-    <TypeScriptCompile Include="Subject\Mathematics\ArithmeticExercise.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Model.ts" />
     <Content Include="node_modules\requirejs\bin\r.js" />
     <Content Include="node_modules\requirejs\require.js" />
     <Content Include="package.json" />
     <Content Include="Subject\Mathematics\ArithmeticBase.js">
-      <DependentUpon>ArithmeticExercise.ts</DependentUpon>
+      <DependentUpon>Model.ts</DependentUpon>
     </Content>
     <Content Include="Subject\Mathematics\Common.js">
       <DependentUpon>Common.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Subject\Mathematics\MathematicsViewModel.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Subject.ts" />
     <Content Include="Subject\Mathematics\Mathematics.js">
       <DependentUpon>MentalArithmetic.ts</DependentUpon>
     </Content>
     <Content Include="Subject\Mathematics\MathematicsViewModel.js">
-      <DependentUpon>MathematicsViewModel.ts</DependentUpon>
+      <DependentUpon>Subject.ts</DependentUpon>
     </Content>
     <Content Include="print.css" />
     <Content Include="Scripts\typings\knockout\knockout.d.ts" />

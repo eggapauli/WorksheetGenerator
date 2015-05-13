@@ -71,4 +71,4 @@ var ArithmeticExercise = (function () {
     return ArithmeticExercise;
 })();
 exports.ArithmeticExercise = ArithmeticExercise;
-//# sourceMappingURL=ArithmeticExercise.js.map
+//# sourceMappingURL=Model.js.map

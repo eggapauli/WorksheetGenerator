@@ -1,11 +1,11 @@
 //moment.lang("de");
 var Worksheet = require("Worksheet");
-var Mathematics = require("Subject/Mathematics/MathematicsViewModel");
+var Mathematics = require("Subject/Mathematics/Subject");
 var MentalArithmetic = require("Subject/Mathematics/MentalArithmetic");
 var WrittenArithmetic = require("Subject/Mathematics/WrittenArithmetic");
 window.addEventListener("load", function () {
     var subjects = [
-        new Mathematics.ViewModel([
+        new Mathematics.Subject([
             new MentalArithmetic.MentalArithmeticExerciseGenerator(),
             new WrittenArithmetic.WrittenArithmeticExerciseGenerator()
         ])

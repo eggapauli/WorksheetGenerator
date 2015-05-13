@@ -1,7 +1,6 @@
 import Contract = require("Contract");
-import Common = require("Subject/Mathematics/Common");
-import Mathematics = require("Subject/Mathematics/MathematicsViewModel");
-import AE = require("Subject/Mathematics/ArithmeticExercise");
+import Mathematics = require("Subject/Mathematics/Common");
+import Model = require("Subject/Mathematics/Model");
 
 export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticExerciseGenerator implements Contract.IExerciseGenerator {
     get name() { return "Schriftlich rechnen"; }
@@ -12,14 +11,14 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
 
         var rows;
         switch (exercise.operator) {
-            case Common.BasicArithmeticalOperatorType.ADDITION:
-            case Common.BasicArithmeticalOperatorType.SUBTRACTION:
+            case Mathematics.BasicArithmeticalOperatorType.ADDITION:
+            case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION:
                 rows = this.convertAdditionAndSubtractionExercise(exercise);
                 break;
-            case Common.BasicArithmeticalOperatorType.MULTIPLICATION:
+            case Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION:
                 rows = this.convertMultiplicationExercise(exercise);
                 break;
-            case Common.BasicArithmeticalOperatorType.DIVISION:
+            case Mathematics.BasicArithmeticalOperatorType.DIVISION:
                 rows = this.convertDivisionExercise(exercise);
                 break;
             default: throw new Error(`Invalid operator: '${exercise.operator}'`);
@@ -30,7 +29,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
         }
     }
 
-    private convertAdditionAndSubtractionExercise(exercise: AE.ArithmeticExercise) {
+    private convertAdditionAndSubtractionExercise(exercise: Model.ArithmeticExercise) {
         var leftOperandStr = exercise.leftOperand.toString();
         var rightOperandStr = exercise.rightOperand.toString();
         var resultStr = exercise.calculateResult().toString();
@@ -51,7 +50,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
         return [leftOperandRow, rightOperandRow, resultRow];
     }
 
-    private convertMultiplicationExercise(exercise: AE.ArithmeticExercise) {
+    private convertMultiplicationExercise(exercise: Model.ArithmeticExercise) {
         var leftOperandStr = exercise.leftOperand.toString();
         var rightOperandStr = exercise.rightOperand.toString();
 
@@ -75,7 +74,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
                 var row = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + rightOperandStr.length - rowNumber);
                 row = this.getRightAlignedRowFromText(row, columns);
                 if (i > 0) {
-                    row[0] = this.getOperatorString(Common.BasicArithmeticalOperatorType.ADDITION);
+                    row[0] = this.getOperatorString(Mathematics.BasicArithmeticalOperatorType.ADDITION);
                 }
                 var addSeparator = i == rightOperandStr.length - 1;
                 rows.push(row.map((c, idx) => { return { content: c, addSeparator: idx > 0 && addSeparator, isResult: true }; }));
@@ -88,7 +87,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
         return rows;
     }
 
-    private getTempResultsForMultiplication(exercise: AE.ArithmeticExercise) {
+    private getTempResultsForMultiplication(exercise: Model.ArithmeticExercise) {
         var results: number[] = [];
         var factor2Str = exercise.rightOperand.toString();
 
@@ -99,7 +98,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
         return results;
     }
 
-    private convertDivisionExercise(exercise: AE.ArithmeticExercise) {
+    private convertDivisionExercise(exercise: Model.ArithmeticExercise) {
         var leftOperandStr = exercise.leftOperand.toString();
         var rightOperandStr = exercise.rightOperand.toString();
         var resultStr = exercise.calculateResult().toString();
@@ -142,7 +141,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
         return rows;
     }
 
-    private getTempResultsForDivision(exercise: AE.ArithmeticExercise) {
+    private getTempResultsForDivision(exercise: Model.ArithmeticExercise) {
         var results: number[] = [];
         var dividendStr = exercise.leftOperand.toString();
 

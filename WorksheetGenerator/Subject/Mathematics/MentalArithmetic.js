@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var Mathematics = require("Subject/Mathematics/MathematicsViewModel");
+var Mathematics = require("Subject/Mathematics/Common");
 var MentalArithmeticExerciseGenerator = (function (_super) {
     __extends(MentalArithmeticExerciseGenerator, _super);
     function MentalArithmeticExerciseGenerator() {

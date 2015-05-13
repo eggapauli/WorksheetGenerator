@@ -4,8 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var Common = require("Subject/Mathematics/Common");
-var Mathematics = require("Subject/Mathematics/MathematicsViewModel");
+var Mathematics = require("Subject/Mathematics/Common");
 var WrittenArithmeticExerciseGenerator = (function (_super) {
     __extends(WrittenArithmeticExerciseGenerator, _super);
     function WrittenArithmeticExerciseGenerator() {

@@ -1,0 +1,8 @@
+source https://nuget.org/api/v2
+
+nuget FunScript.TypeScript.Binding.knockout
+nuget FunScript.TypeScript.Binding.moment
+nuget funscript
+nuget funscript.typescript.binding.lib
+
+github ZachBray/FunScript src/samples/Shared/Launcher.fs

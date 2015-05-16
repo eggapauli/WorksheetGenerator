@@ -1,0 +1,13 @@
+NUGET
+  remote: https://nuget.org/api/v2
+  specs:
+    FunScript (1.1.93)
+    FunScript.TypeScript.Binding.knockout (1.1.0.37)
+      FunScript.TypeScript.Binding.lib (>= 1.1.0.37)
+    FunScript.TypeScript.Binding.lib (1.1.0.37)
+    FunScript.TypeScript.Binding.moment (1.1.0.37)
+      FunScript.TypeScript.Binding.lib (>= 1.1.0.37)
+GITHUB
+  remote: ZachBray/FunScript
+  specs:
+    src/samples/Shared/Launcher.fs (899005fb49482a17d7cde86ec82e26952d748706)

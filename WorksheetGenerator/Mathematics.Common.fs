@@ -1,4 +1,4 @@
-﻿module Mathematics.Common
+﻿namespace Mathematics
 
 open Common
 open FunScript
@@ -27,18 +27,16 @@ type BasicArithmeticalOperator = {
 }
 
 module ObservableNumberBounds =
+    // TODO make private
     type T = {
         Lower: KnockoutObservable<float>
         Upper: KnockoutObservable<float>
-
-    //    constructor(lower: number, upper: number) {
-    //        this._lower = ko.observable(Math.min(lower, upper));
-    //        this._upper = ko.observable(Math.max(lower, upper));
-    //    }
     }
 
-    let create lower upper =
-        { Lower = Globals.ko.observable.Invoke lower; Upper = Globals.ko.observable.Invoke upper }
+    let create (lower: float) (upper: float) =
+        let min = Math.Min(lower, upper)
+        let max = Math.Max(lower, upper)
+        { Lower = Globals.ko.observable.Invoke min; Upper = Globals.ko.observable.Invoke max }
 
 type ObservableOperandBounds = {
     LeftOperand: ObservableNumberBounds.T

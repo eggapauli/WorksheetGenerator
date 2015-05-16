@@ -14,4 +14,5 @@ type IExerciseGenerator =
 type ISubject =
     abstract member Name: string with get
     abstract member Template: string with get
-    abstract member SelectedExerciseGenerator: KnockoutObservable<IExerciseGenerator> with get, set
+    abstract member ExerciseGenerators: IExerciseGenerator list with get
+    abstract member SelectedExerciseGenerator: KnockoutObservable<IExerciseGenerator> with get

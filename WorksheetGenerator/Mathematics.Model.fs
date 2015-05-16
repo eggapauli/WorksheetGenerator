@@ -5,7 +5,9 @@ open System
 type GreatestCommonDivisor = {
     Dividend: float
     Divisor: float
-}
+} with
+    override x.ToString() =
+        sprintf "%.0f / %.0f" x.Dividend x.Divisor
 
 module ArithmeticExercise =
     let calculateGCD x y =
@@ -20,15 +22,15 @@ module ArithmeticExercise =
     type T = {
         LeftOperand: float
         RightOperand: float
-        Operator: Common.BasicArithmeticalOperatorType
+        Operator: BasicArithmeticalOperatorType
     } with
         member x.CalculateResult() =
             let result =
                 match x.Operator with
-                | Common.BasicArithmeticalOperatorType.ADDITION -> x.LeftOperand + x.RightOperand
-                | Common.BasicArithmeticalOperatorType.SUBTRACTION -> x.LeftOperand - x.RightOperand
-                | Common.BasicArithmeticalOperatorType.MULTIPLICATION -> x.LeftOperand * x.RightOperand
-                | Common.BasicArithmeticalOperatorType.DIVISION -> x.LeftOperand / x.RightOperand
+                | BasicArithmeticalOperatorType.ADDITION -> x.LeftOperand + x.RightOperand
+                | BasicArithmeticalOperatorType.SUBTRACTION -> x.LeftOperand - x.RightOperand
+                | BasicArithmeticalOperatorType.MULTIPLICATION -> x.LeftOperand * x.RightOperand
+                | BasicArithmeticalOperatorType.DIVISION -> x.LeftOperand / x.RightOperand
             Math.Round(result, 2)
 
         member x.CalculateRationalResult() =

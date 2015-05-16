@@ -4,11 +4,11 @@ open FunScript
 open FunScript.TypeScript
 
 let main() =
-    let subjects = [
+    let subjects: Contract.ISubject list = [
         Mathematics.Subject
             [
-                MentalArithmetic.ExerciseGenerator()
-                WrittenArithmetic.ExerciseGenerator()
+                Mathematics.MentalArithmetic.ExerciseGenerator()
+                Mathematics.WrittenArithmetic.ExerciseGenerator()
             ]
     ]
     Globals.ko.applyBindings(Worksheet.ViewModel subjects)

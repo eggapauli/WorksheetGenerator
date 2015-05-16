@@ -5,24 +5,21 @@ open FunScript
 open FunScript.TypeScript
 
 type ViewModel(subjects: Contract.ISubject list) =
-    member x.Subjects with get() = subjects
-    member val SelectedSubject = Globals.ko.observable.Invoke(subjects |> List.tryHead) with get, set
+    member x.Subjects = subjects
+    member x.SelectedSubject = Globals.ko.observable.Invoke(subjects |> List.head)
 
-    member val Error = Globals.ko.observable.Invoke("") with get, set
+    member x.Error = Globals.ko.observable.Invoke("")
 
-    member val TopLeftColumn = Globals.ko.observable.Invoke(Globals.moment.Invoke().format "L")
-    member val TopCenterColumn = Globals.ko.observable.Invoke "Titel"
-    member val TopRightColumn = Globals.ko.observable.Invoke "Autor"
+    member x.TopLeftColumn = Globals.ko.observable.Invoke(Globals.moment.Invoke().format "L")
+    member x.TopCenterColumn = Globals.ko.observable.Invoke "Titel"
+    member x.TopRightColumn = Globals.ko.observable.Invoke "Autor"
 
-    member val NumberOfExercises = Globals.ko.observable.Invoke 36
-    member val ShowResults = Globals.ko.observable.Invoke false
-    member val Exercises = Globals.ko.observable.Invoke([]);
+    member x.NumberOfExercises = Globals.ko.observable.Invoke 36
+    member x.ShowResults = Globals.ko.observable.Invoke false
+    member x.Exercises = Globals.ko.observable.Invoke []
     member x.Generate() =
         //try
-        x.SelectedSubject.Invoke()
-        |> Option.map (fun subject -> subject.SelectedExerciseGenerator.Invoke())
-        |> Option.map (fun generator -> [ for _ in 1 .. x.NumberOfExercises.Invoke() -> generator.Generate() ])
-        |> function
-            | Some exercises -> x.Exercises.Invoke exercises
-            | None -> x.Exercises.Invoke []
+        let generator = x.SelectedSubject.Invoke().SelectedExerciseGenerator.Invoke()
+        let exercises = [ for _ in 1 .. x.NumberOfExercises.Invoke() -> generator.Generate() ]
+        x.Exercises.Invoke exercises
         //with _ -> x.Error e.message

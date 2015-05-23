@@ -5,5 +5,5 @@ open FunScript
 
 [<EntryPoint>]
 let entry argv = 
-    Runtime.Run()
+    Runtime.Run(components = Components.customComponents)
     0

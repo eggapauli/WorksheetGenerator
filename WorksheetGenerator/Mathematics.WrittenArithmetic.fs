@@ -28,7 +28,7 @@ let padText start columnCount text =
     ]
 
 let getRightAlignedRowFromText columnCount text =
-    padText (text.Length - columnCount) columnCount text
+    padText ((List.length text) - columnCount) columnCount text
 
 let getLeftAlignedRowFromText columnCount text =
     padText 0 columnCount text

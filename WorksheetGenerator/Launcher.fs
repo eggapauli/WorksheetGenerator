@@ -53,7 +53,8 @@ module RuntimeImplementation =
         let file = root + (if s = "/" then "/index.html" else s)
         if File.Exists(file) then 
           let ext = Path.GetExtension(file).ToLower()
-          let typ = contentTypes.[ext]
+          let (success, typ) = contentTypes.TryGetValue(ext)
+          let mimeType = if success then typ else "application/octet-stream"
           context.Response.Reply(typ, File.ReadAllBytes(file))
         else 
           context.Response.Reply(sprintf "File not found: %s" file) }), tokenSource.Token)

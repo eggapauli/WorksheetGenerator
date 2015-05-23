@@ -57,7 +57,11 @@ let generateExercise options =
     |> Seq.map (fun _ ->
         let leftOperand = generateRandomNumber operator.OperandBounds.LeftOperand options.NumberType
         let rightOperand = generateRandomNumber operator.OperandBounds.RightOperand options.NumberType
-        { Model.ArithmeticExercise.T.LeftOperand = leftOperand; RightOperand = rightOperand; Operator = operator.Type }
+        {
+            Model.ArithmeticExercise.T.LeftOperand = leftOperand
+            Model.ArithmeticExercise.T.RightOperand = rightOperand
+            Model.ArithmeticExercise.T.Operator = operator.Type
+        }
     )
     |> Seq.tryFind validate
     |> function

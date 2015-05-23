@@ -2,6 +2,7 @@
 module Mathematics.Model
 
 open System
+open Mathematics.Common
 
 type GreatestCommonDivisor = {
     Dividend: float

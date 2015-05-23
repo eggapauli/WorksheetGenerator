@@ -2,6 +2,7 @@
 module Mathematics.WrittenArithmetic
 
 open System
+open Mathematics.Common
 
 type Cell =
     {
@@ -105,7 +106,7 @@ let convertMultiplicationExercise(exercise: Model.ArithmeticExercise.T) =
             )
             |> List.mapi (fun idx row ->
                 if idx > 0
-                then (ArithmeticExerciseGenerator.getOperatorString Mathematics.BasicArithmeticalOperatorType.ADDITION) :: row.Tail
+                then (ArithmeticExerciseGenerator.getOperatorString BasicArithmeticalOperatorType.ADDITION) :: row.Tail
                 else row
             )
             |> List.mapi (fun idx row ->
@@ -194,12 +195,12 @@ type ExerciseGenerator() =
 
             let rows =
                 match exercise.Operator with
-                | Mathematics.BasicArithmeticalOperatorType.ADDITION
-                | Mathematics.BasicArithmeticalOperatorType.SUBTRACTION ->
+                | BasicArithmeticalOperatorType.ADDITION
+                | BasicArithmeticalOperatorType.SUBTRACTION ->
                     convertAdditionAndSubtractionExercise exercise
-                | Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION ->
+                | BasicArithmeticalOperatorType.MULTIPLICATION ->
                     convertMultiplicationExercise exercise
-                | Mathematics.BasicArithmeticalOperatorType.DIVISION ->
+                | BasicArithmeticalOperatorType.DIVISION ->
                     convertDivisionExercise exercise
             {
                 Exercise.Template = "written-arithmetic-exercise-template"

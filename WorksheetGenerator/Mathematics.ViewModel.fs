@@ -3,6 +3,7 @@ module Mathematics.ViewModel
 
 open FunScript
 open FunScript.TypeScript
+open Mathematics.Common
 
 type private KnockoutComputedReadWrite<'a> = {
     read: unit -> 'a

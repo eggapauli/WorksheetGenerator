@@ -6,7 +6,7 @@ open FunScript.TypeScript
 
 let main() =
     let subjects: Contract.ISubject list = [
-        Mathematics.Subject
+        Mathematics.Common.Subject
             [
                 Mathematics.MentalArithmetic.ExerciseGenerator()
                 Mathematics.WrittenArithmetic.ExerciseGenerator()

@@ -1,4 +1,5 @@
-﻿module Mathematics.ArithmeticExerciseGenerator
+﻿[<FunScript.JS>]
+module Mathematics.ArithmeticExerciseGenerator
 
 open Common
 open System

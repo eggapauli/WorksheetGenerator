@@ -1,4 +1,5 @@
-﻿module Contract
+﻿[<FunScript.JS>]
+module Contract
 
 open FunScript
 open FunScript.TypeScript

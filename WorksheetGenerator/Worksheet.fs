@@ -1,4 +1,5 @@
-﻿module Worksheet
+﻿[<FunScript.JS>]
+module Worksheet
 
 open Common
 open FunScript

@@ -1,4 +1,5 @@
-﻿module Mathematics.WrittenArithmetic
+﻿[<FunScript.JS>]
+module Mathematics.WrittenArithmetic
 
 open System
 

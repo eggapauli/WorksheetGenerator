@@ -1,4 +1,5 @@
-﻿module App
+﻿[<FunScript.JS>]
+module App
 
 open FunScript
 open FunScript.TypeScript

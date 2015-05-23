@@ -1,4 +1,5 @@
-﻿module Mathematics.ViewModel
+﻿[<FunScript.JS>]
+module Mathematics.ViewModel
 
 open FunScript
 open FunScript.TypeScript

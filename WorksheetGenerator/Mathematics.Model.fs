@@ -1,4 +1,5 @@
-﻿module Mathematics.Model
+﻿[<FunScript.JS>]
+module Mathematics.Model
 
 open System
 

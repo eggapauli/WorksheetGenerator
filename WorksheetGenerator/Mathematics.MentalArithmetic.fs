@@ -1,4 +1,5 @@
-﻿module Mathematics.MentalArithmetic
+﻿[<FunScript.JS>]
+module Mathematics.MentalArithmetic
 
 type Exercise =
     {

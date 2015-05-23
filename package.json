@@ -1,0 +1,26 @@
+{
+  "name": "WorksheetGenerator",
+  "version": "1.0.0",
+  "description": "Helps teachers creating exercises for pupils.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eggapauli/WorksheetGenerator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eggapauli/WorksheetGenerator/issues"
+  },
+  "homepage": "https://github.com/eggapauli/WorksheetGenerator",
+  "dependencies": {
+    "bootstrap": "^3.3.4",
+    "bootstrap-slider": "^4.8.2",
+    "jquery": "^2.1.4",
+    "knockout": "^3.3.0",
+    "moment": "^2.10.3"
+  }
+}

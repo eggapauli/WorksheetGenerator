@@ -71,7 +71,6 @@
     <Compile Include="Common.fs" />
     <Compile Include="Launcher.fs" />
     <Compile Include="Contract.fs" />
-    <Compile Include="Mathematics.Subject.fs" />
     <Compile Include="Mathematics.Common.fs" />
     <Compile Include="Mathematics.Model.fs" />
     <Compile Include="Mathematics.ArithmeticExerciseGenerator.fs" />

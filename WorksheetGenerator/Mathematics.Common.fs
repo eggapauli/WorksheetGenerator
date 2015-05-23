@@ -1,4 +1,5 @@
-﻿namespace Mathematics
+﻿[<FunScript.JS>]
+module Mathematics.Common
 
 open Common
 open FunScript
@@ -61,3 +62,10 @@ type ArithmeticExerciseGeneratorOptions = {
     NumberType: NumberType
     AllowedOperators: BasicArithmeticalOperator list
 }
+
+type Subject(exerciseGenerators: Contract.IExerciseGenerator list) =
+    interface Contract.ISubject with
+        member x.Name = "Mathematik"
+        member x.Template = "mathematics-template"
+        member x.ExerciseGenerators = exerciseGenerators
+        member x.SelectedExerciseGenerator = Globals.ko.observable.Invoke(exerciseGenerators |> List.head)

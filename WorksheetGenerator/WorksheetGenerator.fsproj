@@ -69,7 +69,6 @@
     <None Include="App.config" />
     <Compile Include="KnockoutBindingHandlers.fs" />
     <Compile Include="Common.fs" />
-    <Compile Include="Launcher.fs" />
     <Compile Include="Contract.fs" />
     <Compile Include="Mathematics.Common.fs" />
     <Compile Include="Mathematics.Model.fs" />

@@ -27,13 +27,11 @@ module ArithmeticExercise =
         Operator: BasicArithmeticalOperatorType
     } with
         member x.CalculateResult() =
-            let result =
-                match x.Operator with
-                | BasicArithmeticalOperatorType.ADDITION -> x.LeftOperand + x.RightOperand
-                | BasicArithmeticalOperatorType.SUBTRACTION -> x.LeftOperand - x.RightOperand
-                | BasicArithmeticalOperatorType.MULTIPLICATION -> x.LeftOperand * x.RightOperand
-                | BasicArithmeticalOperatorType.DIVISION -> x.LeftOperand / x.RightOperand
-            Math.Round(result, 2)
+            match x.Operator with
+            | BasicArithmeticalOperatorType.ADDITION -> x.LeftOperand + x.RightOperand
+            | BasicArithmeticalOperatorType.SUBTRACTION -> x.LeftOperand - x.RightOperand
+            | BasicArithmeticalOperatorType.MULTIPLICATION -> x.LeftOperand * x.RightOperand
+            | BasicArithmeticalOperatorType.DIVISION -> x.LeftOperand / x.RightOperand
 
         member x.CalculateRationalResult() =
             let gcd = calculateGCD x.LeftOperand x.RightOperand

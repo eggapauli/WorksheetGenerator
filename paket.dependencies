@@ -1,5 +1,6 @@
 source https://nuget.org/api/v2
 
+nuget FunScript.TypeScript.Binding.jquery
 nuget FunScript.TypeScript.Binding.knockout
 nuget FunScript.TypeScript.Binding.moment
 nuget funscript

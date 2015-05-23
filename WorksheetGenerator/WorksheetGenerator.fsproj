@@ -79,6 +79,7 @@
     <Compile Include="Mathematics.WrittenArithmetic.fs" />
     <Compile Include="Worksheet.fs" />
     <Compile Include="App.fs" />
+    <Compile Include="Launcher.fs" />
     <Compile Include="Components.fs" />
     <Compile Include="Program.fs" />
     <None Include="index.html">

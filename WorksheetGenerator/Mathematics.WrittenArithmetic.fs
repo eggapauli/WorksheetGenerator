@@ -121,6 +121,66 @@ let convertMultiplicationExercise(exercise: Model.ArithmeticExercise.T) =
         |> List.mapi (fun idx ch -> { Content = ch; AddSeparator = false; IsResult = true })
     List.concat [ [ topRow ]; tmpResultRows; [ resultRow ] ]
 
+let getTempResultsForDivision(exercise: Model.ArithmeticExercise.T) =
+    let rec getIntermediateDivisors dividend divisor result runs =
+        if runs > 1000 then failwith "Endless recursion"
+        if result <= 0.0
+        then []
+        else
+            let resultLength = sprintf "%.0f" result |> String.length |> float
+            let rounder = 10.0 ** (resultLength - 1.0)
+            let tmpResult = System.Math.Floor(result / rounder) * rounder
+            let dividendSubtrahend = tmpResult * divisor
+            let nextDividend = dividend - dividendSubtrahend
+            List.append
+                [ -dividendSubtrahend; nextDividend ]
+                (getIntermediateDivisors nextDividend divisor (result - tmpResult) (runs + 1))
+
+    let result = exercise.CalculateResult()
+    getIntermediateDivisors exercise.LeftOperand exercise.RightOperand result 0
+
+let convertDivisionExercise(exercise: Model.ArithmeticExercise.T) =
+    let leftOperandStr = sprintf "%.0f" exercise.LeftOperand
+    let rightOperandStr = sprintf "%.0f" exercise.RightOperand
+    let resultStr = sprintf "%.0f" (exercise.CalculateResult())
+
+    let additionalLength = 3 // ':' and '=' both in first row, '-' for the divisor subtrahend
+    let columns = leftOperandStr.Length + rightOperandStr.Length + resultStr.Length + additionalLength;
+
+    let content =
+        List.concat
+            [
+                splitText leftOperandStr
+                [ArithmeticExerciseGenerator.getOperatorString(exercise.Operator)]
+                splitText rightOperandStr
+                [ "=" ]
+                splitText resultStr
+            ]
+    let equalsSignIndex = content |> List.findIndex ((=) "=")
+
+    let topRow =
+        getLeftAlignedRowFromText columns content
+        |> List.mapi(fun idx ch -> { Content = ch; AddSeparator = false; IsResult = idx > equalsSignIndex })
+
+    let addSeparator idx =
+        idx = 0//(i % 2 == 0) && idx >= columns - padding - tmpResultLength && idx < columns - padding;
+
+    getTempResultsForDivision exercise
+    |> List.map (sprintf "%.0f")
+    |> List.map splitText
+    |> List.map (fun text -> getRightAlignedRowFromText (leftOperandStr.Length + 1) text) // + 1 because of '-'
+    |> List.mapi (fun row text ->
+        text
+        |> List.mapi (fun col ch ->
+            if resultStr.Length - (row / 2) <= col then "&nbsp;"
+            else ch
+        )
+    )
+    |> List.map (getLeftAlignedRowFromText columns)
+    |> List.map (fun text ->
+        text |> List.mapi (fun idx ch -> { Content = ch; AddSeparator = addSeparator idx; IsResult = true })
+    )
+    |> List.append [ topRow ]
 
 type ExerciseGenerator() =
     member x.Options = ViewModel.ArithmeticExerciseOptions()
@@ -144,72 +204,3 @@ type ExerciseGenerator() =
                 Exercise.Template = "written-arithmetic-exercise-template"
                 Exercise.Rows = rows
             } :> Contract.IExercise
-
-//
-//    private convertDivisionExercise(exercise: Model.ArithmeticExercise) {
-//        var leftOperandStr = exercise.leftOperand.toString();
-//        var rightOperandStr = exercise.rightOperand.toString();
-//        var resultStr = exercise.calculateResult().toString();
-//
-//        var additionalLength = 2; // ':' and '=' both in first row
-//        var columns = leftOperandStr.length + rightOperandStr.length + resultStr.length + additionalLength;
-//
-//        var content = leftOperandStr.split("")
-//            .concat([this.getOperatorString(exercise.operator)])
-//            .concat(rightOperandStr.split(""))
-//            .concat(["="])
-//            .concat(resultStr.split(""));
-//        var equalsSignIndex = content.indexOf("=");
-//
-//        var topRow = this.getLeftAlignedRowFromText(content, columns)
-//            .map((c, idx) => { return { content: c, addSeparator: false, isResult: idx > equalsSignIndex }; });
-//        var rows = [topRow];
-//
-//        var tmpResults = this.getTempResultsForDivision(exercise);
-//        var dist = tmpResults[0].toString().length; // distance from left side
-//        for (var i = 0; i < tmpResults.length; i++) {
-//            var tmpResult = tmpResults[i].toString().split("");
-//            var tmpResultLength = tmpResult.length;
-//
-//            var padding = Math.max(columns - dist, columns - leftOperandStr.length);
-//            var rightPaddedRow = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + padding);
-//
-//            var addSeparator = (idx: number) => {
-//                return (i % 2 == 0) && idx >= columns - padding - tmpResultLength && idx < columns - padding;
-//            }
-//
-//            var row = this.getRightAlignedRowFromText(rightPaddedRow, columns)
-//                .map((c, idx) => { return { content: c, addSeparator: addSeparator(idx), isResult: true }; });
-//            if (i % 2 == 0) {
-//                dist++;
-//            }
-//            rows.push(row);
-//        }
-//
-//        return rows;
-//    }
-//
-//    private getTempResultsForDivision(exercise: Model.ArithmeticExercise) {
-//        var results: number[] = [];
-//        var dividendStr = exercise.leftOperand.toString();
-//
-//        var dividend = 0;
-//        var divIdx = 0;
-//
-//        do {
-//            while (dividend / exercise.rightOperand < 1 && divIdx < dividendStr.length) {
-//                dividend = dividend * 10 + parseInt(dividendStr.charAt(divIdx));
-//                divIdx++;
-//            }
-//            if (results.length > 0) {
-//                results.push(dividend);
-//            }
-//            var quotient = dividend / exercise.rightOperand
-//            if (dividend > 0) {
-//                results.push(Math.floor(quotient) * exercise.rightOperand);
-//            }
-//
-//            dividend = dividend % exercise.rightOperand;
-//        } while (quotient > 0 || divIdx < dividendStr.length);
-//        return results;
-//    }

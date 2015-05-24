@@ -1,5 +1,4 @@
-﻿[<FunScript.JS>]
-module Program
+﻿module Program
 
 open FunScript
 

@@ -1,6 +1,6 @@
-import Contract = require("Contract");
-import Mathematics = require("Subject/Mathematics/Common");
-import Model = require("Subject/Mathematics/Model");
+import * as Contract from "Contract"
+import * as Mathematics from "./Common"
+import * as Model from "./Model"
 
 export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticExerciseGenerator implements Contract.IExerciseGenerator {
     get name() { return "Schriftlich rechnen"; }

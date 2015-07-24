@@ -1,4 +1,4 @@
-import Contract = require("Contract")
+import * as Contract from "Contract"
 
 export class Subject implements Contract.ISubject {
     get name() { return "Mathematik"; }

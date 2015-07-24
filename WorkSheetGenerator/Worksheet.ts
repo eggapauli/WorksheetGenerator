@@ -1,4 +1,4 @@
-﻿import Contract = require("Contract");
+﻿import * as Contract from "Contract";
 
 export class ViewModel {
     private _subjects: Contract.ISubject[];

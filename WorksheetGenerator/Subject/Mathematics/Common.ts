@@ -1,7 +1,7 @@
 ///<reference path="../../Scripts/typings/knockout/knockout.d.ts"/>
 
-import Common = require("../../Common")
-import Model = require("./Model")
+import * as Common from "../../Common"
+import * as Model from "./Model"
 
 export enum BasicArithmeticalOperatorType {
     ADDITION,

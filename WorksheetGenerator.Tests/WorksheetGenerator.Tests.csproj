@@ -237,6 +237,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ArithmeticExerciseTest.ts" />
     <TypeScriptCompile Include="Scripts\typings\mocha\mocha.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\underscore\underscore.d.ts" />
   </ItemGroup>
   <ItemGroup>

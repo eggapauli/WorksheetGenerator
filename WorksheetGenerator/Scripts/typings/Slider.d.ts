@@ -8,5 +8,5 @@
 }
 
 interface JQuery {
-    slider(options: SliderOptions)
+    slider(options: SliderOptions) : any
 }

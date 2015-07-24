@@ -9,7 +9,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
     generate() {
         var exercise = this.generateExercise();
 
-        var rows;
+        var rows: any;
         switch (exercise.operator) {
             case Mathematics.BasicArithmeticalOperatorType.ADDITION:
             case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION:

@@ -1,9 +1,9 @@
 ﻿ko.bindingHandlers["numericValue"] = {
-    init: (element: HTMLElement, valueAccessor, allBindingsAccessor: KnockoutAllBindingsAccessor) => {
+    init: (element: HTMLElement, valueAccessor: () => KnockoutObservable<number>, allBindingsAccessor: KnockoutAllBindingsAccessor) => {
         var underlyingObservable = valueAccessor();
         var interceptor = ko.computed({
-            read: underlyingObservable,
-            write: (value: string) => {
+            read: () => underlyingObservable().toString(),
+            write: value => {
                 underlyingObservable(parseFloat(value) || 0);
             }
         });
@@ -13,7 +13,7 @@
 };
 
 ko.bindingHandlers["editableText"] = {
-    init: (element: HTMLElement, valueAccessor) => {
+    init: (element: HTMLElement, valueAccessor: () => KnockoutObservable<string>) => {
         element.addEventListener("blur", () => {
             var observable = valueAccessor();
             observable(this.innerHTML);
@@ -25,8 +25,17 @@ ko.bindingHandlers["editableText"] = {
     }
 };
 
+interface ObservableSliderOptions {
+    min: number
+    max: number
+    scale: string
+    step: number
+    lower: KnockoutObservable<number>
+    upper: KnockoutObservable<number>
+}
+
 ko.bindingHandlers["slider"] = {
-    init: (element: HTMLElement, valueAccessor) => {
+    init: (element: HTMLElement, valueAccessor: () => ObservableSliderOptions) => {
         var value = valueAccessor();
         var slider = $(element).slider({
             min: value.min,

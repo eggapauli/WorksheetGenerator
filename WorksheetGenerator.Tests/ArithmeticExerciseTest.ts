@@ -27,8 +27,8 @@ describe("gcd", function () {
         return ArithmeticExercise.calculateGCD(input.x, input.y) === ArithmeticExercise.calculateGCD(input.y, input.x);
     });
     
-    var generateNumbers = _ => {
-        var x, y: number;
+    var generateNumbers = (_: any) => {
+        var x: number, y: number;
         do {
             x = nprime.next(jsc.random(1, 1000));
             y = nprime.next(jsc.random(1, 1000));

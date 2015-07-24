@@ -1,6 +1,5 @@
 ﻿///<reference path="Scripts/typings/mocha/mocha.d.ts"/>
 ///<reference path="Scripts/typings/underscore/underscore.d.ts"/>
-///<reference path="Scripts/typings/requirejs/require.d.ts"/>
 
 import Model = require("../WorksheetGenerator/Subject/Mathematics/Model");
 

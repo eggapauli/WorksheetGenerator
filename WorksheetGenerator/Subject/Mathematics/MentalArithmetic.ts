@@ -9,10 +9,12 @@ export class MentalArithmeticExerciseGenerator extends Mathematics.ArithmeticExe
         var exercise = this.generateExercise();
 
         var result = exercise.calculateResult();
-        var rationalResult = exercise.calculateRationalResult();
         var resultString = result.toString();
-        if (rationalResult.divisor > 1) {
-            resultString += ` (${rationalResult.dividend}/${rationalResult.divisor})`;
+        if (exercise.operator == Mathematics.BasicArithmeticalOperatorType.DIVISION) {
+            var rationalResult = exercise.calculateRationalResult();
+            if (rationalResult.divisor > 1) {
+                resultString += ` (${rationalResult.dividend}/${rationalResult.divisor})`;
+            }
         }
 
         return {

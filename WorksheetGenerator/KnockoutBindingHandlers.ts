@@ -19,7 +19,7 @@ ko.bindingHandlers["editableText"] = {
             observable(element.innerText);
         });
     },
-    update: (element, valueAccessor) => {
+    update: (element: HTMLElement, valueAccessor: () => KnockoutObservable<string>) => {
         var value = ko.utils.unwrapObservable(valueAccessor());
         element.innerText = value;
     }

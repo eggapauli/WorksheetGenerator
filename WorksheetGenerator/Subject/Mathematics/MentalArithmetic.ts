@@ -10,7 +10,7 @@ export class MentalArithmeticExerciseGenerator extends Mathematics.ArithmeticExe
 
         var result = exercise.calculateResult();
         var resultString = result.toString();
-        if (exercise.operator == Mathematics.BasicArithmeticalOperatorType.DIVISION) {
+        if (exercise.operator == Mathematics.BasicArithmeticalOperatorType.Division) {
             var rationalResult = exercise.calculateRationalResult();
             if (rationalResult.divisor > 1) {
                 resultString += ` (${rationalResult.dividend}/${rationalResult.divisor})`;

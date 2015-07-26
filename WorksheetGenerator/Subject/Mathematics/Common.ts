@@ -4,10 +4,10 @@ import * as Common from "../../Common"
 import * as Model from "./Model"
 
 export enum BasicArithmeticalOperatorType {
-    ADDITION,
-    SUBTRACTION,
-    MULTIPLICATION,
-    DIVISION
+    Addition,
+    Subtraction,
+    Multiplication,
+    Division
 }
 
 export class BasicArithmeticalOperator {
@@ -63,13 +63,13 @@ export class ObservableNumberBounds {
 }
 
 export enum NumberType {
-    NATURALNUMBERS,
-    INTEGERS,
-    REALNUMBERS,
-    //RATIONALNUMBERS,
-    //IRRATIONALNUMBERS,
-    //COMPLEXNUMBERS,
-    //HYPERCOMPLEXNUMBERS
+    NaturalNumbers,
+    Integers,
+    RealNumbers,
+    //RationalNumbers,
+    //IrrationalNumbers,
+    //ComplexNumbers,
+    //HypercomplexNumbers
 }
 
 export interface ArithmeticExerciseGeneratorOptions {
@@ -82,18 +82,18 @@ export class ArithmeticExerciseGenerator {
 
     get numberTypes(): Common.KeyValuePair<NumberType, string>[] {
         return [
-            { key: NumberType.NATURALNUMBERS, value: "Natuerliche Zahlen" },
-            { key: NumberType.INTEGERS, value: "Ganze Zahlen" },
-            { key: NumberType.REALNUMBERS, value: "Reele Zahlen" }
+            { key: NumberType.NaturalNumbers, value: "Natuerliche Zahlen" },
+            { key: NumberType.Integers, value: "Ganze Zahlen" },
+            { key: NumberType.RealNumbers, value: "Reele Zahlen" }
         ];
     }
 
     get operators(): Common.KeyValuePair<string, ObservableBasicArithmeticalOperator>[] {
         return [
-            { key: "Addition", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.ADDITION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Subtraktion", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.SUBTRACTION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Multiplikation", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.MULTIPLICATION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Divison", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.DIVISION, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) }
+            { key: "Addition", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.Addition, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
+            { key: "Subtraktion", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.Subtraction, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
+            { key: "Multiplikation", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.Multiplication, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
+            { key: "Divison", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.Division, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) }
         ];
     }
 
@@ -128,14 +128,14 @@ export class ArithmeticExerciseGenerator {
 
         //console.log(bounds);
         var validate: (exercise: Model.ArithmeticExercise) => boolean;
-        if ((options.numberType == NumberType.NATURALNUMBERS
-            || options.numberType == NumberType.INTEGERS)
-            && operator.type == BasicArithmeticalOperatorType.DIVISION) {
+        if ((options.numberType == NumberType.NaturalNumbers
+            || options.numberType == NumberType.Integers)
+            && operator.type == BasicArithmeticalOperatorType.Division) {
             validate = (exercise: Model.ArithmeticExercise) => {
                 var result = exercise.calculateResult();
                 return exercise.leftOperand % exercise.rightOperand == 0 && result > 2;
             };
-        } else if (options.numberType != NumberType.NATURALNUMBERS) {
+        } else if (options.numberType != NumberType.NaturalNumbers) {
             validate = (exercise: Model.ArithmeticExercise) => {
                 var result = exercise.calculateResult();
                 return result < -2 || result > 2;
@@ -187,10 +187,10 @@ export class ArithmeticExerciseGenerator {
 
     public getOperatorString(op: BasicArithmeticalOperatorType) {
         switch (op) {
-            case BasicArithmeticalOperatorType.ADDITION: return "+";
-            case BasicArithmeticalOperatorType.SUBTRACTION: return "-";
-            case BasicArithmeticalOperatorType.MULTIPLICATION: return "&bullet;";
-            case BasicArithmeticalOperatorType.DIVISION: return ":";
+            case BasicArithmeticalOperatorType.Addition: return "+";
+            case BasicArithmeticalOperatorType.Subtraction: return "-";
+            case BasicArithmeticalOperatorType.Multiplication: return "&bullet;";
+            case BasicArithmeticalOperatorType.Division: return ":";
             default: throw new Error(`Invalid operator: '${op}'`);
         }
     }
@@ -203,14 +203,14 @@ export class ArithmeticExerciseGenerator {
         }
 
         // randomly switch sign
-        if (numberType != NumberType.NATURALNUMBERS && Math.random() < 0.5) {
+        if (numberType != NumberType.NaturalNumbers && Math.random() < 0.5) {
             num *= -1;
         }
 
         switch (numberType) {
-            case NumberType.NATURALNUMBERS:
-            case NumberType.INTEGERS: num = Math.round(num); break;
-            case NumberType.REALNUMBERS: num = Math.round(num * 100) / 100; break;
+            case NumberType.NaturalNumbers:
+            case NumberType.Integers: num = Math.round(num); break;
+            case NumberType.RealNumbers: num = Math.round(num * 100) / 100; break;
             default: throw new Error(`Invalid number type: '${numberType}'`);
         }
         return num;

@@ -18,16 +18,16 @@ export class ArithmeticExercise {
     public calculateResult() {
         var result: number;
         switch (this.operator) {
-            case Common.BasicArithmeticalOperatorType.ADDITION:
+            case Common.BasicArithmeticalOperatorType.Addition:
                 result = this.leftOperand + this.rightOperand;
                 break;
-            case Common.BasicArithmeticalOperatorType.SUBTRACTION:
+            case Common.BasicArithmeticalOperatorType.Subtraction:
                 result = this.leftOperand - this.rightOperand;
                 break;
-            case Common.BasicArithmeticalOperatorType.MULTIPLICATION:
+            case Common.BasicArithmeticalOperatorType.Multiplication:
                 result = this.leftOperand * this.rightOperand;
                 break;
-            case Common.BasicArithmeticalOperatorType.DIVISION:
+            case Common.BasicArithmeticalOperatorType.Division:
                 result = this.leftOperand / this.rightOperand;
                 break;
             default:

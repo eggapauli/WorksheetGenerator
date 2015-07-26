@@ -11,14 +11,14 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
 
         var rows: any;
         switch (exercise.operator) {
-            case Mathematics.BasicArithmeticalOperatorType.ADDITION:
-            case Mathematics.BasicArithmeticalOperatorType.SUBTRACTION:
+            case Mathematics.BasicArithmeticalOperatorType.Addition:
+            case Mathematics.BasicArithmeticalOperatorType.Subtraction:
                 rows = this.convertAdditionAndSubtractionExercise(exercise);
                 break;
-            case Mathematics.BasicArithmeticalOperatorType.MULTIPLICATION:
+            case Mathematics.BasicArithmeticalOperatorType.Multiplication:
                 rows = this.convertMultiplicationExercise(exercise);
                 break;
-            case Mathematics.BasicArithmeticalOperatorType.DIVISION:
+            case Mathematics.BasicArithmeticalOperatorType.Division:
                 rows = this.convertDivisionExercise(exercise);
                 break;
             default: throw new Error(`Invalid operator: '${exercise.operator}'`);
@@ -74,7 +74,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
                 var row = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + rightOperandStr.length - rowNumber);
                 row = this.getRightAlignedRowFromText(row, columns);
                 if (i > 0) {
-                    row[0] = this.getOperatorString(Mathematics.BasicArithmeticalOperatorType.ADDITION);
+                    row[0] = this.getOperatorString(Mathematics.BasicArithmeticalOperatorType.Addition);
                 }
                 var addSeparator = i == rightOperandStr.length - 1;
                 rows.push(row.map((c, idx) => { return { content: c, addSeparator: idx > 0 && addSeparator, isResult: true }; }));

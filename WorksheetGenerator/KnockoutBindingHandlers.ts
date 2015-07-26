@@ -1,10 +1,10 @@
 ﻿ko.bindingHandlers["numericValue"] = {
     init: (element: HTMLElement, valueAccessor: () => KnockoutObservable<number>, allBindingsAccessor: KnockoutAllBindingsAccessor) => {
-        var underlyingObservable = valueAccessor();
+        var observable = valueAccessor();
         var interceptor = ko.computed({
-            read: () => underlyingObservable().toString(),
+            read: () => observable().toString(),
             write: value => {
-                underlyingObservable(parseFloat(value) || 0);
+                observable(parseFloat(value) || 0);
             }
         });
         ko.bindingHandlers.value.init(element, () => { return interceptor; }, allBindingsAccessor);

@@ -34,6 +34,13 @@ interface ObservableSliderOptions {
     upper: KnockoutObservable<number>
 }
 
+interface SlideEvent extends Event {
+    value: {
+        newValue: number[]
+        oldValue: number[]
+    }
+}
+
 ko.bindingHandlers["slider"] = {
     init: (element: HTMLElement, valueAccessor: () => ObservableSliderOptions) => {
         var value = valueAccessor();
@@ -46,9 +53,9 @@ ko.bindingHandlers["slider"] = {
             value: [value.lower(), value.upper()]
         })
 
-        $(element).on("slide", (evt: any) => {
-            value.lower(evt.value[0]);
-            value.upper(evt.value[1]);
+        slider.on("change", (evt: SlideEvent) => {
+            value.lower(evt.value.newValue[0]);
+            value.upper(evt.value.newValue[1]);
         });
     },
     update: (element, valueAccessor) => {

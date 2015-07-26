@@ -16,12 +16,12 @@ ko.bindingHandlers["editableText"] = {
     init: (element: HTMLElement, valueAccessor: () => KnockoutObservable<string>) => {
         element.addEventListener("blur", _ => {
             var observable = valueAccessor();
-            observable(this.innerHTML);
+            observable(element.innerText);
         });
     },
     update: (element, valueAccessor) => {
         var value = ko.utils.unwrapObservable(valueAccessor());
-        element.innerHTML = value;
+        element.innerText = value;
     }
 };
 

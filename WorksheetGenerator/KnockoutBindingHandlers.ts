@@ -14,7 +14,7 @@
 
 ko.bindingHandlers["editableText"] = {
     init: (element: HTMLElement, valueAccessor: () => KnockoutObservable<string>) => {
-        element.addEventListener("blur", () => {
+        element.addEventListener("blur", _ => {
             var observable = valueAccessor();
             observable(this.innerHTML);
         });

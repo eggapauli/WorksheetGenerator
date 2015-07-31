@@ -1,62 +1,18 @@
 import * as Common from "./Common"
 
-interface GreatestCommonDivisor {
-    dividend: number;
-    divisor: number;
-}
-
 export class ArithmeticExercise {
     get leftOperand() { return this._leftOperand; }
     get rightOperand() { return this._rightOperand; }
     get operator() { return this._operator; }
+    get numberType() { return this._numberType; }
 
     constructor(
         private _leftOperand: number,
         private _rightOperand: number,
-        private _operator: Common.BasicArithmeticalOperatorType) { }
+        private _operator: Common.IBasicBinaryArithmeticalOperator,
+        private _numberType: Common.INumberType) { }
 
     public calculateResult() {
-        var result: number;
-        switch (this.operator) {
-            case Common.BasicArithmeticalOperatorType.Addition:
-                result = this.leftOperand + this.rightOperand;
-                break;
-            case Common.BasicArithmeticalOperatorType.Subtraction:
-                result = this.leftOperand - this.rightOperand;
-                break;
-            case Common.BasicArithmeticalOperatorType.Multiplication:
-                result = this.leftOperand * this.rightOperand;
-                break;
-            case Common.BasicArithmeticalOperatorType.Division:
-                result = this.leftOperand / this.rightOperand;
-                break;
-            default:
-                throw new Error(`Invalid operator: '${this.operator}'`);
-        }
-        return Math.round(result * 100) / 100;
-    }
-
-    public calculateRationalResult() {
-        var result: GreatestCommonDivisor;
-        var gcd = ArithmeticExercise.calculateGCD(this.leftOperand, this.rightOperand);
-        if (gcd != Math.min(this.leftOperand, this.rightOperand)) {
-            result = {
-                dividend: this.leftOperand / gcd,
-                divisor: this.rightOperand / gcd
-            };
-        }
-        if (result === undefined) {
-            result = { dividend: this.calculateResult(), divisor: 1 };
-        }
-        return result;
-    }
-
-    public static calculateGCD(x: number, y: number) {
-        while (y != 0) {
-            var z = x % y;
-            x = y;
-            y = z;
-        }
-        return x;
+        return this.operator.apply(this.leftOperand, this.rightOperand);
     }
 }

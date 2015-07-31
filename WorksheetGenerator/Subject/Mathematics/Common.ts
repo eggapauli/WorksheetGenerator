@@ -3,11 +3,44 @@
 import * as Common from "../../Common"
 import * as Model from "./Model"
 
-export enum BasicArithmeticalOperatorType {
-    Addition,
-    Subtraction,
-    Multiplication,
-    Division
+export interface IBasicBinaryArithmeticalOperator {
+    name: string;
+    operatorHtml: string;
+    apply: (leftOperand: number, rightOperand: number) => number
+}
+
+export module Operators {
+    export var addition = {
+        name: "Addition",
+        operatorHtml: "+",
+        apply(leftOperand: number, rightOperand: number) {
+            return leftOperand + rightOperand;
+        }
+    }
+
+    export var subtraction = {
+        name: "Subtraktion",
+        operatorHtml: "-",
+        apply(leftOperand: number, rightOperand: number) {
+            return leftOperand - rightOperand;
+        }
+    }
+
+    export var multiplication = {
+        name: "Multiplikation",
+        operatorHtml: "&bullet;",
+        apply(leftOperand: number, rightOperand: number) {
+            return leftOperand * rightOperand;
+        }
+    }
+
+    export var division = {
+        name: "Division",
+        operatorHtml: ":",
+        apply(leftOperand: number, rightOperand: number) {
+            return leftOperand / rightOperand;
+        }
+    }
 }
 
 export class BasicArithmeticalOperator {
@@ -15,7 +48,7 @@ export class BasicArithmeticalOperator {
     get operandBounds() { return this._operandBounds; }
 
     constructor(
-        private _type: BasicArithmeticalOperatorType,
+        private _type: IBasicBinaryArithmeticalOperator,
         private _operandBounds: OperandBounds) { }
 }
 
@@ -24,8 +57,12 @@ export class ObservableBasicArithmeticalOperator {
     get operandBounds() { return this._operandBounds; }
 
     constructor(
-        private _type: BasicArithmeticalOperatorType,
+        private _type: IBasicBinaryArithmeticalOperator,
         private _operandBounds: ObservableOperandBounds) { }
+
+    toModel() {
+        return new BasicArithmeticalOperator(this.type, this.operandBounds.toModel());
+    }
 }
 
 export class OperandBounds {
@@ -38,6 +75,9 @@ export class ObservableOperandBounds {
     get leftOperand() { return this._leftOperand; }
     get rightOperand() { return this._rightOperand; }
     constructor(private _leftOperand: ObservableNumberBounds, private _rightOperand: ObservableNumberBounds) { }
+    toModel() {
+        return new OperandBounds(this.leftOperand.toModel(), this.rightOperand.toModel());
+    }
 }
 
 export class NumberBounds {
@@ -60,12 +100,57 @@ export class ObservableNumberBounds {
         this._lower = ko.observable(Math.min(lower, upper));
         this._upper = ko.observable(Math.max(lower, upper));
     }
+
+    toModel() {
+        return new NumberBounds(this.lower(), this.upper());
+    }
+}
+export interface INumberType {
+    name: string;
+    generate(bound: NumberBounds): number;
+    format(n: number): string
 }
 
-export enum NumberType {
-    NaturalNumbers,
-    Integers,
-    RealNumbers,
+export module NumberType {
+    function generateRandomNumber(bounds: NumberBounds, canBeNegative: boolean) {
+        var num = Math.random() * (bounds.upper - bounds.lower) + bounds.lower;
+        if (canBeNegative && Math.random() < 0.5) {
+            num *= -1;
+        }
+        return num;
+    }
+
+    export var naturalNumbers = {
+        name: "Natuerliche Zahlen",
+        generate(bounds: NumberBounds) {
+            return Math.round(generateRandomNumber(bounds, false));
+        },
+        format(n: number) {
+            return n.toFixed();
+        }
+    }
+
+    export var integers = {
+        name: "Ganze Zahlen",
+        generate(bounds: NumberBounds) {
+            return Math.round(generateRandomNumber(bounds, true));
+        },
+        format(n: number) {
+            return n.toFixed();
+        }
+    }
+
+    export var realNumbers = {
+        name: "Reelle Zahlen",
+        generate(bounds: NumberBounds) {
+            return generateRandomNumber(bounds, true);
+        },
+        format(n: number) {
+            return n.toFixed(2);
+        }
+    }
+
+    // TODO
     //RationalNumbers,
     //IrrationalNumbers,
     //ComplexNumbers,
@@ -73,32 +158,32 @@ export enum NumberType {
 }
 
 export interface ArithmeticExerciseGeneratorOptions {
-    numberType: NumberType;
+    numberType: INumberType;
     allowedOperators: BasicArithmeticalOperator[];
 }
 
 export class ArithmeticExerciseGenerator {
     private static MAX_GENERATION_ATTEMPTS = 5000;
 
-    get numberTypes(): Common.KeyValuePair<NumberType, string>[] {
+    get numberTypes(): INumberType[] {
         return [
-            { key: NumberType.NaturalNumbers, value: "Natuerliche Zahlen" },
-            { key: NumberType.Integers, value: "Ganze Zahlen" },
-            { key: NumberType.RealNumbers, value: "Reele Zahlen" }
+            NumberType.naturalNumbers,
+            NumberType.integers,
+            NumberType.realNumbers
         ];
     }
 
-    get operators(): Common.KeyValuePair<string, ObservableBasicArithmeticalOperator>[] {
+    get operators(): ObservableBasicArithmeticalOperator[] {
         return [
-            { key: "Addition", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.Addition, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Subtraktion", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.Subtraction, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Multiplikation", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.Multiplication, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) },
-            { key: "Divison", value: new ObservableBasicArithmeticalOperator(BasicArithmeticalOperatorType.Division, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))) }
+            new ObservableBasicArithmeticalOperator(Operators.addition, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))),
+            new ObservableBasicArithmeticalOperator(Operators.subtraction, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))),
+            new ObservableBasicArithmeticalOperator(Operators.multiplication, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9))),
+            new ObservableBasicArithmeticalOperator(Operators.division, new ObservableOperandBounds(new ObservableNumberBounds(10, 99), new ObservableNumberBounds(2, 9)))
         ];
     }
 
     public isSelected = ko.observable(false);
-    public selectedNumberType = ko.observable<Common.KeyValuePair<NumberType, string>>();
+    public selectedNumberType = ko.observable<INumberType>();
     public selectedOperators = ko.observableArray<ObservableBasicArithmeticalOperator>();
     public operatorIsSelected: (operator: ObservableBasicArithmeticalOperator) => KnockoutComputed<boolean>;
 
@@ -121,21 +206,24 @@ export class ArithmeticExerciseGenerator {
     }
 
     public generateExercise() {
-        var options = this.getGeneratorParams();
+        var options = {
+            numberType: this.selectedNumberType(),
+            allowedOperators: this.getAllowedOperators().map(item => item.toModel())
+        };
 
         var operatorIdx = Math.round(Math.random() * (options.allowedOperators.length - 1));
         var operator = options.allowedOperators[operatorIdx];
 
         //console.log(bounds);
         var validate: (exercise: Model.ArithmeticExercise) => boolean;
-        if ((options.numberType == NumberType.NaturalNumbers
-            || options.numberType == NumberType.Integers)
-            && operator.type == BasicArithmeticalOperatorType.Division) {
+        if ((options.numberType == NumberType.naturalNumbers
+            || options.numberType == NumberType.integers)
+            && operator.type == Operators.division) {
             validate = (exercise: Model.ArithmeticExercise) => {
                 var result = exercise.calculateResult();
                 return exercise.leftOperand % exercise.rightOperand == 0 && result > 2;
             };
-        } else if (options.numberType != NumberType.NaturalNumbers) {
+        } else if (options.numberType != NumberType.naturalNumbers) {
             validate = (exercise: Model.ArithmeticExercise) => {
                 var result = exercise.calculateResult();
                 return result < -2 || result > 2;
@@ -146,7 +234,7 @@ export class ArithmeticExerciseGenerator {
                 return result > 2;
             };
         }
-
+        
         var exercise: Model.ArithmeticExercise;
         var attempts = 0;
         //console.log("Bounds: [" + bounds.lower + ", " + bounds.upper + "], Operator: " + exercise.getOperatorString());
@@ -154,65 +242,18 @@ export class ArithmeticExerciseGenerator {
             if (++attempts > ArithmeticExerciseGenerator.MAX_GENERATION_ATTEMPTS) {
                 throw new Error("Too many attempts to generate an exercise.");
             }
-            var leftOperand = this.generateRandomNumber(operator.operandBounds.leftOperand, options.numberType);
-            var rightOperand = this.generateRandomNumber(operator.operandBounds.rightOperand, options.numberType);
-            exercise = new Model.ArithmeticExercise(leftOperand, rightOperand, operator.type);
+            var leftOperand = options.numberType.generate(operator.operandBounds.leftOperand);
+            var rightOperand = options.numberType.generate(operator.operandBounds.rightOperand);
+            exercise = new Model.ArithmeticExercise(leftOperand, rightOperand, operator.type, options.numberType);
         } while (!validate(exercise));
         //console.log("Attempts: " + attempts);
         return exercise;
     }
 
-    public getGeneratorParams() {
-        var allowedObservableOperators: ObservableBasicArithmeticalOperator[];
-        if (this.selectedOperators().length > 0) {
-            allowedObservableOperators = this.selectedOperators();
-        } else {
-            allowedObservableOperators = this.operators.map(item => { return item.value; });
+    private getAllowedOperators() {
+        if (this.selectedOperators().length == 0) {
+            return this.operators;
         }
-
-        var allowedOperators = allowedObservableOperators.map(item => {
-            return new BasicArithmeticalOperator(item.type,
-                new OperandBounds(
-                    new NumberBounds(item.operandBounds.leftOperand.lower(), item.operandBounds.leftOperand.upper()),
-                    new NumberBounds(item.operandBounds.rightOperand.lower(), item.operandBounds.rightOperand.upper())
-                    )
-                );
-        });
-
-        return {
-            numberType: this.selectedNumberType().key,
-            allowedOperators: allowedOperators
-        }
-    }
-
-    public getOperatorString(op: BasicArithmeticalOperatorType) {
-        switch (op) {
-            case BasicArithmeticalOperatorType.Addition: return "+";
-            case BasicArithmeticalOperatorType.Subtraction: return "-";
-            case BasicArithmeticalOperatorType.Multiplication: return "&bullet;";
-            case BasicArithmeticalOperatorType.Division: return ":";
-            default: throw new Error(`Invalid operator: '${op}'`);
-        }
-    }
-
-    private generateRandomNumber(bounds: NumberBounds, numberType: NumberType) {
-        var attempts = 0;
-        var num = 0;
-        while (num < 1.5 && attempts++ <= 1) {
-            num = Math.random() * (bounds.upper - bounds.lower) + bounds.lower;
-        }
-
-        // randomly switch sign
-        if (numberType != NumberType.NaturalNumbers && Math.random() < 0.5) {
-            num *= -1;
-        }
-
-        switch (numberType) {
-            case NumberType.NaturalNumbers:
-            case NumberType.Integers: num = Math.round(num); break;
-            case NumberType.RealNumbers: num = Math.round(num * 100) / 100; break;
-            default: throw new Error(`Invalid number type: '${numberType}'`);
-        }
-        return num;
+        return this.selectedOperators();
     }
 }

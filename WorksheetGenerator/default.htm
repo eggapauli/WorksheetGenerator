@@ -21,18 +21,18 @@
     </script>
 
     <script type="text/html" id="two-operand-exercise-template">
-        <select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'value'"></select>
+        <select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'name'"></select>
         <br />
         <span data-bind="foreach: operators">
             <label>
-                <input type="checkbox" data-bind="checked: $parent.operatorIsSelected(value)" />
-                <span data-bind="text: key"></span>
+                <input type="checkbox" data-bind="checked: $parent.operatorIsSelected($data)" />
+                <span data-bind="text: type.name"></span>
             </label>
-            <span data-bind="with: value.operandBounds.leftOperand">
+            <span data-bind="with: operandBounds.leftOperand">
                 Wertebereich linker Operand:
                 <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 1, scale: 'logarithmic' }" />
             </span>
-            <span data-bind="with: value.operandBounds.rightOperand">
+            <span data-bind="with: operandBounds.rightOperand">
                 Wertebereich rechter Operand:
                 <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 1, scale: 'logarithmic' }" />
             </span>
@@ -71,14 +71,14 @@
 
         <div>
             <label>
-                Anzahl der Übungen:
+                Anzahl der &Uuml;bungen:
                 <input type="number" data-bind="numericValue: numberOfExercises" style="width: 50px" />
             </label>
         </div>
 
         <div>
             <label>
-                Lösung inkludieren:
+                L&ouml;sung inkludieren:
                 <input type="checkbox" data-bind="checked: showResults" />
             </label>
         </div>

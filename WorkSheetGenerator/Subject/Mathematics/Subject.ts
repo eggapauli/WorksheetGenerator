@@ -4,12 +4,12 @@ export class Subject implements Contract.ISubject {
     get name() { return "Mathematik"; }
     get template() { return "mathematics-template"; }
 
-    private _exerciseGenerators: Contract.IExerciseGenerator[];
+    private _exerciseGenerators: Contract.IExerciseGeneratorViewModel[];
     get exerciseGenerators() { return this._exerciseGenerators; }
 
-    public selectedExerciseGenerator = ko.observable<Contract.IExerciseGenerator>();
+    public selectedExerciseGenerator = ko.observable<Contract.IExerciseGeneratorViewModel>();
 
-    constructor(exerciseGenerators: Contract.IExerciseGenerator[]) {
+    constructor(exerciseGenerators: Contract.IExerciseGeneratorViewModel[]) {
         this._exerciseGenerators = exerciseGenerators;
     }
 }

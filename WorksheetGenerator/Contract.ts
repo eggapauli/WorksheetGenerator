@@ -3,8 +3,12 @@
 export interface IExercise {
     template: string;
 }
-    
+
 export interface IExerciseGenerator {
+    generate: () => IExercise;
+}
+    
+export interface IExerciseGeneratorViewModel {
     name: string;
     template: string;
     generate: () => IExercise;
@@ -13,5 +17,5 @@ export interface IExerciseGenerator {
 export interface ISubject {
     name: string;
     template: string;
-    selectedExerciseGenerator: KnockoutObservable<IExerciseGenerator>;
+    selectedExerciseGenerator: KnockoutObservable<IExerciseGeneratorViewModel>;
 }

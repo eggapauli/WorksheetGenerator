@@ -288,6 +288,7 @@
       <DependentUpon>WrittenArithmetic.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Subject\Mathematics\MentalArithmetic.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Utils.ts" />
     <TypeScriptCompile Include="Subject\Mathematics\WrittenArithmetic.ts" />
     <TypeScriptCompile Include="Contract.ts" />
     <Content Include="Contract.js">

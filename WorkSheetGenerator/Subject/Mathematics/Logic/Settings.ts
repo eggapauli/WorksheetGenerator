@@ -1,4 +1,4 @@
-﻿import * as Contracts from "Contracts"
+﻿import * as Contracts from "./Contracts"
 
 export class BasicBinaryArithmeticalOperator {
     get type() { return this._type; }

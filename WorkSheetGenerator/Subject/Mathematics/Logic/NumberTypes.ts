@@ -1,4 +1,4 @@
-﻿import { NumberBounds } from "Settings"
+﻿import { NumberBounds } from "./Settings"
 
 function generateRandomNumber(bounds: NumberBounds, canBeNegative: boolean) {
     var num = Math.random() * (bounds.upper - bounds.lower) + bounds.lower;

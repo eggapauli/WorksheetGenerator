@@ -1,4 +1,4 @@
-﻿import * as Model from "Model"
+﻿import * as Model from "./Model"
 
 export function calculateGCD(x: number, y: number) {
     while (y != 0) {

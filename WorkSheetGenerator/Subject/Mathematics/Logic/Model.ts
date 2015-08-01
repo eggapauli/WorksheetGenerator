@@ -1,4 +1,4 @@
-import * as Contracts from "Contracts"
+import * as Contracts from "./Contracts"
 
 export class ArithmeticExercise {
     get leftOperand() { return this._leftOperand; }

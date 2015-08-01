@@ -1,5 +1,5 @@
 import * as Contracts from "../../../Contracts"
-import { ArithmeticExerciseGenerator } from "ArithmeticExerciseGenerator"
+import { ArithmeticExerciseGenerator } from "./ArithmeticExerciseGenerator"
 import * as Model from "../Logic/Model"
 import * as Operators from "../Logic/Operators"
 

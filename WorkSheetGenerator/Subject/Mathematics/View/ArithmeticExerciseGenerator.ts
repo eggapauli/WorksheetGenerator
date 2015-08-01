@@ -5,7 +5,7 @@ import * as Contracts from "../Logic/Contracts"
 import * as Model from "../Logic/Model"
 import * as NumberTypes from "../Logic/NumberTypes"
 import * as Operators from "../Logic/Operators"
-import * as Settings from "Settings"
+import * as Settings from "./Settings"
 
 export class ArithmeticExerciseGenerator {
     private static MAX_GENERATION_ATTEMPTS = 5000;

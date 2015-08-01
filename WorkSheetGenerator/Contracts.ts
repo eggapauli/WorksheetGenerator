@@ -11,6 +11,7 @@ export interface IExerciseGenerator {
 export interface IExerciseGeneratorViewModel {
     name: string;
     template: string;
+    canGenerate: () => boolean;
     generate: () => IExercise;
 }
 

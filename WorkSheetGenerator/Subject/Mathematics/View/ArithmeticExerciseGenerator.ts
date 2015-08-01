@@ -107,7 +107,13 @@ export class ArithmeticExerciseGenerator {
     private _isSelected = ko.observable(false);
     get isSelected() { return this._isSelected; }
 
+    private _canGenerate: KnockoutComputed<boolean>;
+    get canGenerate() { return this._canGenerate; }
+
     constructor() {
+        this._canGenerate = ko.computed(() => {
+            return this.operators.filter(o => o.isSelected()).length > 0;
+        }, this);
     }
 
     public generateExercise() {

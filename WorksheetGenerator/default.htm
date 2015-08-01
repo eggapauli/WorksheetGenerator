@@ -100,7 +100,7 @@
             </label>
         </div>
 
-        <input type="button" data-bind="click: generate" value="Generieren" />
+        <input type="button" data-bind="click: generate, enable: selectedSubject().selectedExerciseGenerator().canGenerate" value="Generieren" />
     </div>
     <div class="no-print" data-bind="text: error"></div>
     <div id="output">

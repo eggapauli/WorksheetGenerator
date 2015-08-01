@@ -10,6 +10,8 @@ export class Subject implements Contracts.ISubject {
     private _selectedExerciseGenerator = ko.observable<Contracts.IExerciseGeneratorViewModel>();
     get selectedExerciseGenerator() { return this._selectedExerciseGenerator; }
 
+    get canGenerate() { return this.selectedExerciseGenerator().canGenerate(); }
+
     constructor(exerciseGenerators: Contracts.IExerciseGeneratorViewModel[]) {
         this._exerciseGenerators = exerciseGenerators;
     }

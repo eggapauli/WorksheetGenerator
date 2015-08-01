@@ -1,9 +1,9 @@
 //moment.lang("de");
 
 import * as Worksheet from "Worksheet"
-import * as Mathematics from "Subject/Mathematics/Subject"
-import { MentalArithmeticExerciseGenerator } from "Subject/Mathematics/MentalArithmetic"
-import { WrittenArithmeticExerciseGenerator } from "Subject/Mathematics/WrittenArithmetic"
+import * as Mathematics from "Subject/Mathematics/Logic/Subject"
+import { MentalArithmeticExerciseGenerator } from "Subject/Mathematics/View/MentalArithmetic"
+import { WrittenArithmeticExerciseGenerator } from "Subject/Mathematics/View/WrittenArithmetic"
 
 window.addEventListener("load", () => {
     var subjects = [

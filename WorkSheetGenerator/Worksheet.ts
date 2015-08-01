@@ -1,9 +1,9 @@
-﻿import * as Contract from "Contract";
+﻿import * as Contracts from "Contracts";
 
 export class ViewModel {
-    private _subjects: Contract.ISubject[];
+    private _subjects: Contracts.ISubject[];
     get subjects() { return this._subjects; }
-    selectedSubject = ko.observable<Contract.ISubject>();
+    selectedSubject = ko.observable<Contracts.ISubject>();
 
     error = ko.observable("");
 
@@ -13,10 +13,10 @@ export class ViewModel {
 
     numberOfExercises = ko.observable(36);
     showResults = ko.observable<boolean>();
-    exercises: KnockoutObservable<Contract.IExercise[]> = ko.observable([]);
+    exercises: KnockoutObservable<Contracts.IExercise[]> = ko.observable([]);
     generate: () => void;
 
-    constructor(subjects: Contract.ISubject[]) {
+    constructor(subjects: Contracts.ISubject[]) {
         this._subjects = subjects;
 
         this.generate = () => {

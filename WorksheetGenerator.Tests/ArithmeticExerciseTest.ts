@@ -1,7 +1,7 @@
 ﻿///<reference path="Scripts/typings/mocha/mocha.d.ts"/>
 ///<reference path="Scripts/typings/underscore/underscore.d.ts"/>
 
-import * as Utils from "../WorksheetGenerator/Subject/Mathematics/Utils"
+import * as Utils from "../WorksheetGenerator/Subject/Mathematics/Logic/Utils"
 
 interface JSVerify {
     property(name: string, inputDescription: string, fn: (input: any) => boolean): any;

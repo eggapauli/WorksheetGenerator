@@ -1,8 +1,9 @@
-import * as Contract from "Contract"
-import * as Mathematics from "./Common"
-import * as Model from "./Model"
+import * as Contracts from "../../../Contracts"
+import { ArithmeticExerciseGenerator } from "ArithmeticExerciseGenerator"
+import * as Model from "../Logic/Model"
+import * as Operators from "../Logic/Operators"
 
-export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticExerciseGenerator implements Contract.IExerciseGeneratorViewModel {
+export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenerator implements Contracts.IExerciseGeneratorViewModel {
     get name() { return "Schriftlich rechnen"; }
     get template() { return "two-operand-exercise-template"; }
 
@@ -11,14 +12,14 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
 
         var rows: any;
         switch (exercise.operator) {
-            case Mathematics.Operators.addition:
-            case Mathematics.Operators.subtraction:
+            case Operators.addition:
+            case Operators.subtraction:
                 rows = this.convertAdditionAndSubtractionExercise(exercise);
                 break;
-            case Mathematics.Operators.multiplication:
+            case Operators.multiplication:
                 rows = this.convertMultiplicationExercise(exercise);
                 break;
-            case Mathematics.Operators.division:
+            case Operators.division:
                 rows = this.convertDivisionExercise(exercise);
                 break;
             default: throw new Error(`Invalid operator: '${exercise.operator}'`);
@@ -75,7 +76,7 @@ export class WrittenArithmeticExerciseGenerator extends Mathematics.ArithmeticEx
                 var row = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + rightOperandStr.length - rowNumber);
                 row = this.getRightAlignedRowFromText(row, columns);
                 if (i > 0) {
-                    row[0] = Mathematics.Operators.addition.operatorHtml;
+                    row[0] = Operators.addition.operatorHtml;
                 }
                 var addSeparator = i == rightOperandStr.length - 1;
                 rows.push(row.map((c, idx) => { return { content: c, addSeparator: idx > 0 && addSeparator, isResult: true }; }));

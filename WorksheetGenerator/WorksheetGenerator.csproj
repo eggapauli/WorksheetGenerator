@@ -265,34 +265,24 @@
     <TypeScriptCompile Include="Scripts\typings\moment\moment-node.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\Slider.d.ts" />
-    <TypeScriptCompile Include="Subject\Mathematics\Common.ts" />
-    <TypeScriptCompile Include="Subject\Mathematics\Model.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Logic\NumberTypes.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\View\ArithmeticExerciseGenerator.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Logic\Contracts.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Logic\Operators.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Logic\Settings.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Logic\Model.ts" />
     <Content Include="node_modules\requirejs\bin\r.js" />
     <Content Include="node_modules\requirejs\require.js" />
     <Content Include="package.json" />
-    <Content Include="Subject\Mathematics\ArithmeticBase.js">
-      <DependentUpon>Model.ts</DependentUpon>
-    </Content>
-    <Content Include="Subject\Mathematics\Common.js">
-      <DependentUpon>Common.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Subject\Mathematics\Subject.ts" />
-    <Content Include="Subject\Mathematics\Mathematics.js">
-      <DependentUpon>MentalArithmetic.ts</DependentUpon>
-    </Content>
-    <Content Include="Subject\Mathematics\MathematicsViewModel.js">
-      <DependentUpon>Subject.ts</DependentUpon>
-    </Content>
+    <TypeScriptCompile Include="Subject\Mathematics\Logic\Subject.ts" />
     <Content Include="print.css" />
-    <Content Include="Subject\Mathematics\WrittenArithmeticExercise.js">
-      <DependentUpon>WrittenArithmetic.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Subject\Mathematics\MentalArithmetic.ts" />
-    <TypeScriptCompile Include="Subject\Mathematics\Utils.ts" />
-    <TypeScriptCompile Include="Subject\Mathematics\WrittenArithmetic.ts" />
-    <TypeScriptCompile Include="Contract.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\View\MentalArithmetic.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\Logic\Utils.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\View\Settings.ts" />
+    <TypeScriptCompile Include="Subject\Mathematics\View\WrittenArithmetic.ts" />
+    <TypeScriptCompile Include="Contracts.ts" />
     <Content Include="Contract.js">
-      <DependentUpon>Contract.ts</DependentUpon>
+      <DependentUpon>Contracts.ts</DependentUpon>
     </Content>
     <Content Include="default.htm" />
     <Content Include="app.js">

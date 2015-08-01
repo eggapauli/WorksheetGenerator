@@ -256,9 +256,6 @@
     <Content Include="node_modules\moment\moment.js" />
     <Content Include="node_modules\moment\package.js" />
     <TypeScriptCompile Include="Common.ts" />
-    <Content Include="Common.js">
-      <DependentUpon>Common.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="KnockoutBindingHandlers.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
@@ -281,13 +278,7 @@
     <TypeScriptCompile Include="Subject\Mathematics\View\Settings.ts" />
     <TypeScriptCompile Include="Subject\Mathematics\View\WrittenArithmetic.ts" />
     <TypeScriptCompile Include="Contracts.ts" />
-    <Content Include="Contract.js">
-      <DependentUpon>Contracts.ts</DependentUpon>
-    </Content>
     <Content Include="default.htm" />
-    <Content Include="app.js">
-      <DependentUpon>app.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Worksheet.ts" />
   </ItemGroup>
   <ItemGroup>

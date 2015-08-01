@@ -11,19 +11,19 @@ export class MentalArithmeticExerciseGenerator extends ArithmeticExerciseGenerat
     generate() {
         var exercise = this.generateExercise();
 
-        var result = exercise.numberType.format(exercise.calculateResult());
+        var result = exercise.result.toString();
         if (exercise.operator == Operators.division) {
             var rationalResult = Utils.calculateRationalResult(exercise);
             if (rationalResult.divisor > 1) {
-                result += ` (${exercise.numberType.format(rationalResult.dividend) }/${exercise.numberType.format(rationalResult.divisor)})`;
+                result += ` (${rationalResult.dividend }/${rationalResult.divisor})`;
             }
         }
 
         return {
             template: "mental-arithmetic-exercise-template",
-            leftOperand: exercise.numberType.format(exercise.leftOperand),
+            leftOperand: exercise.leftOperand.toString(),
             operator: exercise.operator.operatorHtml,
-            rightOperand: exercise.numberType.format(exercise.rightOperand),
+            rightOperand: exercise.rightOperand.toString(),
             result: result
         }
     }

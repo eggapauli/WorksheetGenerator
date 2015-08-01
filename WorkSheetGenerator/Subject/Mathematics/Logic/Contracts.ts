@@ -1,18 +1,19 @@
 ﻿import * as Settings from "./Settings"
+import { Value } from "./Model"
 
-export interface IBasicBinaryArithmeticalOperator {
+export interface IArithmeticOperator {
     name: string;
     operatorHtml: string;
-    apply: (leftOperand: number, rightOperand: number) => number
+    apply: (operands: Value[]) => Value
 }
 
 export interface INumberType {
     name: string;
-    generate(bound: Settings.NumberBounds): number;
+    generate(bounds: Settings.NumberBounds): Value;
     format(n: number): string
 }
 
 export interface ArithmeticExerciseGeneratorOptions {
     numberType: INumberType;
-    allowedOperators: Settings.BasicBinaryArithmeticalOperator[];
+    allowedOperators: Settings.BasicArithmeticalOperatorSettings[];
 }

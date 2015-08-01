@@ -10,12 +10,12 @@ export function calculateGCD(x: number, y: number) {
 }
 
 export function calculateRationalResult(exercise: Model.ArithmeticExercise) {
-    var gcd = calculateGCD(exercise.leftOperand, exercise.rightOperand);
-    if (gcd != Math.min(exercise.leftOperand, exercise.rightOperand)) {
+    var gcd = calculateGCD(exercise.leftOperand.rawNumber, exercise.rightOperand.rawNumber);
+    if (gcd != Math.min(exercise.leftOperand.rawNumber, exercise.rightOperand.rawNumber)) {
         return {
-            dividend: exercise.leftOperand / gcd,
-            divisor: exercise.rightOperand / gcd
+            dividend: exercise.leftOperand.rawNumber / gcd,
+            divisor: exercise.rightOperand.rawNumber / gcd
         };
     }
-    return { dividend: exercise.calculateResult(), divisor: 1 }
+    return { dividend: exercise.result.rawNumber, divisor: 1 }
 }

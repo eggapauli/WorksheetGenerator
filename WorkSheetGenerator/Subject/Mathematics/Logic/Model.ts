@@ -4,17 +4,13 @@ export class ArithmeticExercise {
     get leftOperand() { return this._leftOperand; }
     get rightOperand() { return this._rightOperand; }
     get operator() { return this._operator; }
-    get numberType() { return this._numberType; }
+    get result() { return this._result; }
 
     constructor(
-        private _leftOperand: number,
-        private _rightOperand: number,
-        private _operator: Contracts.IBasicBinaryArithmeticalOperator,
-        private _numberType: Contracts.INumberType) { }
-
-    public calculateResult() {
-        return this.operator.apply(this.leftOperand, this.rightOperand);
-    }
+        private _leftOperand: Value,
+        private _rightOperand: Value,
+        private _operator: Contracts.IArithmeticOperator,
+        private _result: Value) { }
 }
 
 export class BasicBinaryArithmeticalOperator {
@@ -22,8 +18,22 @@ export class BasicBinaryArithmeticalOperator {
     get operandBounds() { return this._operandBounds; }
 
     constructor(
-        private _type: Contracts.IBasicBinaryArithmeticalOperator,
+        private _type: Contracts.IArithmeticOperator,
         private _operandBounds: OperandBounds) { }
+}
+
+export class Value {
+    get numberType() { return this._numberType; }
+    get rawNumber() { return this._rawNumber; }
+
+    constructor(
+        private _numberType: Contracts.INumberType,
+        private _rawNumber: number) {
+    }
+
+    toString() {
+        return this.numberType.format(this.rawNumber);
+    }
 }
 
 export class OperandBounds {

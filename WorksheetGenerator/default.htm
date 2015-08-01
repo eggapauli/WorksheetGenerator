@@ -16,28 +16,45 @@
     <script data-main="app" src="node_modules/requirejs/require.js"></script>
 
     <script type="text/html" id="mathematics-template">
-        <select data-bind="options: exerciseGenerators, value: selectedExerciseGenerator, optionsText: 'name'"></select>
-        <div data-bind="template: { name: selectedExerciseGenerator().template, data: selectedExerciseGenerator }"></div>
+        <select data-bind="options: exerciseGenerators, value: selectedExerciseGenerator, optionsText: 'name'" />
+        <div data-bind="template: { name: selectedExerciseGenerator().template, data: selectedExerciseGenerator }" />
     </script>
 
     <script type="text/html" id="two-operand-exercise-template">
-        <select data-bind="options: numberTypes, value: selectedNumberType, optionsText: 'name'"></select>
-        <br />
-        <span data-bind="foreach: operators">
+        <div data-bind="foreach: operators">
             <label>
-                <input type="checkbox" data-bind="checked: $parent.operatorIsSelected($data)" />
-                <span data-bind="text: type.name"></span>
+                <input type="checkbox" data-bind="checked: isSelected" />
+                <span data-bind="text: operator.name"></span>
             </label>
-            <span data-bind="with: operandBounds.leftOperand">
-                Wertebereich linker Operand:
-                <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 1, scale: 'logarithmic' }" />
-            </span>
-            <span data-bind="with: operandBounds.rightOperand">
-                Wertebereich rechter Operand:
-                <input type="text" data-bind="slider: { min: 0, max: 1000, lower: lower, upper: upper, step: 1, scale: 'logarithmic' }" />
-            </span>
-            <br />
-        </span>
+            <div data-bind="if: isSelected">
+                <!-- ko foreach: operandSettings -->
+                <span data-bind="text: name" />
+                <dl>
+                    <dt>Zahlenmenge</dt>
+                    <dd><select data-bind="options: $parents[1].numberTypes, value: numberType, optionsText: 'name'" /></dd>
+                    <dt>Wertebereich</dt>
+                    <dd><input type="text" data-bind="slider: { min: 0, max: 1000, lower: bounds.lower, upper: bounds.upper, step: 1, scale: 'logarithmic' }" /></dd>
+                    <!--<dt>Nachkommastellen:</dt>
+                    <dd><input type="number" data-bind="numericValue: decimalPlaces" /></dd>-->
+                </dl>
+                <!-- /ko -->
+                <!-- ko with: resultSettings -->
+                <span data-bind="text: name" />
+                <dl>
+                    <dt>Zahlenmenge</dt>
+                    <dd><select data-bind="options: $parents[1].numberTypes, value: numberType, optionsText: 'name'" /></dd>
+                    <dt>
+                        <label>
+                            <input type="checkbox" data-bind="checked: hasBounds" /> Wertebereich
+                        </label>
+                    </dt>
+                    <dd data-bind="visible: hasBounds"><input type="text" data-bind="slider: { min: 0, max: 1000, lower: bounds.lower, upper: bounds.upper, step: 1, scale: 'logarithmic' }" /></dd>
+                    <!--<dt>Nachkommastellen:</dt>
+                    <dd><input type="number" data-bind="numericValue: decimalPlaces" /></dd>-->
+                </dl>
+                <!-- /ko -->
+            </div>
+        </div>
     </script>
 
     <script type="text/html" id="mental-arithmetic-exercise-template">

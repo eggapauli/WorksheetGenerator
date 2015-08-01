@@ -31,9 +31,9 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
     }
 
     private convertAdditionAndSubtractionExercise(exercise: Model.ArithmeticExercise) {
-        var leftOperandStr = exercise.numberType.format(exercise.leftOperand);
-        var rightOperandStr = exercise.numberType.format(exercise.rightOperand);
-        var resultStr = exercise.numberType.format(exercise.calculateResult());
+        var leftOperandStr = exercise.leftOperand.toString();
+        var rightOperandStr = exercise.rightOperand.toString();
+        var resultStr = exercise.result.toString();
 
         var operatorLength = 1;
         var columns = Math.max(Math.max(leftOperandStr.length, rightOperandStr.length) + operatorLength, resultStr.length);
@@ -52,9 +52,9 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
     }
 
     private convertMultiplicationExercise(exercise: Model.ArithmeticExercise) {
-        var leftOperandStr = exercise.numberType.format(exercise.leftOperand);
-        var rightOperandStr = exercise.numberType.format(exercise.rightOperand);
-        var resultStr = exercise.numberType.format(exercise.calculateResult());
+        var leftOperandStr = exercise.leftOperand.toString();
+        var rightOperandStr = exercise.rightOperand.toString();
+        var resultStr = exercise.result.toString();
 
         var additionalLength = 2 // '*' in first row, '+' at the left of the intermediate results
         var columns = leftOperandStr.length + rightOperandStr.length + additionalLength;
@@ -71,7 +71,7 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
         var tmpResults = this.getTempResultsForMultiplication(exercise);
         if (tmpResults.length > 1) {
             for (var i = 0; i < tmpResults.length; i++) {
-                var tmpResult = exercise.numberType.format(tmpResults[i]).split("");
+                var tmpResult = tmpResults[i].toString().split("");
                 var rowNumber = i + 1;
                 var row = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + rightOperandStr.length - rowNumber);
                 row = this.getRightAlignedRowFromText(row, columns);
@@ -91,19 +91,19 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
 
     private getTempResultsForMultiplication(exercise: Model.ArithmeticExercise) {
         var results: number[] = [];
-        var factor2Str = exercise.numberType.format(exercise.rightOperand);
+        var factor2Str = exercise.rightOperand.toString();
 
         for (var i = 0; i < factor2Str.length; i++) {
             var digit = parseInt(factor2Str.charAt(i));
-            results.push(digit * exercise.leftOperand);
+            results.push(digit * exercise.leftOperand.rawNumber);
         }
         return results;
     }
 
     private convertDivisionExercise(exercise: Model.ArithmeticExercise) {
-        var leftOperandStr = exercise.numberType.format(exercise.leftOperand);
-        var rightOperandStr = exercise.numberType.format(exercise.rightOperand);
-        var resultStr = exercise.numberType.format(exercise.calculateResult());
+        var leftOperandStr = exercise.leftOperand.toString();
+        var rightOperandStr = exercise.rightOperand.toString();
+        var resultStr = exercise.result.toString();
 
         var additionalLength = 2; // ':' and '=' both in first row
         var columns = leftOperandStr.length + rightOperandStr.length + resultStr.length + additionalLength;
@@ -120,9 +120,9 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
         var rows = [topRow];
 
         var tmpResults = this.getTempResultsForDivision(exercise);
-        var dist = exercise.numberType.format(tmpResults[0]).length; // distance from left side
+        var dist = tmpResults[0].toString().length; // distance from left side
         for (var i = 0; i < tmpResults.length; i++) {
-            var tmpResult = exercise.numberType.format(tmpResults[i]).split("");
+            var tmpResult = tmpResults[i].toString().split("");
             var tmpResultLength = tmpResult.length;
 
             var padding = Math.max(columns - dist, columns - leftOperandStr.length);
@@ -145,25 +145,25 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
 
     private getTempResultsForDivision(exercise: Model.ArithmeticExercise) {
         var results: number[] = [];
-        var dividendStr = exercise.numberType.format(exercise.leftOperand);
+        var dividendStr = exercise.leftOperand.toString();
 
         var dividend = 0;
         var divIdx = 0;
 
         do {
-            while (dividend / exercise.rightOperand < 1 && divIdx < dividendStr.length) {
+            while (dividend / exercise.rightOperand.rawNumber < 1 && divIdx < dividendStr.length) {
                 dividend = dividend * 10 + parseInt(dividendStr.charAt(divIdx));
                 divIdx++;
             }
             if (results.length > 0) {
                 results.push(dividend);
             }
-            var quotient = dividend / exercise.rightOperand
+            var quotient = dividend / exercise.rightOperand.rawNumber
             if (dividend > 0) {
-                results.push(Math.floor(quotient) * exercise.rightOperand);
+                results.push(Math.floor(quotient) * exercise.rightOperand.rawNumber);
             }
 
-            dividend = dividend % exercise.rightOperand;
+            dividend = dividend % exercise.rightOperand.rawNumber;
         } while (quotient > 0 || divIdx < dividendStr.length);
         return results;
     }

@@ -1,18 +1,34 @@
 ﻿import * as Contracts from "./Contracts"
 
-export class BasicBinaryArithmeticalOperator {
-    get type() { return this._type; }
-    get operandBounds() { return this._operandBounds; }
+export class BasicArithmeticalOperatorSettings {
+    get operator() { return this._operator; }
+    get operandSettings() { return this._operandSettings; }
 
     constructor(
-        private _type: Contracts.IBasicBinaryArithmeticalOperator,
-        private _operandBounds: OperandBounds) { }
+        private _operator: Contracts.IArithmeticOperator,
+        private _operandSettings: OperandSettings[],
+        private _resultSettings: ResultSettings) {
+    }
 }
 
-export class OperandBounds {
-    get leftOperand() { return this._leftOperand; }
-    get rightOperand() { return this._rightOperand; }
-    constructor(private _leftOperand: NumberBounds, private _rightOperand: NumberBounds) { }
+export class OperandSettings {
+    get numberType() { return this._numberType; }
+    get bounds() { return this._bounds; }
+
+    constructor(
+        private _numberType: Contracts.INumberType,
+        private _bounds: NumberBounds)
+    { }
+}
+
+export class ResultSettings {
+    get numberType() { return this._numberType; }
+    get bounds() { return this._bounds; }
+
+    constructor(
+        private _numberType: Contracts.INumberType,
+        private _bounds: NumberBounds)
+    { }
 }
 
 export class NumberBounds {

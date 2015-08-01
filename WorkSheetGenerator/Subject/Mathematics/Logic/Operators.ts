@@ -1,31 +1,47 @@
-﻿export var addition = {
+﻿import * as Contracts from "./Contracts"
+import { Value } from "./Model"
+
+function getCommonNumberType(values: Value[]) {
+    var numberTypes = values.map(v => v.numberType);
+    return numberTypes[0]; // TODO
+}
+
+export var addition: Contracts.IArithmeticOperator = {
     name: "Addition",
     operatorHtml: "+",
-    apply(leftOperand: number, rightOperand: number) {
-        return leftOperand + rightOperand;
+    apply(operands: Value[]) {
+        var numberType = getCommonNumberType(operands);
+        var result = operands.map(o => o.rawNumber).reduce((a, b) => a + b);
+        return new Value(numberType, result);
     }
 }
 
 export var subtraction = {
     name: "Subtraktion",
     operatorHtml: "-",
-    apply(leftOperand: number, rightOperand: number) {
-        return leftOperand - rightOperand;
+    apply(operands: Value[]) {
+        var numberType = getCommonNumberType(operands);
+        var result = operands.map(o => o.rawNumber).reduce((a, b) => a - b);
+        return new Value(numberType, result);
     }
 }
 
 export var multiplication = {
     name: "Multiplikation",
     operatorHtml: "&bullet;",
-    apply(leftOperand: number, rightOperand: number) {
-        return leftOperand * rightOperand;
+    apply(operands: Value[]) {
+        var numberType = getCommonNumberType(operands);
+        var result = operands.map(o => o.rawNumber).reduce((a, b) => a * b);
+        return new Value(numberType, result);
     }
 }
 
 export var division = {
     name: "Division",
     operatorHtml: ":",
-    apply(leftOperand: number, rightOperand: number) {
-        return leftOperand / rightOperand;
+    apply(operands: Value[]) {
+        var numberType = getCommonNumberType(operands);
+        var result = operands.map(o => o.rawNumber).reduce((a, b) => a / b);
+        return new Value(numberType, result);
     }
 }

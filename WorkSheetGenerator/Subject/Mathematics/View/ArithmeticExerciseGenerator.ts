@@ -18,91 +18,128 @@ export class ArithmeticExerciseGenerator {
         ];
     }
 
-    get operators(): Settings.ObservableBasicArithmeticalOperator[] {
-        return [
-            new Settings.ObservableBasicArithmeticalOperator(
-                Operators.addition,
-                new Settings.ObservableOperandBounds(
-                    new Settings.ObservableNumberBounds(10, 99),
+    private _operators =
+    [
+        new Settings.ObservableBasicArithmeticalExerciseSettings(
+            Operators.addition,
+            [
+                new Settings.ObservableOperandSettings(
+                    "Linker Summand",
+                    NumberTypes.naturalNumbers,
+                    new Settings.ObservableNumberBounds(10, 99)
+                    ),
+                new Settings.ObservableOperandSettings(
+                    "Rechter Summand",
+                    NumberTypes.naturalNumbers,
                     new Settings.ObservableNumberBounds(2, 9)
                     )
-                ),
-            new Settings.ObservableBasicArithmeticalOperator(
-                Operators.subtraction,
-                new Settings.ObservableOperandBounds(
-                    new Settings.ObservableNumberBounds(10, 99),
+            ],
+            new Settings.ObservableResultSettings(
+                "Summe",
+                NumberTypes.naturalNumbers,
+                new Settings.ObservableNumberBounds(10, 99)
+                )
+            ),
+        new Settings.ObservableBasicArithmeticalExerciseSettings(
+            Operators.subtraction,
+            [
+                new Settings.ObservableOperandSettings(
+                    "Minuend",
+                    NumberTypes.naturalNumbers,
+                    new Settings.ObservableNumberBounds(10, 99)
+                    ),
+                new Settings.ObservableOperandSettings(
+                    "Subtrahend",
+                    NumberTypes.naturalNumbers,
                     new Settings.ObservableNumberBounds(2, 9)
                     )
-                ),
-            new Settings.ObservableBasicArithmeticalOperator(
-                Operators.multiplication,
-                new Settings.ObservableOperandBounds(
-                    new Settings.ObservableNumberBounds(10, 99),
+            ],
+            new Settings.ObservableResultSettings(
+                "Differenz",
+                NumberTypes.naturalNumbers,
+                new Settings.ObservableNumberBounds(10, 99)
+                )
+            ),
+        new Settings.ObservableBasicArithmeticalExerciseSettings(
+            Operators.multiplication,
+            [
+                new Settings.ObservableOperandSettings(
+                    "Linker Faktor",
+                    NumberTypes.naturalNumbers,
+                    new Settings.ObservableNumberBounds(10, 99)
+                    ),
+                new Settings.ObservableOperandSettings(
+                    "Rechter Faktor",
+                    NumberTypes.naturalNumbers,
                     new Settings.ObservableNumberBounds(2, 9)
                     )
-                ),
-            new Settings.ObservableBasicArithmeticalOperator(
-                Operators.division,
-                new Settings.ObservableOperandBounds(
-                    new Settings.ObservableNumberBounds(10, 99),
+            ],
+            new Settings.ObservableResultSettings(
+                "Produkt",
+                NumberTypes.naturalNumbers,
+                new Settings.ObservableNumberBounds(10, 99)
+                )
+            ),
+        new Settings.ObservableBasicArithmeticalExerciseSettings(
+            Operators.division,
+            [
+                new Settings.ObservableOperandSettings(
+                    "Dividend",
+                    NumberTypes.naturalNumbers,
+                    new Settings.ObservableNumberBounds(10, 99)
+                    ),
+                new Settings.ObservableOperandSettings(
+                    "Divisor",
+                    NumberTypes.naturalNumbers,
                     new Settings.ObservableNumberBounds(2, 9)
                     )
-                ),
-        ];
-    }
+            ],
+            new Settings.ObservableResultSettings(
+                "Quotient",
+                NumberTypes.naturalNumbers,
+                new Settings.ObservableNumberBounds(10, 99)
+                )
+            ),
+    ];
 
-    public isSelected = ko.observable(false);
-    public selectedNumberType = ko.observable<Contracts.INumberType>();
-    public selectedOperators = ko.observableArray<Settings.ObservableBasicArithmeticalOperator>();
-    public operatorIsSelected: (operator: Settings.ObservableBasicArithmeticalOperator) => KnockoutComputed<boolean>;
+    get operators() { return this._operators; }
+
+    private _isSelected = ko.observable(false);
+    get isSelected() { return this._isSelected; }
 
     constructor() {
-        this.operatorIsSelected = (operator: Settings.ObservableBasicArithmeticalOperator) => {
-            return ko.computed<boolean>({
-                read: () => {
-                    return this.selectedOperators.indexOf(operator) !== -1;
-                },
-                write: newValue => {
-                    var index = this.selectedOperators.indexOf(operator);
-                    if (newValue) {
-                        this.selectedOperators.push(operator);
-                    } else {
-                        this.selectedOperators.remove(operator);
-                    }
-                }
-            });
-        };
     }
 
     public generateExercise() {
-        var options = {
-            numberType: this.selectedNumberType(),
-            allowedOperators: this.getAllowedOperators().map(item => item.toModel())
-        };
+        var allowedOperators = this.operators
+            .filter(o => o.isSelected())
+            .map(item => item.toModel());
 
-        var operatorIdx = Math.round(Math.random() * (options.allowedOperators.length - 1));
-        var operator = options.allowedOperators[operatorIdx];
+        var operatorIdx = Math.round(Math.random() * (allowedOperators.length - 1));
+        var operator = allowedOperators[operatorIdx];
 
         //console.log(bounds);
-        var validate: (exercise: Model.ArithmeticExercise) => boolean;
-        if ((options.numberType == NumberTypes.naturalNumbers
-            || options.numberType == NumberTypes.integers)
-            && operator.type == Operators.division) {
-            validate = (exercise: Model.ArithmeticExercise) => {
-                var result = exercise.calculateResult();
-                return exercise.leftOperand % exercise.rightOperand == 0 && result > 2;
-            };
-        } else if (options.numberType != NumberTypes.naturalNumbers) {
-            validate = (exercise: Model.ArithmeticExercise) => {
-                var result = exercise.calculateResult();
-                return result < -2 || result > 2;
-            };
-        } else {
-            validate = (exercise: Model.ArithmeticExercise) => {
-                var result = exercise.calculateResult();
-                return result > 2;
-            };
-        }
+        // TODO
+        var validate = (exercise: Model.ArithmeticExercise) => true;
+        //var validate: (exercise: Model.ArithmeticExercise) => boolean;
+        //if ((options.numberType == NumberTypes.naturalNumbers
+        //    || options.numberType == NumberTypes.integers)
+        //    && operator.type == Operators.division) {
+        //    validate = (exercise: Model.ArithmeticExercise) => {
+        //        var result = exercise.calculateResult();
+        //        return exercise.leftOperand % exercise.rightOperand == 0 && result > 2;
+        //    };
+        //} else if (options.numberType != NumberTypes.naturalNumbers) {
+        //    validate = (exercise: Model.ArithmeticExercise) => {
+        //        var result = exercise.calculateResult();
+        //        return result < -2 || result > 2;
+        //    };
+        //} else {
+        //    validate = (exercise: Model.ArithmeticExercise) => {
+        //        var result = exercise.calculateResult();
+        //        return result > 2;
+        //    };
+        //}
         
         var exercise: Model.ArithmeticExercise;
         var attempts = 0;
@@ -111,18 +148,14 @@ export class ArithmeticExerciseGenerator {
             if (++attempts > ArithmeticExerciseGenerator.MAX_GENERATION_ATTEMPTS) {
                 throw new Error("Too many attempts to generate an exercise.");
             }
-            var leftOperand = options.numberType.generate(operator.operandBounds.leftOperand);
-            var rightOperand = options.numberType.generate(operator.operandBounds.rightOperand);
-            exercise = new Model.ArithmeticExercise(leftOperand, rightOperand, operator.type, options.numberType);
+            var generatedOperands = operator.operandSettings.map(o =>
+                o.numberType.generate(o.bounds)
+            );
+            
+            var result = operator.operator.apply(generatedOperands);
+            exercise = new Model.ArithmeticExercise(generatedOperands[0], generatedOperands[1], operator.operator, result);
         } while (!validate(exercise));
         //console.log("Attempts: " + attempts);
         return exercise;
-    }
-
-    private getAllowedOperators() {
-        if (this.selectedOperators().length == 0) {
-            return this.operators;
-        }
-        return this.selectedOperators();
     }
 }

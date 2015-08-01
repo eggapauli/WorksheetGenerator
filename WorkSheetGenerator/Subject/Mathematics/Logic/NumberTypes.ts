@@ -1,4 +1,6 @@
-﻿import { NumberBounds } from "./Settings"
+﻿import { INumberType } from "./Contracts"
+import { NumberBounds } from "./Settings"
+import { Value } from "./Model"
 
 function generateRandomNumber(bounds: NumberBounds, canBeNegative: boolean) {
     var num = Math.random() * (bounds.upper - bounds.lower) + bounds.lower;
@@ -8,30 +10,30 @@ function generateRandomNumber(bounds: NumberBounds, canBeNegative: boolean) {
     return num;
 }
 
-export var naturalNumbers = {
+export var naturalNumbers: INumberType = {
     name: "Natuerliche Zahlen",
     generate(bounds: NumberBounds) {
-        return Math.round(generateRandomNumber(bounds, false));
+        return new Value(this, Math.round(generateRandomNumber(bounds, false)));
     },
     format(n: number) {
         return n.toFixed();
     }
 }
 
-export var integers = {
+export var integers: INumberType = {
     name: "Ganze Zahlen",
     generate(bounds: NumberBounds) {
-        return Math.round(generateRandomNumber(bounds, true));
+        return new Value(this, Math.round(generateRandomNumber(bounds, true)));
     },
     format(n: number) {
         return n.toFixed();
     }
 }
 
-export var realNumbers = {
+export var realNumbers: INumberType = {
     name: "Reelle Zahlen",
     generate(bounds: NumberBounds) {
-        return generateRandomNumber(bounds, true);
+        return new Value(this, generateRandomNumber(bounds, true));
     },
     format(n: number) {
         return n.toFixed(2);

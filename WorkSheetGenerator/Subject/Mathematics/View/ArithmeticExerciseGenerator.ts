@@ -65,20 +65,21 @@ export class ArithmeticExerciseGenerator {
                 new Settings.ObservableOperandSettings(
                     x.leftOperandName,
                     this._numberTypes,
-                    NumberTypes.naturalNumbers,
+                    this._numberTypes[0],
                     new Settings.ObservableNumberBounds(10, 99)
                     ),
                 new Settings.ObservableOperandSettings(
                     x.rightOperandName,
                     this._numberTypes,
-                    NumberTypes.naturalNumbers,
+                    this._numberTypes[0],
                     new Settings.ObservableNumberBounds(2, 9)
                     )
             ];
+            var resultNumberTypes = getResultNumberTypes(operandSettings);
             var resultSettings = new Settings.ObservableResultSettings(
                 x.resultName,
-                getResultNumberTypes(operandSettings),
-                NumberTypes.naturalNumbers,
+                resultNumberTypes,
+                resultNumberTypes[0],
                 new Settings.ObservableNumberBounds(10, 99)
                 );
             var settings = new Settings.ObservableBasicArithmeticalExerciseSettings(

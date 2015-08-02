@@ -28,11 +28,13 @@ export class ObservableOperandSettings {
     private _numberType: KnockoutObservable<Contracts.INumberType>;
 
     get name() { return this._name; }
+    get numberTypes() { return this._numberTypes; }
     get numberType() { return this._numberType; }
     get bounds() { return this._bounds; }
 
     constructor(
         private _name: string,
+        private _numberTypes: Contracts.INumberType[],
         numberType: Contracts.INumberType,
         private _bounds: ObservableNumberBounds) {
         this._numberType = ko.observable(numberType);
@@ -48,12 +50,14 @@ export class ObservableResultSettings {
     private _hasBounds = ko.observable(false);
 
     get name() { return this._name; }
+    get numberTypes() { return this._numberTypes; }
     get numberType() { return this._numberType; }
     get hasBounds() { return this._hasBounds; }
     get bounds() { return this._bounds; }
 
     constructor(
         private _name: string,
+        private _numberTypes: Contracts.INumberType[],
         numberType: Contracts.INumberType,
         private _bounds: ObservableNumberBounds) {
         this._numberType = ko.observable(numberType);

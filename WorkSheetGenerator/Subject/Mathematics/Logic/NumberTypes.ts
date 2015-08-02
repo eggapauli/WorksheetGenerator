@@ -45,3 +45,16 @@ export var realNumbers: INumberType = {
 //IrrationalNumbers,
 //ComplexNumbers,
 //HypercomplexNumbers
+
+export class ComputedNumberType implements INumberType {
+    constructor(private _numberTypes: (() => INumberType)[]) { }
+
+    private computeNumberType() {
+        var numberTypes = this._numberTypes.map(x => x());
+        return numberTypes[0]; // TODO
+    }
+
+    get name() { return this.computeNumberType().name; }
+    generate(bounds: NumberBounds) { return this.computeNumberType().generate(bounds); }
+    format(n: number) { return this.computeNumberType().format(n); }
+}

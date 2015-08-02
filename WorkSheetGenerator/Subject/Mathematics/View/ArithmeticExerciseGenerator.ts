@@ -10,98 +10,13 @@ import * as Settings from "./Settings"
 export class ArithmeticExerciseGenerator {
     private static MAX_GENERATION_ATTEMPTS = 5000;
 
-    get numberTypes(): Contracts.INumberType[] {
-        return [
-            NumberTypes.naturalNumbers,
-            NumberTypes.integers,
-            NumberTypes.realNumbers
-        ];
-    }
-
-    private _operators =
-    [
-        new Settings.ObservableBasicArithmeticalExerciseSettings(
-            Operators.addition,
-            [
-                new Settings.ObservableOperandSettings(
-                    "Linker Summand",
-                    NumberTypes.naturalNumbers,
-                    new Settings.ObservableNumberBounds(10, 99)
-                    ),
-                new Settings.ObservableOperandSettings(
-                    "Rechter Summand",
-                    NumberTypes.naturalNumbers,
-                    new Settings.ObservableNumberBounds(2, 9)
-                    )
-            ],
-            new Settings.ObservableResultSettings(
-                "Summe",
-                NumberTypes.naturalNumbers,
-                new Settings.ObservableNumberBounds(10, 99)
-                )
-            ),
-        new Settings.ObservableBasicArithmeticalExerciseSettings(
-            Operators.subtraction,
-            [
-                new Settings.ObservableOperandSettings(
-                    "Minuend",
-                    NumberTypes.naturalNumbers,
-                    new Settings.ObservableNumberBounds(10, 99)
-                    ),
-                new Settings.ObservableOperandSettings(
-                    "Subtrahend",
-                    NumberTypes.naturalNumbers,
-                    new Settings.ObservableNumberBounds(2, 9)
-                    )
-            ],
-            new Settings.ObservableResultSettings(
-                "Differenz",
-                NumberTypes.naturalNumbers,
-                new Settings.ObservableNumberBounds(10, 99)
-                )
-            ),
-        new Settings.ObservableBasicArithmeticalExerciseSettings(
-            Operators.multiplication,
-            [
-                new Settings.ObservableOperandSettings(
-                    "Linker Faktor",
-                    NumberTypes.naturalNumbers,
-                    new Settings.ObservableNumberBounds(10, 99)
-                    ),
-                new Settings.ObservableOperandSettings(
-                    "Rechter Faktor",
-                    NumberTypes.naturalNumbers,
-                    new Settings.ObservableNumberBounds(2, 9)
-                    )
-            ],
-            new Settings.ObservableResultSettings(
-                "Produkt",
-                NumberTypes.naturalNumbers,
-                new Settings.ObservableNumberBounds(10, 99)
-                )
-            ),
-        new Settings.ObservableBasicArithmeticalExerciseSettings(
-            Operators.division,
-            [
-                new Settings.ObservableOperandSettings(
-                    "Dividend",
-                    NumberTypes.naturalNumbers,
-                    new Settings.ObservableNumberBounds(10, 99)
-                    ),
-                new Settings.ObservableOperandSettings(
-                    "Divisor",
-                    NumberTypes.naturalNumbers,
-                    new Settings.ObservableNumberBounds(2, 9)
-                    )
-            ],
-            new Settings.ObservableResultSettings(
-                "Quotient",
-                NumberTypes.naturalNumbers,
-                new Settings.ObservableNumberBounds(10, 99)
-                )
-            ),
+    private _numberTypes = [
+        NumberTypes.naturalNumbers,
+        NumberTypes.integers,
+        NumberTypes.realNumbers
     ];
 
+    private _operators: Settings.ObservableBasicArithmeticalExerciseSettings[] = []
     get operators() { return this._operators; }
 
     private _isSelected = ko.observable(false);
@@ -111,6 +26,70 @@ export class ArithmeticExerciseGenerator {
     get canGenerate() { return this._canGenerate; }
 
     constructor() {
+        var getResultNumberTypes = (operandSettings: Settings.ObservableOperandSettings[]) => {
+            var result = this._numberTypes.slice();
+            var numberTypeFns = operandSettings.map(s => (() => s.numberType()));
+            result.unshift(new NumberTypes.ComputedNumberType(numberTypeFns));
+            return result;
+        };
+
+        var settingArgs = [
+            {
+                operator: Operators.addition,
+                leftOperandName: "Linker Summand",
+                rightOperandName: "Rechter Summand",
+                resultName: "Summe"
+            },
+            {
+                operator: Operators.subtraction,
+                leftOperandName: "Minuend",
+                rightOperandName: "Subtrahend",
+                resultName: "Differenz"
+            },
+            {
+                operator: Operators.multiplication,
+                leftOperandName: "Linker Faktor",
+                rightOperandName: "Rechter Faktor",
+                resultName: "Produkt"
+            },
+            {
+                operator: Operators.division,
+                leftOperandName: "Dividend",
+                rightOperandName: "Divisor",
+                resultName: "Quotient"
+            }
+        ];
+
+        settingArgs.map(x => {
+            var operandSettings = [
+                new Settings.ObservableOperandSettings(
+                    x.leftOperandName,
+                    this._numberTypes,
+                    NumberTypes.naturalNumbers,
+                    new Settings.ObservableNumberBounds(10, 99)
+                    ),
+                new Settings.ObservableOperandSettings(
+                    x.rightOperandName,
+                    this._numberTypes,
+                    NumberTypes.naturalNumbers,
+                    new Settings.ObservableNumberBounds(2, 9)
+                    )
+            ];
+            var resultSettings = new Settings.ObservableResultSettings(
+                x.resultName,
+                getResultNumberTypes(operandSettings),
+                NumberTypes.naturalNumbers,
+                new Settings.ObservableNumberBounds(10, 99)
+                );
+            var settings = new Settings.ObservableBasicArithmeticalExerciseSettings(
+                x.operator,
+                operandSettings,
+                resultSettings
+                );
+            this.operators.push(settings);
+        });
+
+        // This must occur after adding all operators
         this._canGenerate = ko.computed(() => {
             return this.operators.filter(o => o.isSelected()).length > 0;
         }, this);
@@ -156,9 +135,9 @@ export class ArithmeticExerciseGenerator {
             }
             var generatedOperands = operator.operandSettings.map(o =>
                 o.numberType.generate(o.bounds)
-            );
-            
-            var result = operator.operator.apply(generatedOperands);
+                );
+
+            var result = operator.operator.apply(generatedOperands, operator.resultSettings);
             exercise = new Model.ArithmeticExercise(generatedOperands[0], generatedOperands[1], operator.operator, result);
         } while (!validate(exercise));
         //console.log("Attempts: " + attempts);

@@ -3,6 +3,7 @@
 export class BasicArithmeticalOperatorSettings {
     get operator() { return this._operator; }
     get operandSettings() { return this._operandSettings; }
+    get resultSettings() { return this._resultSettings; }
 
     constructor(
         private _operator: Contracts.IArithmeticOperator,

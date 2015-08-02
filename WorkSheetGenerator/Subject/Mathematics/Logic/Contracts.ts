@@ -4,7 +4,7 @@ import { Value } from "./Model"
 export interface IArithmeticOperator {
     name: string;
     operatorHtml: string;
-    apply: (operands: Value[]) => Value
+    apply: (operands: Value[], resultSettings: Settings.ResultSettings) => Value
 }
 
 export interface INumberType {

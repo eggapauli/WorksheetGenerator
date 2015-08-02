@@ -31,7 +31,7 @@
                 <span data-bind="text: name" />
                 <dl>
                     <dt>Zahlenmenge</dt>
-                    <dd><select data-bind="options: $parents[1].numberTypes, value: numberType, optionsText: 'name'" /></dd>
+                    <dd><select data-bind="options: numberTypes, value: numberType, optionsText: 'name'" /></dd>
                     <dt>Wertebereich</dt>
                     <dd><input type="text" data-bind="slider: { min: 0, max: 1000, lower: bounds.lower, upper: bounds.upper, step: 1, scale: 'logarithmic' }" /></dd>
                     <!--<dt>Nachkommastellen:</dt>
@@ -42,7 +42,7 @@
                 <span data-bind="text: name" />
                 <dl>
                     <dt>Zahlenmenge</dt>
-                    <dd><select data-bind="options: $parents[1].numberTypes, value: numberType, optionsText: 'name'" /></dd>
+                    <dd><select data-bind="options: numberTypes, value: numberType, optionsText: 'name'" /></dd>
                     <dt>
                         <label>
                             <input type="checkbox" data-bind="checked: hasBounds" /> Wertebereich

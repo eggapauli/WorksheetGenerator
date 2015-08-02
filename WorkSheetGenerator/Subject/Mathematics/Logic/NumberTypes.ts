@@ -51,7 +51,12 @@ export class ComputedNumberType implements INumberType {
 
     private computeNumberType() {
         var numberTypes = this._numberTypes.map(x => x());
-        return numberTypes[0]; // TODO
+        var relation = [
+            realNumbers,
+            integers,
+            naturalNumbers
+        ]
+        return relation.filter(numberType => numberTypes.indexOf(numberType) >= 0)[0];
     }
 
     get name() { return "Automatisch"; }

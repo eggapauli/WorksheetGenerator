@@ -81,36 +81,40 @@
 <body>
     <h1 class="no-print">Arbeitsblatt-Generator</h1>
 
-    <div id="settings" class="no-print">
-        <select data-bind="options: subjects, value: selectedSubject, optionsText: 'name'"></select>
+    <div id="left-area">
+        <div id="settings" class="no-print">
+            <select data-bind="options: subjects, value: selectedSubject, optionsText: 'name'"></select>
 
-        <div data-bind="template: { name: selectedSubject().template, data: selectedSubject }"></div>
+            <div data-bind="template: { name: selectedSubject().template, data: selectedSubject }"></div>
 
-        <div>
-            <label>
-                Anzahl der &Uuml;bungen:
-                <input type="number" data-bind="numericValue: numberOfExercises" style="width: 50px" />
-            </label>
+            <div>
+                <label>
+                    Anzahl der &Uuml;bungen:
+                    <input type="number" data-bind="numericValue: numberOfExercises" style="width: 50px" />
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    L&ouml;sung inkludieren:
+                    <input type="checkbox" data-bind="checked: showResults" />
+                </label>
+            </div>
+
+            <input type="button" data-bind="click: generate, enable: selectedSubject().selectedExerciseGenerator().canGenerate" value="Generieren" />
         </div>
-
-        <div>
-            <label>
-                L&ouml;sung inkludieren:
-                <input type="checkbox" data-bind="checked: showResults" />
-            </label>
-        </div>
-
-        <input type="button" data-bind="click: generate, enable: selectedSubject().selectedExerciseGenerator().canGenerate" value="Generieren" />
+        <div class="no-print" data-bind="text: error"></div>
     </div>
-    <div class="no-print" data-bind="text: error"></div>
-    <div id="output">
-        <div id="output-header">
-            <span data-bind="editableText: topLeftColumn"></span>
-            <span data-bind="editableText: topCenterColumn"></span>
-            <span data-bind="editableText: topRightColumn"></span>
-        </div>
-        <div id="exercises" data-bind="foreach: exercises, css: { 'show-results': showResults }">
-            <div data-bind="template: { name: template, data: $data }"></div>
+    <div id="right-area">
+        <div id="output">
+            <div id="output-header">
+                <span data-bind="editableText: topLeftColumn"></span>
+                <span data-bind="editableText: topCenterColumn"></span>
+                <span data-bind="editableText: topRightColumn"></span>
+            </div>
+            <div id="exercises" data-bind="foreach: exercises, css: { 'show-results': showResults }">
+                <div data-bind="template: { name: template, data: $data }"></div>
+            </div>
         </div>
     </div>
 </body>

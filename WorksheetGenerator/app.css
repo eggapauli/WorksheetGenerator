@@ -3,6 +3,14 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
+#left-area {
+    float: left;
+}
+
+#right-area {
+    float: right;
+}
+
 #output {
     /*display: flex;*/
     flex-flow: column;

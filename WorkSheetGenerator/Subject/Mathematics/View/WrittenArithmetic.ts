@@ -3,6 +3,12 @@ import { ArithmeticExerciseGenerator } from "./ArithmeticExerciseGenerator"
 import * as Model from "../Logic/Model"
 import * as Operators from "../Logic/Operators"
 
+interface Cell {
+    content: string
+    addSeparator: boolean
+    isResult: boolean
+}
+
 export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenerator implements Contracts.IExerciseGeneratorViewModel {
     get name() { return "Schriftlich rechnen"; }
     get template() { return "two-operand-exercise-template"; }
@@ -38,14 +44,14 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
         var operatorLength = 1;
         var columns = Math.max(Math.max(leftOperandStr.length, rightOperandStr.length) + operatorLength, resultStr.length);
 
-        var leftOperandRow = this.getRightAlignedRowFromText(leftOperandStr.split(""), columns)
+        var leftOperandRow: Cell[] = this.getRightAlignedRowFromText(leftOperandStr.split(""), columns)
             .map(c => { return { content: c, addSeparator: false, isResult: false }; });
 
-        var rightOperandRow = this.getRightAlignedRowFromText(rightOperandStr.split(""), columns)
+        var rightOperandRow: Cell[] = this.getRightAlignedRowFromText(rightOperandStr.split(""), columns)
             .map((c, idx) => { return { content: c, addSeparator: idx > 0, isResult: false }; });
         rightOperandRow[0].content = exercise.operator.operatorHtml;
 
-        var resultRow = this.getRightAlignedRowFromText(resultStr.split(""), columns)
+        var resultRow: Cell[] = this.getRightAlignedRowFromText(resultStr.split(""), columns)
             .map(c => { return { content: c, addSeparator: false, isResult: true }; });
 
         return [leftOperandRow, rightOperandRow, resultRow];
@@ -63,15 +69,15 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
             .concat([exercise.operator.operatorHtml])
             .concat(rightOperandStr.split(""));
 
-        var topRow = this.getRightAlignedRowFromText(topText, columns)
+        var topRow: Cell[] = this.getRightAlignedRowFromText(topText, columns)
             .map((c, idx) => { return { content: c, addSeparator: idx > 0, isResult: false }; });
 
-        var rows = [topRow];
+        var rows: Cell[][];
 
         var tmpResults = this.getTempResultsForMultiplication(exercise);
         if (tmpResults.length > 1) {
-            for (var i = 0; i < tmpResults.length; i++) {
-                var tmpResult = tmpResults[i].toString().split("");
+            rows = tmpResults.map((x, i) => {
+                var tmpResult = x.toString().split("");
                 var rowNumber = i + 1;
                 var row = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + rightOperandStr.length - rowNumber);
                 row = this.getRightAlignedRowFromText(row, columns);
@@ -79,25 +85,26 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
                     row[0] = Operators.addition.operatorHtml;
                 }
                 var addSeparator = i == rightOperandStr.length - 1;
-                rows.push(row.map((c, idx) => { return { content: c, addSeparator: idx > 0 && addSeparator, isResult: true }; }));
-            }
+                return row.map((c, idx) => { return { content: c, addSeparator: idx > 0 && addSeparator, isResult: true }; });
+            });
+        } else {
+            rows = [];
         }
 
-        var resultRow = this.getRightAlignedRowFromText(resultStr.split(""), columns)
+        var resultRow: Cell[] = this.getRightAlignedRowFromText(resultStr.split(""), columns)
             .map(c => { return { content: c, addSeparator: false, isResult: true }; });
-        rows.push(resultRow);
-        return rows;
+
+        return [topRow].concat(...rows).concat(resultRow);
     }
 
+    // TODO fix for real numbers (with a decimal '.' in it)
     private getTempResultsForMultiplication(exercise: Model.ArithmeticExercise) {
-        var results: number[] = [];
-        var factor2Str = exercise.rightOperand.toString();
-
-        for (var i = 0; i < factor2Str.length; i++) {
-            var digit = parseInt(factor2Str.charAt(i));
-            results.push(digit * exercise.leftOperand.rawNumber);
-        }
-        return results;
+        return exercise
+            .rightOperand
+            .toString()
+            .split("")
+            .map(parseInt)
+            .map(digit => { return digit * exercise.leftOperand.rawNumber; });
     }
 
     private convertDivisionExercise(exercise: Model.ArithmeticExercise) {
@@ -115,57 +122,50 @@ export class WrittenArithmeticExerciseGenerator extends ArithmeticExerciseGenera
             .concat(resultStr.split(""));
         var equalsSignIndex = content.indexOf("=");
 
-        var topRow = this.getLeftAlignedRowFromText(content, columns)
+        var topRow: Cell[] = this.getLeftAlignedRowFromText(content, columns)
             .map((c, idx) => { return { content: c, addSeparator: false, isResult: idx > equalsSignIndex }; });
-        var rows = [topRow];
+
+        var addSeparator = (idx: number) => {
+            return (idx % 2 == 0);// && idx >= columns - padding - tmpResult.length && idx < columns - padding;
+        };
 
         var tmpResults = this.getTempResultsForDivision(exercise);
         var dist = tmpResults[0].toString().length; // distance from left side
-        for (var i = 0; i < tmpResults.length; i++) {
-            var tmpResult = tmpResults[i].toString().split("");
-            var tmpResultLength = tmpResult.length;
+        var rows: Cell[][] = tmpResults
+            .map(result => result.toString().split(""))
+            .map(row => this.getRightAlignedRowFromText(row, leftOperandStr.length + 1)) // + 1 because of '-';
+            .map((row, rowIdx) => row.map((cell, cellIdx) => {
+                if (resultStr.length - (rowIdx / 2) <= cellIdx)
+                    return "&nbsp;"
+                else
+                    return cell;
+            }))
+            .map(row => this.getLeftAlignedRowFromText(row, columns))
+            .map(row => row.map((cell, cellIdx) => {
+                return { content: cell, addSeparator: addSeparator(cellIdx), isResult: true }
+            }));
 
-            var padding = Math.max(columns - dist, columns - leftOperandStr.length);
-            var rightPaddedRow = this.getLeftAlignedRowFromText(tmpResult, tmpResult.length + padding);
-
-            var addSeparator = (idx: number) => {
-                return (i % 2 == 0) && idx >= columns - padding - tmpResultLength && idx < columns - padding;
-            }
-
-            var row = this.getRightAlignedRowFromText(rightPaddedRow, columns)
-                .map((c, idx) => { return { content: c, addSeparator: addSeparator(idx), isResult: true }; });
-            if (i % 2 == 0) {
-                dist++;
-            }
-            rows.push(row);
-        }
-
-        return rows;
+        return [topRow].push(...rows);
     }
 
     private getTempResultsForDivision(exercise: Model.ArithmeticExercise) {
-        var results: number[] = [];
-        var dividendStr = exercise.leftOperand.toString();
-
-        var dividend = 0;
-        var divIdx = 0;
-
-        do {
-            while (dividend / exercise.rightOperand.rawNumber < 1 && divIdx < dividendStr.length) {
-                dividend = dividend * 10 + parseInt(dividendStr.charAt(divIdx));
-                divIdx++;
+        var getIntermediateDivisors = (dividend: number, divisor: number, result: number, runs: number): number[] => {
+            if (runs > 1000) throw "Endless recursion"
+            if (result <= 0.0) {
+                return []
             }
-            if (results.length > 0) {
-                results.push(dividend);
+            else {
+                var resultLength = result.toString().length;
+                var rounder = Math.pow(10.0, resultLength - 1.0);
+                var tmpResult = Math.floor(result / rounder) * rounder;
+                var dividendSubtrahend = tmpResult * divisor;
+                var nextDividend = dividend - dividendSubtrahend;
+                [-dividendSubtrahend, nextDividend]
+                    .concat(...getIntermediateDivisors(nextDividend, divisor, result - tmpResult, runs + 1));
             }
-            var quotient = dividend / exercise.rightOperand.rawNumber
-            if (dividend > 0) {
-                results.push(Math.floor(quotient) * exercise.rightOperand.rawNumber);
-            }
+        }
 
-            dividend = dividend % exercise.rightOperand.rawNumber;
-        } while (quotient > 0 || divIdx < dividendStr.length);
-        return results;
+        return getIntermediateDivisors(exercise.leftOperand.rawNumber, exercise.rightOperand.rawNumber, exercise.result.rawNumber, 0)
     }
 
     private getRightAlignedRowFromText(text: string[], columnCount: number) {

@@ -130,6 +130,7 @@ export class ArithmeticExerciseGenerator {
         var exercise: Model.ArithmeticExercise;
         var attempts = 0;
         //console.log("Bounds: [" + bounds.lower + ", " + bounds.upper + "], Operator: " + exercise.getOperatorString());
+        // TODO use functional style, but ensure lazy evaluation
         do {
             if (++attempts > ArithmeticExerciseGenerator.MAX_GENERATION_ATTEMPTS) {
                 throw new Error("Too many attempts to generate an exercise.");

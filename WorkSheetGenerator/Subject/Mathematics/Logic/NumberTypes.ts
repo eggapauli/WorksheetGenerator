@@ -40,7 +40,7 @@ export var realNumbers: INumberType = {
     }
 }
 
-// TODO
+// TODO implement missing number types
 //RationalNumbers,
 //IrrationalNumbers,
 //ComplexNumbers,

@@ -105,7 +105,7 @@ export class ArithmeticExerciseGenerator {
         var operator = allowedOperators[operatorIdx];
 
         //console.log(bounds);
-        // TODO
+        // TODO implement validation of an exercise
         var validate = (exercise: Model.ArithmeticExercise) => true;
         //var validate: (exercise: Model.ArithmeticExercise) => boolean;
         //if ((options.numberType == NumberTypes.naturalNumbers
